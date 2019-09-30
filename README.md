@@ -7,6 +7,7 @@ Change history:
 
 v1.2.1 (October 1st, 2019) - NOTE: This release is for Delphi 10.3.x ONLY
 
+* Updated Image Assets function to support current image sizes
 * Removed faulty logcat viewer - please use Device Lens: http://github.com/DelphiWorlds/DeviceLens
 * Fixed IDE theming for all views
 * Minor bug fixes
