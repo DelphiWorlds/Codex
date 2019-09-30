@@ -5,6 +5,12 @@ Please visit this page for information about Codex: http://www.delphiworlds.com/
 
 Change history:
 
+v1.2.1 (October 1st, 2019) - NOTE: This release is for Delphi 10.3.x ONLY
+
+* Removed faulty logcat viewer - please use Device Lens: http://github.com/DelphiWorlds/DeviceLens
+* Fixed IDE theming for all views
+* Minor bug fixes
+
 v1.2.0 (March 5th, 2019)
 
 * Added Feed Alerts feature
