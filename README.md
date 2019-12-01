@@ -5,6 +5,10 @@ Please visit this page for information about Codex: http://www.delphiworlds.com/
 
 Change history:
 
+v1.2.2 (December 1st, 2019) - NOTE: This release is for Delphi 10.3.x ONLY
+
+* Fixed reliability of editor tabs on the left side
+
 v1.2.1 (October 1st, 2019) - NOTE: This release is for Delphi 10.3.x ONLY
 
 * Updated Image Assets function to support current image sizes
