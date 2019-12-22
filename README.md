@@ -5,6 +5,12 @@ Please visit this page for information about Codex: http://www.delphiworlds.com/
 
 Change history:
 
+v1.2.3 (December 23rd, 2019) - NOTE: This release is for Delphi 10.3.x ONLY
+
+* Fixed Build Jar function so that packages with a prefix of other than com will build successfully
+* Fixed Editor Tabs On Left option so that it can be turned off
+* Fixed theming of Android options dialog
+
 v1.2.2 (December 1st, 2019) - NOTE: This release is for Delphi 10.3.x ONLY
 
 * Fixed reliability of editor tabs on the left side
