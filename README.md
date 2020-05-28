@@ -5,6 +5,14 @@ Please visit this page for information about Codex: http://www.delphiworlds.com/
 
 Change history:
 
+v1.3.0 (May 28th, 2020) - Delphi 10.4 and 10.3 support
+
+* Add ADB Connect function - connect to an Android device over the internet!
+* Added "Total Clean" function - cleans all files in output folders
+* Added support for Delphi 10.4 Sydney
+
+Note: Editor Tabs On Left option has been disabled in Delphi 10.4 for now, until a fix can be worked out
+
 v1.2.3 (December 23rd, 2019) - NOTE: This release is for Delphi 10.3.x ONLY
 
 * Fixed Build Jar function so that packages with a prefix of other than com will build successfully
