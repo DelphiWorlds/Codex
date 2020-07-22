@@ -5,6 +5,11 @@ Please visit this page for information about Codex: http://www.delphiworlds.com/
 
 Change history:
 
+v1.3.1 (July 23rd, 2020) - Delphi 10.4 and 10.3 support
+
+* Fixed selection of JDK path in Android Tools
+* Modified Logcat Viewer option to launch [Device Lens](http://github.com/DelphiWorlds/DeviceLens) if it exists
+
 v1.3.0 (May 28th, 2020) - Delphi 10.4 and 10.3 support
 
 * Add ADB Connect function - connect to an Android device over the internet!
@@ -26,7 +31,7 @@ v1.2.2 (December 1st, 2019) - NOTE: This release is for Delphi 10.3.x ONLY
 v1.2.1 (October 1st, 2019) - NOTE: This release is for Delphi 10.3.x ONLY
 
 * Updated Image Assets function to support current image sizes
-* Removed faulty logcat viewer - please use Device Lens: http://github.com/DelphiWorlds/DeviceLens
+* Removed faulty logcat viewer - please use [Device Lens](http://github.com/DelphiWorlds/DeviceLens)
 * Fixed IDE theming for all views
 * Minor bug fixes
 
