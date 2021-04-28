@@ -1,0 +1,39 @@
+{
+  "includedJars":[
+    "C:\\Program Files (x86)\\Embarcadero\\Studio\\21.0\\lib\\android\\debug\\android-support-v4.jar",
+    "C:\\Program Files (x86)\\Embarcadero\\Studio\\21.0\\lib\\android\\debug\\cloud-messaging.jar",
+    "C:\\Program Files (x86)\\Embarcadero\\Studio\\21.0\\lib\\android\\debug\\com-google-android-gms.play-services-ads-base.17.2.0.jar",
+    "C:\\Program Files (x86)\\Embarcadero\\Studio\\21.0\\lib\\android\\debug\\com-google-android-gms.play-services-ads-identifier.16.0.0.jar",
+    "C:\\Program Files (x86)\\Embarcadero\\Studio\\21.0\\lib\\android\\debug\\com-google-android-gms.play-services-ads-lite.17.2.0.jar",
+    "C:\\Program Files (x86)\\Embarcadero\\Studio\\21.0\\lib\\android\\debug\\com-google-android-gms.play-services-ads.17.2.0.jar",
+    "C:\\Program Files (x86)\\Embarcadero\\Studio\\21.0\\lib\\android\\debug\\com-google-android-gms.play-services-analytics-impl.16.0.8.jar",
+    "C:\\Program Files (x86)\\Embarcadero\\Studio\\21.0\\lib\\android\\debug\\com-google-android-gms.play-services-analytics.16.0.8.jar",
+    "C:\\Program Files (x86)\\Embarcadero\\Studio\\21.0\\lib\\android\\debug\\com-google-android-gms.play-services-base.16.0.1.jar",
+    "C:\\Program Files (x86)\\Embarcadero\\Studio\\21.0\\lib\\android\\debug\\com-google-android-gms.play-services-basement.16.2.0.jar",
+    "C:\\Program Files (x86)\\Embarcadero\\Studio\\21.0\\lib\\android\\debug\\com-google-android-gms.play-services-gass.17.2.0.jar",
+    "C:\\Program Files (x86)\\Embarcadero\\Studio\\21.0\\lib\\android\\debug\\com-google-android-gms.play-services-identity.16.0.0.jar",
+    "C:\\Program Files (x86)\\Embarcadero\\Studio\\21.0\\lib\\android\\debug\\com-google-android-gms.play-services-maps.16.1.0.jar",
+    "C:\\Program Files (x86)\\Embarcadero\\Studio\\21.0\\lib\\android\\debug\\com-google-android-gms.play-services-measurement-base.16.4.0.jar",
+    "C:\\Program Files (x86)\\Embarcadero\\Studio\\21.0\\lib\\android\\debug\\com-google-android-gms.play-services-measurement-sdk-api.16.4.0.jar",
+    "C:\\Program Files (x86)\\Embarcadero\\Studio\\21.0\\lib\\android\\debug\\com-google-android-gms.play-services-stats.16.0.1.jar",
+    "C:\\Program Files (x86)\\Embarcadero\\Studio\\21.0\\lib\\android\\debug\\com-google-android-gms.play-services-tagmanager-v4-impl.16.0.8.jar",
+    "C:\\Program Files (x86)\\Embarcadero\\Studio\\21.0\\lib\\android\\debug\\com-google-android-gms.play-services-tasks.16.0.1.jar",
+    "C:\\Program Files (x86)\\Embarcadero\\Studio\\21.0\\lib\\android\\debug\\com-google-android-gms.play-services-wallet.16.0.1.jar",
+    "C:\\Program Files (x86)\\Embarcadero\\Studio\\21.0\\lib\\android\\debug\\com-google-firebase.firebase-analytics.16.4.0.jar",
+    "C:\\Program Files (x86)\\Embarcadero\\Studio\\21.0\\lib\\android\\debug\\com-google-firebase.firebase-common.16.1.0.jar",
+    "C:\\Program Files (x86)\\Embarcadero\\Studio\\21.0\\lib\\android\\debug\\com-google-firebase.firebase-iid-interop.16.0.1.jar",
+    "C:\\Program Files (x86)\\Embarcadero\\Studio\\21.0\\lib\\android\\debug\\com-google-firebase.firebase-iid.17.1.1.jar",
+    "C:\\Program Files (x86)\\Embarcadero\\Studio\\21.0\\lib\\android\\debug\\com-google-firebase.firebase-measurement-connector.17.0.1.jar",
+    "C:\\Program Files (x86)\\Embarcadero\\Studio\\21.0\\lib\\android\\debug\\com-google-firebase.firebase-messaging.17.5.0.jar",
+    "C:\\Program Files (x86)\\Embarcadero\\Studio\\21.0\\lib\\android\\debug\\google-play-billing.jar",
+    "C:\\Program Files (x86)\\Embarcadero\\Studio\\21.0\\lib\\android\\debug\\google-play-licensing.jar"
+  ],
+  "javaFiles":[
+    "C:\\Program Files (x86)\\Embarcadero\\Studio\\21.0\\source\\rtl\\androiddex\\java\\fmx\\src\\com\\*.java",
+    "C:\\Program Files (x86)\\Embarcadero\\Studio\\21.0\\source\\rtl\\androiddex\\java\\fmx\\src\\android\\bluetooth\\*.java",
+    "C:\\Program Files (x86)\\Embarcadero\\Studio\\21.0\\source\\rtl\\androiddex\\java\\fmx\\src\\android\\telephony\\*.java"
+  ],
+  "outputFile":"",
+  "sourceVersion":"1.7",
+  "targetVersion":"1.7"
+}
