@@ -34,6 +34,8 @@ To include the toolbar in the IDE, right click the IDE toolbar area and check th
 
 ### Mosco-enabled functions
 
+Mosco is an app for macOS that Codex can communicate with to perform various Mac-related tasks. You can find the [Mosco app here](https://github.com/DelphiWorlds/Mosco).
+
 #### Menu items
 
 A number of functions rely on having the Mosco macOS app running on your Mac, namely these menu items:
@@ -61,10 +63,6 @@ Communicates with the Mosco macOS app to determine which frameworks are availabl
 [image]
 
 Select the frameworks you wish to add the SDK, and the Delphi SDK Manager will be shown with the frameworks added. Click `Update Local File Cache`, then click `Save` to complete the frameworks addition.
-
-#### Sign Libraries
-
-Allows you to code sign 3rd party (or your own) libraries that need to be deployed with your iOS or macOS app. Select the libraries to be signed, blah blah etc.!!!!!!!!
 
 #### Show Deployed App
 
@@ -130,12 +128,6 @@ Searches the current effective paths for units matching the name in the edit. Us
 #### Insert Paths
 
 Allows insertion of predefined paths into a project. Useful if you find you are often inserting the same paths into projects. 
-
-!!!! Might help to have an image or 2 here
-
-#### Resource Files
-
-!!!! Revisit this - might need to include in 1.5.1
 
 #### Show Effective Paths
 
