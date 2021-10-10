@@ -317,6 +317,13 @@ For details on the [Source Patch](#source-patch-tools--codex--source-patch) and 
 
 ## Change history
 
+v1.5.1 (Oct 11th, 2021) - Delphi 11 and 10.4 Only
+
+* Added workaround for [Apple App Store deployment issue](https://quality.embarcadero.com/browse/RSP-35701)
+* Added [Play Asset Delivery](https://developer.android.com/guide/playcore/asset-delivery) support
+* Reworked creation of R jar
+* Added option of creating R jars when using Package Download
+
 v1.5.0 (Sept 10th, 2021) - Delphi 11 and 10.4 Only
 
 * Merged [Mosco](https://github.com/DelphiWorlds/MoscoExpert) functionality
