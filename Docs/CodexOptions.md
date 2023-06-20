@@ -78,7 +78,7 @@ When a project has an active target of iOS or macOS, Codex checks whether or not
 
 When a project has an active target of macOS, it can auto-fill the certificate info with the relevant data, if it is not already filled in:
 
-<img src="../Screenshots/AutofillMacOSProvisioning.png" alt="Autofill MacOS Provisioning" height="750">
+<img src="../Screenshots/AutoFillMacOSProvisioning.png" alt="Autofill MacOS Provisioning" height="750">
 
 ## Source Patch
 
