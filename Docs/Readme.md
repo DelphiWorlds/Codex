@@ -15,6 +15,10 @@ The following are links to the documentation for the respective items:
 * [Options](CodexOptions.md)
 <br/>
 
+## Editor context menu
+
+[This is a link](EditorContextMenu.md) to information about what Codex adds to the editor context menu.
+
 ## Codex Toolbar
 
 Codex installs a toolbar into the IDE that provides shortcuts to existing IDE functions and Codex functions:
