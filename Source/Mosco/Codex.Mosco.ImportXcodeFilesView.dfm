@@ -1,0 +1,247 @@
+object ImportXcodeFilesView: TImportXcodeFilesView
+  Left = 0
+  Top = 0
+  Caption = 'Import Xcode Files'
+  ClientHeight = 335
+  ClientWidth = 637
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = 'Segoe UI'
+  Font.Style = []
+  Padding.Left = 8
+  Padding.Top = 8
+  Padding.Right = 8
+  TextHeight = 15
+  object SDKLabel: TLabel
+    AlignWithMargins = True
+    Left = 8
+    Top = 8
+    Width = 621
+    Height = 15
+    Margins.Left = 0
+    Margins.Top = 0
+    Margins.Right = 0
+    Margins.Bottom = 0
+    Align = alTop
+    Caption = 'SDK:'
+    ExplicitLeft = 11
+    ExplicitTop = 11
+    ExplicitWidth = 24
+  end
+  object XcodePathLabel: TLabel
+    AlignWithMargins = True
+    Left = 8
+    Top = 58
+    Width = 621
+    Height = 15
+    Margins.Left = 0
+    Margins.Top = 8
+    Margins.Right = 0
+    Margins.Bottom = 0
+    Align = alTop
+    Caption = 'Xcode Path:'
+    ExplicitTop = 64
+    ExplicitWidth = 63
+  end
+  object XcodeSubfolderLabel: TLabel
+    AlignWithMargins = True
+    Left = 8
+    Top = 108
+    Width = 621
+    Height = 15
+    Margins.Left = 0
+    Margins.Top = 8
+    Margins.Right = 0
+    Margins.Bottom = 0
+    Align = alTop
+    Caption = 'Subfolder:'
+    ExplicitTop = 114
+    ExplicitWidth = 54
+  end
+  object FileTypesLabel: TLabel
+    AlignWithMargins = True
+    Left = 8
+    Top = 158
+    Width = 621
+    Height = 15
+    Margins.Left = 0
+    Margins.Top = 8
+    Margins.Right = 0
+    Margins.Bottom = 0
+    Align = alTop
+    Caption = 'File types:'
+    ExplicitTop = 164
+    ExplicitWidth = 52
+  end
+  object BottomPanel: TPanel
+    Left = 8
+    Top = 296
+    Width = 621
+    Height = 39
+    Align = alBottom
+    BevelOuter = bvNone
+    Padding.Left = 4
+    Padding.Top = 4
+    Padding.Right = 4
+    Padding.Bottom = 4
+    TabOrder = 0
+    ExplicitTop = 308
+    ExplicitWidth = 738
+    object CloseButton: TButton
+      AlignWithMargins = True
+      Left = 533
+      Top = 4
+      Width = 84
+      Height = 31
+      Margins.Left = 8
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
+      Align = alRight
+      Caption = 'Close'
+      ModalResult = 8
+      TabOrder = 0
+      ExplicitLeft = 650
+    end
+    object AddFrameworksButton: TButton
+      Left = 441
+      Top = 4
+      Width = 84
+      Height = 31
+      Margins.Left = 0
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
+      Align = alRight
+      TabOrder = 1
+      ExplicitLeft = 558
+    end
+  end
+  object TargetPathPanel: TPanel
+    AlignWithMargins = True
+    Left = 8
+    Top = 242
+    Width = 621
+    Height = 50
+    Margins.Left = 0
+    Margins.Top = 0
+    Margins.Right = 0
+    Margins.Bottom = 4
+    Align = alBottom
+    BevelOuter = bvNone
+    Padding.Bottom = 1
+    TabOrder = 1
+    ExplicitTop = 254
+    ExplicitWidth = 738
+    object SelectTargetPathButton: TSpeedButton
+      AlignWithMargins = True
+      Left = 594
+      Top = 24
+      Width = 23
+      Height = 22
+      Margins.Left = 0
+      Margins.Right = 4
+      Align = alRight
+      ExplicitLeft = 658
+      ExplicitTop = 19
+      ExplicitHeight = 25
+    end
+    object TargetPathLabel: TLabel
+      AlignWithMargins = True
+      Left = 3
+      Top = 3
+      Width = 615
+      Height = 15
+      Align = alTop
+      Caption = 'Destination folder:'
+      ExplicitWidth = 97
+    end
+    object TargetPathEdit: TEdit
+      AlignWithMargins = True
+      Left = 4
+      Top = 25
+      Width = 590
+      Height = 20
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 0
+      Margins.Bottom = 4
+      Align = alClient
+      ParentShowHint = False
+      ShowHint = True
+      TabOrder = 0
+      ExplicitWidth = 707
+      ExplicitHeight = 23
+    end
+  end
+  object XcodePathComboBox: TComboBox
+    AlignWithMargins = True
+    Left = 8
+    Top = 77
+    Width = 621
+    Height = 23
+    Margins.Left = 0
+    Margins.Top = 4
+    Margins.Right = 0
+    Margins.Bottom = 0
+    Align = alTop
+    Style = csDropDownList
+    ItemIndex = 1
+    TabOrder = 2
+    Text = 'Toolchain'
+    Items.Strings = (
+      'SDK'#11
+      'Toolchain')
+    ExplicitTop = 83
+    ExplicitWidth = 738
+  end
+  object XcodeSubfolderEdit: TEdit
+    AlignWithMargins = True
+    Left = 8
+    Top = 127
+    Width = 621
+    Height = 23
+    Margins.Left = 0
+    Margins.Top = 4
+    Margins.Right = 0
+    Margins.Bottom = 0
+    Align = alTop
+    TabOrder = 3
+    ExplicitTop = 133
+    ExplicitWidth = 738
+  end
+  object SDKComboBox: TComboBox
+    AlignWithMargins = True
+    Left = 8
+    Top = 27
+    Width = 621
+    Height = 23
+    Margins.Left = 0
+    Margins.Top = 4
+    Margins.Right = 0
+    Margins.Bottom = 0
+    Align = alTop
+    Style = csDropDownList
+    TabOrder = 4
+    ExplicitTop = 33
+    ExplicitWidth = 738
+  end
+  object FileTypesEdit: TEdit
+    AlignWithMargins = True
+    Left = 8
+    Top = 177
+    Width = 621
+    Height = 23
+    Margins.Left = 0
+    Margins.Top = 4
+    Margins.Right = 0
+    Margins.Bottom = 0
+    Align = alTop
+    TabOrder = 5
+    Text = '*.a;*.dylib'
+    ExplicitTop = 183
+    ExplicitWidth = 738
+  end
+end

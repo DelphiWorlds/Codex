@@ -1,7 +1,5 @@
 # Codex
 
-This repository is for documentation, installers and for reporting issues
-
 ## Description
 
 Codex:
@@ -9,22 +7,51 @@ Codex:
 * Is an expert that can be installed into the Delphi IDE
 * Helps boost your productivity
 * Integrates with [Mosco](https://github.com/DelphiWorlds/Mosco) (macOS application) to perform iOS/macOS related tasks
-* Supports Delphi 11 Alexandria (Codex v1.5 and later only), Delphi 10.4 Sydney (Codex v1.5, v1.5.1 and v1.4), Delphi 10.3 Rio (Codex v1.3.1 and below), Delphi 10.2 Tokyo (Codex v1.2.0 only), and Delphi 10.1 Berlin (Codex v1.0.0 only)
+* Supports Delphi 12 Athens (Codex v2.0.0 only), Delphi 11 Alexandria (Codex v1.6 and later only), Delphi 10.4 Sydney (Codex v1.5, v1.5.1 and v1.4), Delphi 10.3 Rio (Codex v1.3.1 and below), Delphi 10.2 Tokyo (Codex v1.2.0 only), and Delphi 10.1 Berlin (Codex v1.0.0 only)
 * Is implemented using the [TOTAL library](https://github.com/DelphiWorlds/TOTAL). 
 
-The complete source for Codex is planned to be released when version 2.0 is ready, which is currently scheduled for late 2023  
+The latest release version can be downloaded [here](https://www.delphiworlds.com/codex/latest), and older installers are [here](https://www.delphiworlds.com/codex/older).
 
 ## Installation
 
-Installers for Codex can be found in the [Bin folder](Bin)
-
 Installation is straightforward - run the installer and follow the prompts
+
+## Compiling Codex
+
+### Supported Delphi versions
+
+Codex should compile in at least Delphi 12 and Delphi 11.x, however it may compile in earlier versions.
+
+### Dependencies
+
+Codex has dependencies on:
+
+* [TOTAL](https://github.com/DelphiWorlds/TOTAL)
+* [Kastri](https://github.com/DelphiWorlds/Kastri)
+* [Babel](https://github.com/DelphiWorlds/Babel)
+* [Mosco](https://github.com/DelphiWorlds/Mosco)
+* [NEON](https://github.com/paolo-rossi/delphi-neon)
+* [Delphi AST](https://github.com/RomanYankovsky/DelphiAST)
+
+The Codex project search paths make use of `User System Overrides` (These can be set up in the IDE options Tools | Options, IDE > Environment Variables), which point to the folders of the respective dependencies. Either create matching overrides in your IDE, or update the project search paths so that the compiler finds them.
 
 ## Documentation
 
 Can be found [here](Docs/Readme.md).
 
 ## Change history
+
+v2.0.0 (Nov 8th, 2023) Delphi 12 and 11.x only
+
+**Mosco functions require Mosco v1.5.0**
+
+* First source release
+* Added internationalization
+* Added "Add Folders" feature
+* Added "Project Files" feature
+* Fixed issues with Package Download (Android Tools)
+* Refactored Mosco REST client code
+* Minor fixes/tweaks
 
 v1.6.0 (Feb 26th, 2023) Delphi 11.x only. 
 

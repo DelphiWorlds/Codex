@@ -1,0 +1,29 @@
+// FILEFLAGS 0x2L = Beta (Pre-release) 0x0L = Normal
+
+1 VERSIONINFO
+FILEVERSION 2,0,0,0
+PRODUCTVERSION 2,0,0,0
+FILEFLAGSMASK 0x3fL
+FILEFLAGS 0x0L
+FILEOS 0x4
+FILETYPE 0x1
+{
+  BLOCK "StringFileInfo"
+  {
+    BLOCK "041304E4"
+    {
+      VALUE "CompanyName", "Delphi Worlds"
+      VALUE "FileDescription", "Codex"
+      VALUE "FileVersion", "2.0.0"
+      VALUE "InternalName", "Codex"
+      VALUE "OriginalFilename", "Codex"
+      VALUE "ProductName", "Codex"
+      VALUE "ProductVersion", "2.0.0"
+    }
+  }
+
+  BLOCK "VarFileInfo"
+  {
+    VALUE "Translation", 0x0409, 1252
+  }
+}

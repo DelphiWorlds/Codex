@@ -1,0 +1,31 @@
+object OutputView: TOutputView
+  Left = 0
+  Top = 0
+  Caption = 'Output'
+  ClientHeight = 511
+  ClientWidth = 966
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  Position = poScreenCenter
+  TextHeight = 13
+  object Memo: TMemo
+    AlignWithMargins = True
+    Left = 3
+    Top = 3
+    Width = 960
+    Height = 505
+    Align = alClient
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Consolas'
+    Font.Style = []
+    ParentFont = False
+    ScrollBars = ssVertical
+    TabOrder = 0
+  end
+end
