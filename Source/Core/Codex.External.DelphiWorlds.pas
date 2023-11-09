@@ -16,7 +16,7 @@ interface
 implementation
 
 // This define is used by Delphi Worlds only - there is no other reason to enable it
-{$DEFINE DelphiWorlds}
+{.$DEFINE DelphiWorlds}
 
 {$IF Defined(DelphiWorlds)}
 uses
