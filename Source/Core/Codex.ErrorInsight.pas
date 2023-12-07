@@ -34,7 +34,7 @@ type
 
   TSourceErrors = TArray<TSourceError>;
 
-  TCodexEditViewNotifier = class(TEditViewNotifier)
+  TCodexErrorInsightEditViewNotifier = class(TEditViewNotifier)
   private
     FHorzScrollPos: Integer;
     FImageList: TVirtualImageList;
@@ -74,9 +74,9 @@ uses
   DW.OTA.Helpers,
   Codex.Config;
 
-{ TCodexEditViewNotifier }
+{ TCodexErrorInsightEditViewNotifier }
 
-procedure TCodexEditViewNotifier.FindImageList;
+procedure TCodexErrorInsightEditViewNotifier.FindImageList;
 var
   LForm, LImageList: TComponent;
 begin
@@ -91,7 +91,7 @@ begin
   end;
 end;
 
-function TCodexEditViewNotifier.GetHorzScrollPos(const AView: IOTAEditView): Integer;
+function TCodexErrorInsightEditViewNotifier.GetHorzScrollPos(const AView: IOTAEditView): Integer;
 var
   LForm: TCustomForm;
   I: Integer;
@@ -121,13 +121,13 @@ begin
   end;
 end;
 
-procedure TCodexEditViewNotifier.BeginPaint(const View: IOTAEditView; var FullRepaint: Boolean);
+procedure TCodexErrorInsightEditViewNotifier.BeginPaint(const View: IOTAEditView; var FullRepaint: Boolean);
 begin
   FindImageList;
   FHorzScrollPos := GetHorzScrollPos(View);
 end;
 
-procedure TCodexEditViewNotifier.PaintLine(const View: IOTAEditView; LineNumber: Integer; const LineText: PAnsiChar; const TextWidth: Word;
+procedure TCodexErrorInsightEditViewNotifier.PaintLine(const View: IOTAEditView; LineNumber: Integer; const LineText: PAnsiChar; const TextWidth: Word;
   const LineAttributes: TOTAAttributeArray; const Canvas: TCanvas; const TextRect, LineRect: TRect; const CellSize: TSize);
 const
   cUnderlineColors: array[TSourceErrorKind] of TColor = ($dfb68c, $64b5e8, $5870e3);
@@ -251,7 +251,7 @@ begin
         LEditView := LEditor.EditViews[0];
         if not ViewHasNotifier(LEditView) then
         begin
-          TCodexEditViewNotifier.Create(LEditView);
+          TCodexErrorInsightEditViewNotifier.Create(LEditView);
           FEditNotifierViews := FEditNotifierViews + [LEditView];
         end;
       end;
