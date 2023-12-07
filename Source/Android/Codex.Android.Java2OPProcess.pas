@@ -168,7 +168,7 @@ begin
     PerformPostProcessing;
   if not FCurrentDir.IsEmpty then
     ChDir(FCurrentDir);
-  DoOutput(Format(Babel.Tx(sCommandExitedWithCode), [AExitCode]));
+  DoOutput(Format(Babel.Tx(sCommandExitedWithCode), [Process.CommandLine, AExitCode]));
   inherited;
 end;
 
