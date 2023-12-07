@@ -359,7 +359,6 @@ begin
     if not LPackage.IsEmpty then
     begin
       // Has at least one package
-      TOSLog.d('Checking %s', [LPackage]);
       Result := True;
       LItem := TGradleTemplateItem.Create(LPackage);
       if not LItem.IsValid then
