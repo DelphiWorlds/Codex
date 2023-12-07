@@ -103,9 +103,16 @@ begin
 end;
 
 procedure TIDEActionsWizard.KillLSPActionExecuteHandler(Sender: TObject);
+var
+  LMenuItem: TMenuItem;
 begin
-  FProcess.CommandLine := 'taskkill /f /IM delphilsp.exe';
-  FProcess.RunAndWait(2000);
+  if not (TOTAHelper.FindToolsMenu(LMenuItem) and TOTAHelper.FindMenuByCaption(LMenuItem, '%LSP%', LMenuItem)) then
+  begin
+    FProcess.CommandLine := 'taskkill /f /IM delphilsp.exe';
+    FProcess.RunAndWait(2000);
+  end
+  else
+    LMenuItem.Click;
 end;
 
 procedure TIDEActionsWizard.SDKManagerActionExecuteHandler(Sender: TObject);
