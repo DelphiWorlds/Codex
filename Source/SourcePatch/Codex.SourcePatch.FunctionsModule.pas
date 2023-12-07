@@ -479,12 +479,48 @@ begin
 end;
 
 procedure TSourcePatchFunctionsModule.LoadEditorFile(const AFileName: string; const ACloseCurrent: Boolean);
+type
+  TEditorState = record
+    Column: Integer;
+    Row: Integer;
+    TopRow: Integer;
+  end;
+var
+  LEditor: IOTASourceEditor;
+  LEditView: IOTAEditView;
+  LState: TEditorState;
 begin
+  LState := Default(TEditorState);
   // TODO: Make closing the original file an option?
   if ACloseCurrent then
+  begin
+    LEditor := TOTAHelper.GetActiveSourceEditor;
+    if LEditor <> nil then
+    try
+      LEditView := LEditor.EditViews[0];
+      try
+        LState.Row := LEditView.Position.Row;
+        LState.Column := LEditView.Position.Column;
+        LState.TopRow := LEditView.TopRow;
+      finally
+        LEditView := nil;
+      end;
+    finally
+      LEditor := nil;
+    end;
     TOTAHelper.CloseCurrentModule;
-  // TODO: Restore whatever the selected line of the file was in the editor
-  if not TOTAHelper.OpenFile(AFileName) then
+  end;
+  if TOTAHelper.OpenFile(AFileName) then
+  begin
+    LEditor := TOTAHelper.GetActiveSourceEditor;
+    if LEditor <> nil then
+    begin
+      LEditView := LEditor.EditViews[0];
+      LEditView.SetTopLeft(LState.TopRow, 0);
+      LEditView.Position.Move(LState.Row, LState.Column);
+    end;
+  end
+  else
     TOTAHelper.AddTitleMessage(Format(Babel.Tx(sCouldNotOpenFile), [AFileName]), 'Codex');
 end;
 
