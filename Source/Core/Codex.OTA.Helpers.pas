@@ -25,7 +25,7 @@ type
   public
     class function GetDeployConfigs(const APlatformNames: TArray<string>; out ADeployConfigs: TDeployConfigs): Boolean; static;
     class function DeployFolder(const ALocalPath, ARemotePath: string; const ADeployConfigs: TDeployConfigs): Boolean; static;
-    class procedure ExecuteIDEAction(const AActionName: string); static;
+    class function ExecuteIDEAction(const AActionName: string): Boolean; static;
   end;
 
 implementation
@@ -96,12 +96,16 @@ begin
   end;
 end;
 
-class procedure TCodexOTAHelper.ExecuteIDEAction(const AActionName: string);
+class function TCodexOTAHelper.ExecuteIDEAction(const AActionName: string): Boolean;
 var
   LAction: TCustomAction;
 begin
+  Result := False;
   if TOTAHelper.FindActionGlobal(AActionName, LAction) then
+  begin
     LAction.Execute;
+    Result := True;
+  end;
 end;
 
 class function TCodexOTAHelper.GetDeployConfigs(const APlatformNames: TArray<string>; out ADeployConfigs: TDeployConfigs): Boolean;
