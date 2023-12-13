@@ -14,7 +14,8 @@ unit Codex.Types;
 interface
 
 uses
-  Mosco.API;
+  Mosco.API,
+  DW.OTA.Types;
 
 type
   TProjectProperties = record
@@ -27,6 +28,8 @@ type
     DeviceID: string;
     Platform: string;
     Profile: string;
+    ProjectFileName: string;
+    ProjectPlatform: TProjectPlatform;
     TargetFileName: string;
     procedure Clear;
     function GetBuildKind: TProfileKind;
@@ -59,10 +62,12 @@ end;
 
 procedure TProjectProperties.Clear;
 begin
-  Platform := '';
-  Config := '';
   BuildType := '';
+  BundleIdentifier := '';
+  Config := '';
   DeviceID := '';
+  Platform := '';
+  ProjectFileName := '';
   TargetFileName := '';
 end;
 
@@ -91,9 +96,13 @@ end;
 
 function TProjectProperties.GetCaption: string;
 begin
-  Result := Platform + ' > ' + Config;
-  if not BuildType.IsEmpty and not BuildType.Equals(Config) then
-    Result := Result + ' > ' + GetLongBuildType;
+  Result := '';
+  if not (Platform.IsEmpty or Config.IsEmpty) then
+  begin
+    Result := Platform + ' > ' + Config;
+    if not BuildType.IsEmpty and not BuildType.Equals(Config) then
+      Result := Result + ' > ' + GetLongBuildType;
+  end;
 end;
 
 function TProjectProperties.IsDistributionBuildType: Boolean;
@@ -104,7 +113,7 @@ end;
 function TProjectProperties.Update(const AProperties: TProjectProperties): Boolean;
 begin
   Result := False;
-  if not Platform.Equals(AProperties.Platform) or not Config.Equals(AProperties.Config)
+  if not SameText(ProjectFileName, AProperties.ProjectFileName) or not Platform.Equals(AProperties.Platform) or not Config.Equals(AProperties.Config)
     or not BuildType.Equals(AProperties.BuildType) or not BundleIdentifier.Equals(AProperties.BundleIdentifier) then
   begin
     Self := AProperties;
