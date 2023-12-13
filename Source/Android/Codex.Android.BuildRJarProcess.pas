@@ -351,6 +351,8 @@ var
   LPackage, LResPath, LDependency, LDependencyName, LPath, LManifestFileName, LMergeFileName: string;
   LDependencies: TArray<string>;
 begin
+  if TDirectory.Exists(FMergedResPath) then
+    TDirectoryHelper.Delete(FMergedResPath);
   ForceDirectories(FMergedResPath);
   for LPackage in FPackages do
   begin
