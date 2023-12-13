@@ -13,6 +13,15 @@ unit Codex.External.DelphiWorlds;
 
 interface
 
+type
+  IDelphiWorlds = interface(IInterface)
+    ['{1E5025D7-B015-4AC6-97D8-49A92C619154}']
+    procedure SysJarsMismatch;
+  end;
+
+var
+  DelphiWorlds: IDelphiWorlds;
+
 implementation
 
 // This define is used by Delphi Worlds only - there is no other reason to enable it
