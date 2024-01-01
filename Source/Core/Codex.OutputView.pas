@@ -15,15 +15,13 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls,
+  Codex.BaseView;
 
 type
   TOutputView = class(TForm)
     Memo: TMemo;
-  private
-    { Private declarations }
   public
-    constructor Create(AOwner: TComponent); override;
     procedure Clear;
   end;
 
@@ -34,21 +32,7 @@ implementation
 
 {$R *.dfm}
 
-{$IF Defined(EXPERT)}
-uses
-  DW.OTA.Helpers;
-{$ENDIF}
-
 { TOutputView }
-
-constructor TOutputView.Create(AOwner: TComponent);
-begin
-  inherited;
-  // TODO: Determine why this form was excluded from using the interposer in Codex.BaseView
-  {$IF Defined(EXPERT)}
-  TOTAHelper.ApplyTheme(Self);
-  {$ENDIF}
-end;
 
 procedure TOutputView.Clear;
 begin
