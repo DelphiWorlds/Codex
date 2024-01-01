@@ -18,6 +18,8 @@ uses
   DW.OTA.Types;
 
 type
+  TTextColor = (Hint, Warning, Error, Success);
+
   TProjectProperties = record
   public
     class function GetBuildTypeNumber(const ABuildType: string): Integer; static;
