@@ -36,6 +36,8 @@ type
   IMoscoProvider = interface(IInterface)
     ['{B039D52A-8B08-4EB4-ACB9-75DC4A63E5F1}']
     procedure AddSDKFramework;
+    procedure GetAppExtensionFiles(const AFileNames: TArray<string>);
+    function GetAppExtensionNames: TArray<string>;
     procedure ProfileChanged;
     procedure ShowDeployedApp;
     procedure ShowOptions;
@@ -54,10 +56,12 @@ type
     function CanDeployProject: Boolean;
     procedure CleanProject;
     procedure CompileProject;
+    procedure DeployAppExtensions(const AFolders: TArray<string>);
     procedure DeployProject;
     procedure DeployProjectFolder;
     function HasActiveProject: Boolean;
     procedure InsertProjectPaths;
+    procedure ShowDeployAppExtensions;
     procedure ShowProjectDeployment;
     procedure ShowProjectOptions;
     procedure TotalCleanProject;
