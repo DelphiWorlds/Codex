@@ -52,7 +52,6 @@ type
 constructor TCleanerWizard.Create;
 begin
   inherited;
-  TOTAHelper.RegisterThemeForms([TCleanView]);
   AddMenuItem;
 end;
 

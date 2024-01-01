@@ -85,8 +85,6 @@ resourcestring
 constructor TAndroidWizard.Create;
 begin
   inherited;
-  TOTAHelper.RegisterThemeForms([TPackagesView, TBuildJarView, TJava2OPView, TPackageDownloadView, TADBConnectView, TAssetPacksView, TKeyStoreInfoView,
-    TAssetPackDetailsView, TPackagesView]);
   FAppProcess := TGenerateAppProcess.Create;
   FSDKRegistry := TSDKRegistry.Current;
   AddMenuItems;

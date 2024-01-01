@@ -62,7 +62,6 @@ constructor TFileMenuWizard.Create;
 begin
   inherited;
   ModuleNotifier.AddListener(Self);
-  TOTAHelper.RegisterThemeForms([TProjectFilesView]);
   AddReopenMenu;
   AddProjectFilesMenu;
 end;
