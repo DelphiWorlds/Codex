@@ -19,6 +19,10 @@ uses
   Codex.Types;
 
 type
+  ICodexView = interface(IInterface)
+    ['{9DDADBDB-ED6D-43B5-973A-D0137AA41678}']
+  end;
+
   IResourcesModule = interface(IInterface)
     ['{837A0A0C-3509-45C2-8860-F61D9BD036F1}']
     procedure AddToolbarActions;
