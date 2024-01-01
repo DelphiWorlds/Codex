@@ -9,7 +9,7 @@ object IDEOptionsView: TIDEOptionsView
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  Position = poScreenCenter
+  Position = poOwnerFormCenter
   TextHeight = 13
   object RootPanel: TPanel
     Left = 0

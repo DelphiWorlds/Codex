@@ -1,61 +1,65 @@
 object ProgressView: TProgressView
   Left = 0
   Top = 0
+  Margins.Left = 5
+  Margins.Top = 5
+  Margins.Right = 5
+  Margins.Bottom = 5
   BorderIcons = []
   BorderStyle = bsToolWindow
-  ClientHeight = 115
-  ClientWidth = 349
+  ClientHeight = 173
+  ClientWidth = 533
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -11
+  Font.Height = -17
   Font.Name = 'Tahoma'
   Font.Style = []
   FormStyle = fsStayOnTop
-  Position = poScreenCenter
+  Position = poOwnerFormCenter
   OnResize = FormResize
-  TextHeight = 13
+  PixelsPerInch = 144
+  TextHeight = 21
   object StatusLabel: TLabel
     AlignWithMargins = True
-    Left = 2
-    Top = 2
-    Width = 345
-    Height = 59
-    Margins.Left = 2
-    Margins.Top = 2
-    Margins.Right = 2
+    Left = 3
+    Top = 3
+    Width = 527
+    Height = 89
     Margins.Bottom = 0
     Align = alClient
     Alignment = taCenter
     AutoSize = False
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -13
+    Font.Height = -20
     Font.Name = 'Tahoma'
     Font.Style = []
     ParentFont = False
     WordWrap = True
-    ExplicitLeft = 8
-    ExplicitTop = 8
-    ExplicitWidth = 317
-    ExplicitHeight = 50
   end
   object BottomPanel: TPanel
     Left = 0
-    Top = 84
-    Width = 349
-    Height = 31
+    Top = 126
+    Width = 533
+    Height = 47
+    Margins.Left = 5
+    Margins.Top = 5
+    Margins.Right = 5
+    Margins.Bottom = 5
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 0
-    ExplicitTop = 72
-    ExplicitWidth = 341
     object CancelButton: TButton
       AlignWithMargins = True
-      Left = 3
-      Top = 3
-      Width = 75
-      Height = 25
+      Left = 5
+      Top = 5
+      Width = 112
+      Height = 37
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 5
       Align = alLeft
       Cancel = True
       Caption = 'Cancel'
@@ -68,17 +72,12 @@ object ProgressView: TProgressView
   end
   object ProgressBar: TProgressBar
     AlignWithMargins = True
-    Left = 2
-    Top = 65
-    Width = 345
-    Height = 17
-    Margins.Left = 2
-    Margins.Top = 4
-    Margins.Right = 2
-    Margins.Bottom = 2
+    Left = 3
+    Top = 98
+    Width = 527
+    Height = 25
+    Margins.Top = 6
     Align = alBottom
     TabOrder = 1
-    ExplicitTop = 53
-    ExplicitWidth = 337
   end
 end

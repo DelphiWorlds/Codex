@@ -15,7 +15,7 @@ object AboutView: TAboutView
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  Position = poScreenCenter
+  Position = poOwnerFormCenter
   TextHeight = 13
   object BottomBevel: TBevel
     AlignWithMargins = True

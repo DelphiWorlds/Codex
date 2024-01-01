@@ -9,7 +9,7 @@ object ProjectFilesView: TProjectFilesView
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
-  Position = poScreenCenter
+  Position = poOwnerFormCenter
   TextHeight = 15
   object ProjectFilesPanel: TPanel
     AlignWithMargins = True

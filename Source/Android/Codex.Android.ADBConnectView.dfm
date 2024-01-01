@@ -1,35 +1,48 @@
 object ADBConnectView: TADBConnectView
   Left = 0
   Top = 0
+  Margins.Left = 5
+  Margins.Top = 5
+  Margins.Right = 5
+  Margins.Bottom = 5
   Caption = 'ADB Connect'
-  ClientHeight = 304
-  ClientWidth = 606
+  ClientHeight = 456
+  ClientWidth = 918
   Color = clBtnFace
-  Constraints.MinWidth = 608
+  Constraints.MinWidth = 628
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -11
+  Font.Height = -17
   Font.Name = 'Tahoma'
   Font.Style = []
-  Position = poScreenCenter
+  Position = poOwnerFormCenter
   OnClose = FormClose
-  TextHeight = 13
+  PixelsPerInch = 144
+  TextHeight = 21
   object IPAddressLabel: TLabel
     AlignWithMargins = True
-    Left = 3
-    Top = 45
-    Width = 600
-    Height = 13
+    Left = 5
+    Top = 69
+    Width = 908
+    Height = 21
+    Margins.Left = 5
+    Margins.Top = 5
+    Margins.Right = 5
+    Margins.Bottom = 5
     Align = alTop
     Caption = 'Target Device IP Address && Port:'
-    ExplicitWidth = 159
+    ExplicitWidth = 246
   end
   object ReminderLabel: TLabel
     AlignWithMargins = True
-    Left = 3
-    Top = 3
-    Width = 600
-    Height = 36
+    Left = 5
+    Top = 5
+    Width = 908
+    Height = 54
+    Margins.Left = 5
+    Margins.Top = 5
+    Margins.Right = 5
+    Margins.Bottom = 5
     Align = alTop
     AutoSize = False
     Caption = 
@@ -37,22 +50,30 @@ object ADBConnectView: TADBConnectView
       ' PC or Mac and this command run on it: adb tcpip 5555'#13#10'This only' +
       ' has to be done once since the device was last restarted'
     WordWrap = True
+    ExplicitWidth = 909
   end
   object ButtonsPanel: TPanel
     Left = 0
-    Top = 272
-    Width = 606
-    Height = 32
+    Top = 408
+    Width = 918
+    Height = 48
+    Margins.Left = 5
+    Margins.Top = 5
+    Margins.Right = 5
+    Margins.Bottom = 5
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 2
     object CloseButton: TButton
       AlignWithMargins = True
-      Left = 527
-      Top = 3
-      Width = 75
-      Height = 26
-      Margins.Right = 4
+      Left = 800
+      Top = 5
+      Width = 112
+      Height = 38
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 6
+      Margins.Bottom = 5
       Align = alRight
       Caption = 'Close'
       DoubleBuffered = True
@@ -62,11 +83,14 @@ object ADBConnectView: TADBConnectView
     end
     object ConnectButton: TButton
       AlignWithMargins = True
-      Left = 445
-      Top = 3
-      Width = 75
-      Height = 26
-      Margins.Right = 4
+      Left = 677
+      Top = 5
+      Width = 112
+      Height = 38
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 6
+      Margins.Bottom = 5
       Align = alRight
       Caption = 'Connect'
       Default = True
@@ -77,11 +101,11 @@ object ADBConnectView: TADBConnectView
     end
     object DismissCheckBox: TCheckBox
       AlignWithMargins = True
-      Left = 8
+      Left = 12
       Top = 0
-      Width = 434
-      Height = 32
-      Margins.Left = 8
+      Width = 660
+      Height = 48
+      Margins.Left = 12
       Margins.Top = 0
       Margins.Right = 0
       Margins.Bottom = 0
@@ -95,9 +119,9 @@ object ADBConnectView: TADBConnectView
   object IPPanel: TPanel
     AlignWithMargins = True
     Left = 0
-    Top = 61
-    Width = 606
-    Height = 24
+    Top = 95
+    Width = 918
+    Height = 36
     Margins.Left = 0
     Margins.Top = 0
     Margins.Right = 0
@@ -107,26 +131,26 @@ object ADBConnectView: TADBConnectView
     TabOrder = 0
     object RecentIPLabel: TLabel
       AlignWithMargins = True
-      Left = 344
+      Left = 524
       Top = 0
-      Width = 38
-      Height = 22
+      Width = 58
+      Height = 33
       Margins.Left = 0
       Margins.Top = 0
-      Margins.Right = 8
-      Margins.Bottom = 2
+      Margins.Right = 12
       Align = alRight
       Alignment = taRightJustify
       Caption = 'Recent:'
       Layout = tlCenter
-      ExplicitHeight = 13
+      ExplicitLeft = 515
+      ExplicitHeight = 21
     end
     object IPComboBox: TComboBox
       AlignWithMargins = True
-      Left = 390
+      Left = 594
       Top = 0
-      Width = 216
-      Height = 21
+      Width = 324
+      Height = 29
       Margins.Left = 0
       Margins.Top = 0
       Margins.Right = 0
@@ -140,31 +164,35 @@ object ADBConnectView: TADBConnectView
       AlignWithMargins = True
       Left = 0
       Top = 0
-      Width = 344
-      Height = 24
+      Width = 524
+      Height = 36
       Margins.Left = 0
       Margins.Top = 0
       Margins.Right = 0
       Margins.Bottom = 0
       Align = alClient
       BevelOuter = bvNone
-      Padding.Left = 2
-      Padding.Top = 2
-      Padding.Right = 2
-      Padding.Bottom = 2
+      Padding.Left = 3
+      Padding.Top = 3
+      Padding.Right = 3
+      Padding.Bottom = 3
       TabOrder = 1
     end
   end
   object OutputMemo: TMemo
     AlignWithMargins = True
-    Left = 3
-    Top = 88
-    Width = 600
-    Height = 181
+    Left = 5
+    Top = 136
+    Width = 908
+    Height = 267
+    Margins.Left = 5
+    Margins.Top = 5
+    Margins.Right = 5
+    Margins.Bottom = 5
     Align = alClient
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -13
+    Font.Height = -20
     Font.Name = 'Consolas'
     Font.Style = []
     ParentFont = False

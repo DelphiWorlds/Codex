@@ -10,7 +10,7 @@ object CommonPathsView: TCommonPathsView
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  Position = poScreenCenter
+  Position = poOwnerFormCenter
   TextHeight = 13
   object CommandButtonsPanel: TPanel
     Left = 0
