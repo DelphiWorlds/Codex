@@ -41,6 +41,18 @@ Can be found [here](Docs/Readme.md).
 
 ## Change history
 
+v2.1.0 (Jan 1st, 2024) Delphi 12 and 11.x only
+
+**Mosco functions require Mosco v1.6.0**
+
+* Added Deploy Extensions feature
+* Added support for theme changes
+* Added support for coloring of messages
+* Fixed kill process feature
+* Fixed form placement/size when re-opening
+* Fixed project info update (shown in IDE title)
+* Minor fixes/tweaks
+
 v2.0.0 (Nov 8th, 2023) Delphi 12 and 11.x only
 
 **Mosco functions require Mosco v1.5.0**
