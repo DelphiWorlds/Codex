@@ -16,15 +16,15 @@ interface
 implementation
 
 uses
-  System.SysUtils, System.Classes, System.IOUtils, System.Types, System.DateUtils,
+  System.SysUtils, System.Classes, System.IOUtils, System.Types, System.DateUtils, System.Zip, System.StrUtils,
   ToolsAPI, PlatformAPI, CommonOptionStrs,
   DW.OSLog,
-  DW.Classes.Helpers, DW.Types.Helpers,
-  DW.OTA.Wizard, DW.OTA.Helpers, DW.OTA.Consts, DW.OTA.Notifiers, DW.OTA.Registry,
+  DW.Classes.Helpers, DW.Types.Helpers, DW.Base64.Helpers,
+  DW.OTA.Wizard, DW.OTA.Helpers, DW.OTA.Consts, DW.OTA.Notifiers, DW.OTA.Registry, DW.OTA.Types,
   Mosco.API, Mosco.RESTClient,
-  Codex.Config, Codex.Types, Codex.Core, Codex.Interfaces, Codex.Options,
+  Codex.Config, Codex.Types, Codex.Core, Codex.Interfaces, Codex.Options, Codex.OTA.Helpers,
   Codex.Mosco.AddSDKFrameworkView, Codex.ProgressView,
-  Codex.Mosco.ProjectManagerMenu, Codex.Mosco.Helpers, Codex.Mosco.Consts;
+  Codex.Mosco.ProjectManagerMenu, Codex.Mosco.Helpers, Codex.Mosco.Consts, Codex.Consts.Text, Codex.Consts;
 
 type
   TFrameworkMode = (All, Linked);
@@ -52,15 +52,18 @@ type
     // procedure CheckProvisioning;
     procedure Diagnostic(const AMsg: string);
     procedure DoAddSDKFramework(ASDKs: TArray<string>);
+    procedure DoGetAppExtensionFiles(const AFileNames: TArray<string>);
     procedure DoShowDeployedApp(const AProfile, AFileName: string);
     procedure DumpIdentities;
     procedure FetchCerts;
     // procedure FetchProfiles;
+    // function FindIdentities(const ABundleId: string; const ABuildType: Integer; out AIdentities: TIdentities): Boolean;
     function FindIdentity(const ABundleId: string; const ABuildType: Integer; out AIdentity: TIdentity): Boolean;
     procedure GetFrameworks(const ASDK: string);
     procedure GetLinkedFrameworks(const APaths: TStrings; var AFrameworks: TArray<string>);
     procedure GetModuleMapFrameworks(const AFileName: string; var AFrameworks: TArray<string>);
     procedure GetSDKs;
+    function SetConfigs(const AConfigs: IOTAProjectOptionsConfigurations; const APlatforms: TProjectPlatforms; const AKey, AValue: string): Boolean;
   protected
     procedure ConfigChanged; override;
     function DebuggerBeforeProgramLaunch(const Project: IOTAProject): Boolean; override;
@@ -70,6 +73,8 @@ type
   public
     { IMoscoProvider }
     procedure AddSDKFramework;
+    procedure GetAppExtensionFiles(const AFileNames: TArray<string>);
+    function GetAppExtensionNames: TArray<string>;
     procedure ProfileChanged;
     procedure ShowDeployedApp;
     procedure ShowOptions;
@@ -139,7 +144,6 @@ constructor TMoscoWizard.Create;
 begin
   inherited;
   MoscoProvider := Self;
-  TOTAHelper.RegisterThemeForms([TAddSDKFrameworkView]);
   FClient := TMoscoRESTClient.Create;
   FProjectManagerMenuNotifier := TMoscoProjectManagerMenuNotifier.Create;
   ConfigChanged;
@@ -156,7 +160,7 @@ end;
 procedure TMoscoWizard.Diagnostic(const AMsg: string);
 begin
   if Config.Mosco.ErrorsDiagnostic then
-    TOTAHelper.AddTitleMessage(AMsg, 'Mosco');
+    TCodexOTAHelper.AddMessage(AMsg, TTextColor.Warning, 'Mosco');
 end;
 
 function TMoscoWizard.CanLaunch(const AProject: IOTAProject; const ADeviceID: string): Boolean;
@@ -216,6 +220,36 @@ begin
   end;
 end;
 
+procedure TMoscoWizard.GetAppExtensionFiles(const AFileNames: TArray<string>);
+begin
+  TThread.CreateAnonymousThread(procedure begin DoGetAppExtensionFiles(AFileNames) end).Start;
+end;
+
+procedure TMoscoWizard.DoGetAppExtensionFiles(const AFileNames: TArray<string>);
+var
+  LFileData, LDeployFolders: TArray<string>;
+  LAppExName, LZipFileName, LPlugInsPath: string;
+  I: Integer;
+begin
+  if FClient.GetExtensionFiles(AFileNames, LFileData) then
+  begin
+    LPluginsPath := TPath.Combine(TPath.GetDirectoryName(ActiveProjectProperties.ProjectFileName), 'PlugIns');
+    ForceDirectories(LPlugInsPath);
+    for I := 0 to Length(LFileData) - 1 do
+    begin
+      LAppExName := TPath.ChangeExtension(TPath.GetFileName(AFileNames[I]), '.appex');
+      LZipFileName := TPath.Combine(TPath.GetTempPath, TPath.ChangeExtension(LAppExName, '.zip'));
+      TBase64Helper.DecodeDecompressToFile(LFileData[I], LZipFileName);
+      TZipFile.ExtractZipFile(LZipFileName, TPath.Combine(LPlugInsPath, LAppExName));
+      TFile.Delete(LZipFileName);
+    end;
+    LDeployFolders := TDirectory.GetDirectories(LPlugInsPath, '*', TSearchOption.soTopDirectoryOnly);
+    TThread.Synchronize(nil, procedure begin ProjectToolsProvider.DeployAppExtensions(LDeployFolders) end);
+  end
+  else
+    TOSLog.d('FClient.GetExtensionFiles failed');
+end;
+
 procedure TMoscoWizard.IDEStarted;
 begin
   inherited;
@@ -247,11 +281,30 @@ begin
     TDo.SyncMain(
       procedure
       begin
-        TOTAHelper.AddTitleMessage(Babel.Tx(sNoProvisioningProfile), 'Mosco');
+        TCodexOTAHelper.AddMessage(Babel.Tx(sNoProvisioningProfile), TTextColor.Warning, 'Mosco');
       end
     );
   end;
 end;
+
+(*
+function TMoscoWizard.FindIdentities(const ABundleId: string; const ABuildType: Integer; out AIdentities: TIdentities): Boolean;
+var
+  LIdentity: TIdentity;
+begin
+  Result := False;
+  for LIdentity in FIdentities do
+  begin
+    // Do not localize
+    if ((ABuildType = 0) and LIdentity.Description.Contains('Mac Developer Installer')) or
+      ((ABuildType = 2) and (LIdentity.Description.StartsWith('Apple Development') or LIdentity.Description.Contains('Mac Developer Application'))) then
+    begin
+      AIdentities := AIdentities + [LIdentity];
+      Result := True;
+    end;
+  end;
+end;
+*)
 
 function TMoscoWizard.FindIdentity(const ABundleId: string; const ABuildType: Integer; out AIdentity: TIdentity): Boolean;
 var
@@ -276,7 +329,39 @@ begin
   ConfigChanged;
 end;
 
+function TMoscoWizard.SetConfigs(const AConfigs: IOTAProjectOptionsConfigurations; const APlatforms: TProjectPlatforms; const AKey,
+  AValue: string): Boolean;
+var
+  LConfig, LPlatformConfig: IOTABuildConfiguration;
+  I: Integer;
+  LPlatform: TProjectPlatform;
+begin
+  Result := False;
+  for I := 0 to AConfigs.ConfigurationCount - 1 do
+  begin
+    LConfig := AConfigs.Configurations[I];
+    if LConfig.Name.Equals('Base') then
+    begin
+      for LPlatform := Low(TProjectPlatform) to High(TProjectPlatform) do
+      begin
+        if LPlatform in APlatforms then
+        begin
+          LPlatformConfig := LConfig.PlatformConfiguration[cProjectPlatforms[LPlatform]];
+          if (LPlatformConfig <> nil) and LPlatformConfig.Value[AKey].IsEmpty then
+          begin
+            LPlatformConfig.Value[AKey] := AValue;
+            Result := True;
+          end;
+        end;
+      end;
+    end;
+  end;
+end;
+
 procedure TMoscoWizard.ProjectChanged;
+type
+  TCertKind = (DevDebug, DevSandbox, Sandbox);
+  TCertKinds = set of TCertKind;
 var
   LProperties: TProjectProperties;
   LBuildTypeNumber: Integer;
@@ -284,47 +369,46 @@ var
   LConfigs: IOTAProjectOptionsConfigurations;
   LBaseConfig: IOTABuildConfiguration;
   LIdentity: TIdentity;
+  LCertKindsUpdated: TCertKinds;
 begin
   LProperties := ActiveProjectProperties;
-  LBuildTypeNumber := TProjectProperties.GetBuildTypeNumber(LProperties.BuildType);
-  // For App Store
-  if LBuildTypeNumber = 0 then
+  LProject := TOTAHelper.GetActiveProject;
+  if LProject <> nil then
   begin
-    LProject := TOTAHelper.GetActiveProject;
-    if LProject <> nil then
+    if (TOTAHelper.GetProjectCurrentPlatform(LProject) in cAppleProjectPlatforms) and Config.Mosco.CanSend and Config.Mosco.CheckValidProfile then
+      TDo.Run(procedure begin CheckProfile(LProperties.BundleIdentifier, LBuildTypeNumber) end);
+    LBaseConfig := nil;
+    LConfigs := TOTAHelper.GetProjectOptionsConfigurations(LProject);
+    // Fill out cert info, if missing
+    if (LConfigs <> nil) and (LProperties.ProjectPlatform in cMacOSProjectPlatforms) and Config.Mosco.AutoFillMacCerts then
     begin
-      LConfigs := TOTAHelper.GetProjectOptionsConfigurations(LProject);
-      if LConfigs <> nil then
-        LBaseConfig := LConfigs.BaseConfiguration;
-      if (TOTAHelper.GetProjectCurrentPlatform(LProject) in cAppleProjectPlatforms) and Config.Mosco.CanSend and Config.Mosco.CheckValidProfile then
-        TDo.Run(procedure begin CheckProfile(LProperties.BundleIdentifier, LBuildTypeNumber) end);
-      // Fill out cert info, if missing
-      if LProperties.Platform.StartsWith('macOS') then
+      if Config.Mosco.ErrorsDiagnostic then
+        DumpIdentities;
+      LCertKindsUpdated := [];
+      // It might find more than one - should allow a choice
+      if FindIdentity(LProperties.BundleIdentifier, 0, LIdentity) then
       begin
-        if Config.Mosco.ErrorsDiagnostic then
-          DumpIdentities;
-        if FindIdentity(LProperties.BundleIdentifier, 0, LIdentity) then
-        begin
-          if Config.Mosco.AutoFillMacCerts and (LBaseConfig <> nil) and LBaseConfig.Value[sPF_SandBox].IsEmpty then
-          begin
-            LBaseConfig.Value[sPF_SandBox] := LIdentity.Description;
-            TOTAHelper.AddTitleMessage(Babel.Tx(sUpdatedProjectInstallerCert), 'Mosco');
-            TOTAHelper.MarkCurrentModuleModified;
-          end;
-        end
-        else
-          TOTAHelper.AddTitleMessage(Babel.Tx(sNoMacInstallerCert), 'Mosco');
-        if FindIdentity(LProperties.BundleIdentifier, 2, LIdentity) then
-        begin
-          if Config.Mosco.AutoFillMacCerts and (LBaseConfig <> nil) and LBaseConfig.Value[sPF_DevSandBox].IsEmpty then
-          begin
-            LBaseConfig.Value[sPF_DevSandBox] := LIdentity.Description;
-            TOTAHelper.AddTitleMessage(Babel.Tx(sUpdatedProjectDeveloperCert), 'Mosco');
-            TOTAHelper.MarkCurrentModuleModified;
-          end;
-        end
-        else
-          TOTAHelper.AddTitleMessage(Babel.Tx(sNoMacDeveloperCert), 'Mosco');
+        if SetConfigs(LConfigs, cMacOSProjectPlatforms, sPF_SandBox, LIdentity.Description) then
+          Include(LCertKindsUpdated, TCertKind.Sandbox);
+      end
+      else
+        TCodexOTAHelper.AddMessage(Babel.Tx(sNoMacInstallerCert), TTextColor.Warning, 'Mosco');
+      if FindIdentity(LProperties.BundleIdentifier, 2, LIdentity) then
+      begin
+        if SetConfigs(LConfigs, cMacOSProjectPlatforms, sPF_DevSandBox, LIdentity.Description) then
+          Include(LCertKindsUpdated, TCertKind.DevSandbox);
+        if SetConfigs(LConfigs, cMacOSProjectPlatforms, sPF_MacDevelopmentCert, LIdentity.Description) then
+          Include(LCertKindsUpdated, TCertKind.DevDebug);
+      end
+      else
+        TCodexOTAHelper.AddMessage(Babel.Tx(sNoMacDeveloperCert), TTextColor.Warning, 'Mosco');
+      if LCertKindsUpdated <> [] then
+      begin
+        if TCertKind.Sandbox in LCertKindsUpdated then
+          TCodexOTAHelper.AddMessage(Babel.Tx(sUpdatedProjectInstallerCert), TTextColor.Warning, 'Mosco');
+        if (TCertKind.DevSandbox in LCertKindsUpdated) or (TCertKind.DevDebug in LCertKindsUpdated) then
+          TCodexOTAHelper.AddMessage(Babel.Tx(sUpdatedProjectDeveloperCert), TTextColor.Warning, 'Mosco');
+        LProject.MarkModified;
       end;
     end;
   end;
@@ -443,6 +527,11 @@ var
 begin
   LSDK := FAddSDKFrameworkView.SelectedSDK;
   TDo.Run(procedure begin GetFrameworks(LSDK) end);
+end;
+
+function TMoscoWizard.GetAppExtensionNames: TArray<string>;
+begin
+  FClient.GetExtensionNames(Result);
 end;
 
 procedure TMoscoWizard.GetFrameworks(const ASDK: string);
@@ -601,13 +690,13 @@ begin
   FCertCheckTime := Now;
   for LIdentity in FIdentities do
   begin
-    if Trunc(LIdentity.Expiry) < IncDay(Trunc(Now), -Config.Mosco.CertExpiryWarnDays)  then
+    if Trunc(LIdentity.Expiry) < IncDay(Trunc(Now), Config.Mosco.CertExpiryWarnDays)  then
       LWarnIdentities := LWarnIdentities + [LIdentity];
   end;
   for LIdentity in LWarnIdentities do
   begin
     LExpiry := FormatDateTime('mmm dd, yyyy',  LIdentity.Expiry);
-    TOTAHelper.AddTitleMessage(Format(Babel.Tx(sCertExpiresOn), [LIdentity.Description, LExpiry]), 'Mosco');
+    TCodexOTAHelper.AddMessage(Format(Babel.Tx(sCertExpiresOn), [LIdentity.Description, LExpiry]), TTextColor.Error, 'Mosco');
   end;
 end;
 
