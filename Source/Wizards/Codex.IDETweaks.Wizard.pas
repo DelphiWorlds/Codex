@@ -18,12 +18,11 @@ implementation
 uses
   System.TypInfo, System.Classes, System.SysUtils, System.IOUtils, System.StrUtils,
   Winapi.Windows,
-  Xml.XmlIntf, Xml.XMLDoc,
   ToolsAPI, CommonOptionStrs,
   Vcl.ActnList, Vcl.Controls, Vcl.StdCtrls, Vcl.Forms,
   DW.OSLog,
-  DW.OTA.Helpers, DW.OTA.Wizard, DW.OTA.Types, DW.OTA.Consts, DW.OTA.Notifiers, DW.OTA.Registry,DW.Vcl.DialogService, DW.OS.Win,
-  Codex.Config, Codex.Types, Codex.Consts, Codex.Core;
+  DW.OTA.Helpers, DW.OTA.Wizard, DW.OTA.Types, DW.OTA.Consts, DW.OTA.Notifiers, DW.OTA.Registry,DW.Vcl.DialogService, DW.OS.Win, DW.RunProcess.Win,
+  Codex.Config, Codex.Types, Codex.Consts, Codex.Core, Codex.External.DelphiWorlds, Codex.OTA.Helpers;
 
 type
   TEditorWindowHandler = reference to procedure(const Form: TForm);
@@ -48,8 +47,10 @@ type
     FBDSRegistry: TBDSRegistry;
     FIDEUIChecks: TIDEUIChecks;
     FMessageNotifier: TIDETweaksMessageNotifier;
+    FProcess: TRunProcess;
     FProjectTargetLabel: TLabel;
     FRunRunCommandExecuteEvent: TNotifyEvent;
+    FWasCompiled: Boolean;
     procedure ActiveProjectChanged;
     procedure BaseActionList2UpdateHandler(Sender: TBasicAction; var AHandled: Boolean);
     procedure CheckApplicationProperties;
@@ -58,19 +59,21 @@ type
     procedure CheckProject;
     procedure CheckProjectSysJars;
     procedure CreateProjectTargetLabel;
-    function GetProjectEnabledPlatforms(const AProject: IOTAProject): TProjectPlatforms;
     procedure HookBaseActionList2;
+    procedure CheckKillProcess(const AProject: IOTAProject);
     procedure ModifyEditWindowViewSelector(const AForm: TComponent);
     procedure RunRunCommandExecuteHandler(Sender: TObject);
     procedure TrustProjectBuildEvents(const AProject: IOTAProject);
     procedure UpdateProjectTargetLabel;
   protected
     procedure ActiveFormChanged; override;
+    function DebuggerBeforeProgramLaunch(const Project: IOTAProject): Boolean; override;
     procedure ConfigChanged; override;
     procedure FileNotification(const ANotifyCode: TOTAFileNotification; const AFileName: string); override;
     procedure IDEBeforeCompile(const AProject: IOTAProject; const AIsCodeInsight: Boolean; var ACancel: Boolean); override;
     procedure IDEStarted; override;
     procedure PeriodicTimer; override;
+    procedure ProjectChanged; override;
   public
     constructor Create; override;
     destructor Destroy; override;
@@ -121,7 +124,7 @@ end;
 procedure TIDETweaksMessageNotifier.AddProjectWarning(const AMessage: string);
 begin
   // Do not localize
-  FProjectWarningsGroup := TOTAHelper.AddTitleMessage(AMessage, 'Codex Project Warnings');
+  FProjectWarningsGroup := TCodexOTAHelper.AddMessage(AMessage, TTextColor.Warning, 'Codex Project Warnings');
 end;
 
 procedure TIDETweaksMessageNotifier.ClearProjectWarnings;
@@ -141,12 +144,14 @@ end;
 constructor TIDETweaksWizard.Create;
 begin
   inherited;
+  FProcess := TRunProcess.Create;
   FBDSRegistry := TBDSRegistry.Current;
   FMessageNotifier := TIDETweaksMessageNotifier.Create;
 end;
 
 destructor TIDETweaksWizard.Destroy;
 begin
+  FProcess.Free;
   FMessageNotifier.RemoveNotifier;
   inherited;
 end;
@@ -211,6 +216,7 @@ procedure TIDETweaksWizard.IDEBeforeCompile(const AProject: IOTAProject; const A
 begin
   if not AIsCodeInsight then
   begin
+    FWasCompiled := True;
     if Config.IDE.SuppressBuildEventsWarning then
     try
       TrustProjectBuildEvents(TOTAHelper.GetActiveProject);
@@ -218,8 +224,26 @@ begin
       on E: Exception do
         TOTAHelper.AddTitleException(E, 'TrustProjectBuildEvents', 'Codex');
     end;
+    CheckKillProcess(AProject);
   end;
   inherited;
+end;
+
+function TIDETweaksWizard.DebuggerBeforeProgramLaunch(const Project: IOTAProject): Boolean;
+begin
+  if not FWasCompiled then
+    CheckKillProcess(Project);
+  FWasCompiled := False;
+  Result := True;
+end;
+
+procedure TIDETweaksWizard.CheckKillProcess(const AProject: IOTAProject);
+begin
+  if Config.IDE.KillProjectProcess and AProject.CurrentPlatform.StartsWith('Win', True) and AProject.ProjectOptions.TargetName.EndsWith('.exe') then
+  begin
+    FProcess.CommandLine := 'taskkill /f /IM ' + TPath.GetFileName(AProject.ProjectOptions.TargetName);
+    FProcess.RunAndWait(2000);
+  end;
 end;
 
 procedure TIDETweaksWizard.ActiveFormChanged;
@@ -258,39 +282,6 @@ begin
     CheckProjectSysJars;
 end;
 
-function TIDETweaksWizard.GetProjectEnabledPlatforms(const AProject: IOTAProject): TProjectPlatforms;
-var
-  LProj: IXMLDocument;
-  LNode, LPlatformNode: IXMLNode;
-  I: Integer;
-  LPlatform: string;
-begin
-  Result := [];
-  LProj := LoadXMLDocument(AProject.FileName);
-  LNode := LProj.DocumentElement.ChildNodes.FindNode('ProjectExtensions');
-  if LNode <> nil then
-  begin
-    LNode := LNode.ChildNodes.FindNode('BorlandProject');
-    if LNode <> nil then
-    begin
-      LNode := LNode.ChildNodes.FindNode('Platforms');
-      if LNode <> nil then
-      begin
-        for I := 0 to LNode.ChildNodes.Count - 1 do
-        begin
-          LPlatformNode := LNode.ChildNodes[I];
-          if SameText(LPlatformNode.Text, 'True') then
-          begin
-            LPlatform := LPlatformNode.Attributes['value'];
-            if IndexStr(LPlatform, cProjectPlatforms) > -1 then
-              Include(Result, TOTAHelper.GetProjectPlatform(LPlatform));
-          end;
-        end;
-      end;
-    end;
-  end;
-end;
-
 procedure TIDETweaksWizard.CheckProjectSysJars;
 var
   LConfigs: IOTAProjectOptionsConfigurations;
@@ -304,7 +295,7 @@ begin
   LProject := TOTAHelper.GetActiveProject;
   if (LProject <> nil) and TFile.Exists(LProject.FileName) then
   begin
-    LEnabledPlatforms := GetProjectEnabledPlatforms(LProject);
+    LEnabledPlatforms := TCodexOTAHelper.GetProjectEnabledPlatforms(LProject);
     LConfigs := TOTAHelper.GetProjectOptionsConfigurations(LProject);
     if (LConfigs <> nil) and (LEnabledPlatforms * [TProjectPlatform.Android32, TProjectPlatform.Android64] <> []) then
     begin
@@ -333,7 +324,15 @@ begin
         end;
       end;
       if LIsSysJarMissing then
-        FMessageNotifier.AddProjectWarning(Babel.Tx(sJarFilesMissing));
+      begin
+        if DelphiWorlds <> nil then
+        begin
+          DelphiWorlds.SysJarsMismatch;
+          FMessageNotifier.AddProjectWarning('Called SysJarsMismatch');
+        end
+        else
+          FMessageNotifier.AddProjectWarning(Babel.Tx(sJarFilesMissing));
+      end;
     end;
   end;
 end;
@@ -396,28 +395,19 @@ begin
     FApplicationWidth := Application.MainForm.Width;
 end;
 
+procedure TIDETweaksWizard.ProjectChanged;
+begin
+  UpdateProjectTargetLabel;
+end;
+
 procedure TIDETweaksWizard.UpdateProjectTargetLabel;
-var
-  LProject: IOTAProject;
-  LProperties: TProjectProperties;
-  LPlatform: TProjectPlatform;
 begin
   if FProjectTargetLabel <> nil then
   begin
-    // Check if there is an active project - get current target etc
-    LProject := TOTAHelper.GetActiveProject;
-    if Config.IDE.ShowPlatformConfigCaption and (LProject <> nil) then
+    if Config.IDE.ShowPlatformConfigCaption then
     begin
-      LPlatform := TOTAHelper.GetProjectCurrentPlatform(LProject);
-      LProperties.Platform := cProjectPlatformsLong[LPlatform];
-      LProperties.Config := LProject.CurrentConfiguration;
-      LProperties.BuildType := TOTAHelper.GetProjectCurrentBuildType(LProject);
-      LProperties.Profile := TOTAHelper.GetProjectCurrentConnectionProfile(LProject);
-      if ActiveProjectProperties.Update(LProperties) then
-      begin
-        FProjectTargetLabel.Caption := ActiveProjectProperties.GetCaption;
-        FApplicationWidth := 0; // Force re-centre of the label
-      end;
+      FProjectTargetLabel.Caption := ActiveProjectProperties.GetCaption;
+      FApplicationWidth := 0; // Force re-centre of the label
     end
     else
     begin
