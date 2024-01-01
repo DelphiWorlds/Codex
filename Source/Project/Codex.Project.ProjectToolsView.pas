@@ -19,10 +19,11 @@ uses
   DockForm,
   {$ENDIF}
   Vcl.Controls, Vcl.Graphics, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Vcl.ComCtrls, Vcl.ToolWin, Vcl.BaseImageCollection, Vcl.ImageCollection,
-  Vcl.ImgList, Vcl.VirtualImageList, Vcl.ActnList;
+  Vcl.ImgList, Vcl.VirtualImageList, Vcl.ActnList,
+  Codex.Interfaces;
 
 type
-  TProjectToolsView = class({$IF Defined(EXPERT)}TDockableForm{$ELSE}TForm{$ENDIF})
+  TProjectToolsView = class({$IF Defined(EXPERT)}TDockableForm{$ELSE}TForm{$ENDIF}, ICodexView)
     ToolBar: TToolBar;
     CompileToolButton: TToolButton;
     BuildToolButton: TToolButton;
