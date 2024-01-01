@@ -38,6 +38,7 @@ resourcestring
   sPleaseWait = 'Please wait...';
   sProcessComplete = 'Process complete';
   sProcessFailed = 'Process failed';
+  sProjectPathExists = '%s already exists in the project search path';
   sSearching = 'Searching...';
   sUnableToCreateFolder = 'Unable to create folder: %s';
 
@@ -84,6 +85,11 @@ resourcestring
   sUnableToDetermineSubfolders = 'Unable to determine any subfolders under classes. Leaving working path intact: %s';
   sWarningCannotHaveLowerTarget = 'Cannot set a target version lower than the source version';
   sWorkingFilesRetained = 'Working files have been retained in: %s';
+
+  // Mosco
+  sFetchingAppExtensions = 'Fetching app extensions from macOS..';
+  sFetchingSDKs = 'Fetching SDKs from macOS..';
+  sFetchingFrameworks = 'Fetching frameworks from macOS..';
 
 implementation
 
