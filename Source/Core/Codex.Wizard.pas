@@ -20,11 +20,11 @@ uses
   ToolsAPI,
   Vcl.Forms, Vcl.Menus, Vcl.ActnList,
   DW.OSLog,
-  DW.OTA.Wizard, DW.OTA.IDENotifierOTAWizard, DW.OTA.Notifiers, DW.OTA.Helpers, DW.Menus.Helpers, DW.OTA.WPPlugin,
+  DW.OTA.Wizard, DW.OTA.IDENotifierOTAWizard, DW.OTA.Notifiers, DW.OTA.Helpers, DW.Menus.Helpers, DW.OTA.WPPlugin, DW.OTA.Types, DW.OTA.Consts,
   Codex.Config.PreVersion2,
-  Codex.AboutView, Codex.OptionsView, Codex.ProgressView, Codex.OutputView,
+  Codex.AboutView, Codex.OptionsView, Codex.ProgressView, Codex.OutputView, Codex.Types,
   Codex.Config, Codex.ErrorInsight, Codex.Consts, Codex.Options, Codex.ResourcesModule, Codex.ModuleNotifier,
-  Codex.Interfaces, Codex.Core;
+  Codex.Interfaces, Codex.Core, Codex.OTA.Helpers;
 
 type
   TCodexWizard = class(TIDENotifierOTAWizard, IConfigOptionsHost, ICodexProvider, IModuleListener)
@@ -32,6 +32,7 @@ type
     FCodexMenuItem: TMenuItem;
     FModuleNotifier: TCodexModuleNotifier;
     FOptionsView: TOptionsView;
+    FThemeNotifier: ITOTALNotifier;
     FStructureViewNotifier: ITOTALNotifier;
     // Menu item handlers
     procedure AboutMenuItemHandler(Sender: TObject);
@@ -44,6 +45,7 @@ type
   protected
     class function GetWizardName: string; override;
   protected
+    procedure ChangedTheme;
     procedure IDENotifierFileNotification(const ANotifyCode: TOTAFileNotification; const AFileName: string); override;
   public
     // IOTAWizard
@@ -71,15 +73,37 @@ resourcestring
   sCodexMenuItemCaption = 'Codex';
   sOptions = 'Options';
 
+type
+  TCodexThemingServicesNotifier = class(TThemingServicesNotifier)
+  private
+    FWizard: TCodexWizard;
+  public
+    constructor Create(const AWizard: TCodexWizard);
+    procedure ChangedTheme; override;
+  end;
+
+{ TCodexThemingServicesNotifier }
+
+constructor TCodexThemingServicesNotifier.Create(const AWizard: TCodexWizard);
+begin
+  inherited Create;
+  FWizard := AWizard;
+end;
+
+procedure TCodexThemingServicesNotifier.ChangedTheme;
+begin
+  FWizard.ChangedTheme;
+end;
+
 { TCodexWizard }
 
 constructor TCodexWizard.Create;
 begin
   inherited;
   CodexProvider := Self;
+  FThemeNotifier := TCodexThemingServicesNotifier.Create(Self);
   FModuleNotifier := TCodexModuleNotifier.Create;
   ModuleNotifier.AddListener(Self);
-  TOTAHelper.RegisterThemeForms([TOptionsView, TAboutView, TProgressView, TOutputView]);
   TConfigOptionsHelper.RegisterHost(Self);
   TCodexResourcesModule.Create(Application);
   ProgressView := TProgressView.Create(Application);
@@ -91,6 +115,7 @@ destructor TCodexWizard.Destroy;
 begin
   TWPPluginRegistry.RemovePlugins;
   FStructureViewNotifier.RemoveNotifier;
+  FThemeNotifier.RemoveNotifier;
   FModuleNotifier.Free;
   inherited;
 end;
@@ -152,6 +177,18 @@ begin
   FCodexMenuItem.Insert(FCodexMenuItem.Count, LMenuItem);
 end;
 
+procedure TCodexWizard.ChangedTheme;
+var
+  I: Integer;
+  LView: ICodexView;
+begin
+  for I := 0 to Screen.FormCount - 1 do
+  begin
+    if Supports(Screen.Forms[I], ICodexView, LView) then
+      TOTAHelper.ApplyTheme(Screen.Forms[I]);
+  end;
+end;
+
 procedure TCodexWizard.CheckProject(const AFileName: string; const AWasOpened: Boolean);
 var
   LExt: string;
@@ -199,6 +236,11 @@ begin
     end;
     TOTAFileNotification.ofnFileClosing:
       FModuleNotifier.FileClosing(AFileName);
+    TOTAFileNotification.ofnActiveProjectChanged, TOTAFileNotification.ofnEndProjectGroupClose:
+    begin
+      if TCodexOTAHelper.CheckProjectChanged then
+        ProjectChanged;
+    end;
   end;
 end;
 
