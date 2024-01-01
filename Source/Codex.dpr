@@ -69,6 +69,7 @@ uses
   Codex.PostDeployment.Wizard in 'Wizards\Codex.PostDeployment.Wizard.pas',
   Codex.Project.AddFoldersView in 'Project\Codex.Project.AddFoldersView.pas' {AddFoldersView},
   Codex.Project.CommonPathsView in 'Project\Codex.Project.CommonPathsView.pas' {CommonPathsView},
+  Codex.Project.DeployExtensionsView in 'Project\Codex.Project.DeployExtensionsView.pas' {DeployExtensionsView},
   Codex.Project.DeployFolderView in 'Project\Codex.Project.DeployFolderView.pas' {DeployFolderView},
   Codex.Project.EffectivePathsView in 'Project\Codex.Project.EffectivePathsView.pas' {EffectivePathsView},
   Codex.Project.ProjectManagerMenu in 'Project\Codex.Project.ProjectManagerMenu.pas',

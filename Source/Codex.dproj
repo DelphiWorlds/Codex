@@ -231,6 +231,9 @@
         <DCCReference Include="Project\Codex.Project.CommonPathsView.pas">
             <Form>CommonPathsView</Form>
         </DCCReference>
+        <DCCReference Include="Project\Codex.Project.DeployExtensionsView.pas">
+            <Form>DeployExtensionsView</Form>
+        </DCCReference>
         <DCCReference Include="Project\Codex.Project.DeployFolderView.pas">
             <Form>DeployFolderView</Form>
         </DCCReference>
@@ -268,9 +271,7 @@
         </DCCReference>
         <DCCReference Include="SourcePatch\Codex.SourcePatch.Wizard.pas"/>
         <DCCReference Include="Core\Codex.Types.pas"/>
-        <DCCReference Include="Core\Codex.Wizard.pas">
-            <Form>$R *.res</Form>
-        </DCCReference>
+        <DCCReference Include="Core\Codex.Wizard.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>
