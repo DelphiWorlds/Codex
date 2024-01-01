@@ -13,10 +13,11 @@ unit Codex.Consts;
 
 interface
 
-{$IF Defined(EXPERT)}
 uses
-  ToolsAPI;
+{$IF Defined(EXPERT)}
+  ToolsAPI,
 {$ENDIF}
+  Codex.Types;
 
 const
   CRLF = #13#10;
@@ -75,6 +76,13 @@ const
   cKnownEditorFileExts: array[0..14] of string = (
     '.pas', '.html', '.md', '.c', '.h', '.xml', '.sql', '.idl', '.vb', '.js', '.css', '.ini', '.php', '.cs', '.txt'
   );
+
+  cMsgColorHint = '#A05528';
+  cMsgColorWarning = '#5AB3E5';
+  cMsgColorError = '#3852DF';
+  cMsgColorSuccess = '#33B46D';
+
+  cMsgColors: array[TTextColor] of string = (cMsgColorHint, cMsgColorWarning, cMsgColorError, cMsgColorSuccess);
 
 implementation
 
