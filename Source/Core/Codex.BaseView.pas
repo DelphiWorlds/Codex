@@ -15,14 +15,16 @@ interface
 
 uses
   System.Classes,
-  Vcl.TitleBarCtrls,
-  Vcl.Forms;
+  Vcl.TitleBarCtrls, Vcl.Forms,
+  Codex.Interfaces;
 
 type
-  TForm = class(Vcl.Forms.TForm)
+  TForm = class(Vcl.Forms.TForm, ICodexView)
   private
     FIsShown: Boolean;
     FNeedsProps: Boolean;
+    procedure ReadProps;
+    procedure WriteProps;
   protected
     procedure DoHide; override;
     procedure DoShow; override;
@@ -68,12 +70,18 @@ end;
 
 procedure TForm.DoHide;
 begin
-  if FNeedsProps then
-    Config.SetFormProps(Name, Left, Top, Width, Height);
+  WriteProps;
   inherited;
 end;
 
 procedure TForm.DoShow;
+begin
+  inherited;
+  ReadProps;
+  FIsShown := True;
+end;
+
+procedure TForm.ReadProps;
 var
   LProps: TFormProps;
 begin
@@ -84,8 +92,12 @@ begin
     Width := LProps.Width;
     Height := LProps.Height;
   end;
-  inherited;
-  FIsShown := True;
+end;
+
+procedure TForm.WriteProps;
+begin
+  if FNeedsProps then
+    Config.SetFormProps(Name, Left, Top, Width, Height);
 end;
 
 end.
