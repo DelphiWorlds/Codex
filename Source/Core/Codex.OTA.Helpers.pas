@@ -13,6 +13,11 @@ unit Codex.OTA.Helpers;
 
 interface
 
+uses
+  ToolsAPI,
+  DW.OTA.Types,
+  Codex.Types;
+
 type
   TDeployConfig = record
     PlatformName: string;
@@ -23,20 +28,88 @@ type
 
   TCodexOTAHelper = record
   public
-    class function GetDeployConfigs(const APlatformNames: TArray<string>; out ADeployConfigs: TDeployConfigs): Boolean; static;
+    class function AddMessage(const AMsg: string; const AGroupName: string = 'Codex'): IOTAMessageGroup; overload; static;
+    class function AddMessage(const AMsg: string; const AColor: TTextColor; const AGroupName: string = 'Codex'): IOTAMessageGroup; overload; static;
+    class function CheckProjectChanged: Boolean; static;
     class function DeployFolder(const ALocalPath, ARemotePath: string; const ADeployConfigs: TDeployConfigs): Boolean; static;
     class function ExecuteIDEAction(const AActionName: string): Boolean; static;
+    class function GetDeployConfigs(const APlatformNames: TArray<string>; out ADeployConfigs: TDeployConfigs): Boolean; static;
+    class function GetColoredText(const AColor, AText: string): string; static;
+    class function GetMsgColoredText(const AColor: TTextColor; const AText: string): string; static;
+    class function GetProjectEnabledPlatforms(const AProject: IOTAProject): TProjectPlatforms; static;
+    class procedure HideWait; static;
+    class procedure HideWaitSync; static;
+    class procedure ShowWait(const AMessage: string; const ACaption: string = ''); static;
   end;
 
 implementation
 
 uses
-  System.SysUtils, System.IOUtils, System.StrUtils,
-  ToolsAPI, DeploymentAPI, PlatformAPI,
+  System.SysUtils, System.IOUtils, System.StrUtils, System.Classes,
+  DeploymentAPI, PlatformAPI,
+  Xml.XmlIntf, Xml.XMLDoc,
   Vcl.ActnList,
-  DW.OTA.Helpers, DW.IOUtils.Helpers;
+  DW.OTA.Helpers, DW.IOUtils.Helpers, DW.OTA.Consts, DW.OTA.CustomMessage,
+  Codex.Core, Codex.Consts.Text, Codex.Consts;
 
 { TCodexOTAHelper }
+
+class function TCodexOTAHelper.AddMessage(const AMsg: string; const AGroupName: string = 'Codex'): IOTAMessageGroup;
+var
+  LServices: IOTAMessageServices;
+  LGroup: IOTAMessageGroup;
+  LComponent: TComponent;
+  LMessage: IOTACustomMessage;
+begin
+  LGroup := nil;
+  LServices := BorlandIDEServices as IOTAMessageServices;
+  if not AGroupName.IsEmpty then
+  begin
+    LGroup := LServices.GetGroup(AGroupName);
+    if LGroup = nil then
+      LGroup := LServices.AddMessageGroup(AGroupName);
+    LMessage := THighlightedCustomMessage.Create(AMsg);
+    LServices.AddCustomMessage(LMessage, LGroup);
+    LComponent := FindGlobalComponent('MessageViewForm');
+    if LComponent <> nil then
+      LServices.ShowMessageView(LGroup);
+  end
+  else
+    LServices.AddTitleMessage(AMsg);
+  Result := LGroup;
+end;
+
+class function TCodexOTAHelper.AddMessage(const AMsg: string; const AColor: TTextColor; const AGroupName: string = 'Codex'): IOTAMessageGroup;
+begin
+  Result := AddMessage(GetMsgColoredText(AColor, AMsg), AGroupName);
+end;
+
+class function TCodexOTAHelper.CheckProjectChanged: Boolean;
+var
+  LProject: IOTAProject;
+  LPlatform: TProjectPlatform;
+  LProperties: TProjectProperties;
+begin
+  Result := False;
+  LProject := TOTAHelper.GetActiveProject;
+  if LProject <> nil then
+  begin
+    LPlatform := TOTAHelper.GetProjectCurrentPlatform(TOTAHelper.GetActiveProject);
+    LProperties.ProjectFileName := LProject.FileName;
+    LProperties.ProjectPlatform := LPlatform;
+    LProperties.Platform := cProjectPlatformsLong[LPlatform];
+    LProperties.Config := LProject.CurrentConfiguration;
+    LProperties.BuildType := TOTAHelper.GetProjectCurrentBuildType(LProject);
+    LProperties.Profile := TOTAHelper.GetProjectCurrentConnectionProfile(LProject);
+    if ActiveProjectProperties.Update(LProperties) then
+      Result := True;
+  end
+  else if not ActiveProjectProperties.ProjectFileName.IsEmpty then
+  begin
+    ActiveProjectProperties.Clear;
+    Result := True;
+  end;
+end;
 
 class function TCodexOTAHelper.DeployFolder(const ALocalPath, ARemotePath: string; const ADeployConfigs: TDeployConfigs): Boolean;
 var
@@ -108,6 +181,16 @@ begin
   end;
 end;
 
+class function TCodexOTAHelper.GetMsgColoredText(const AColor: TTextColor; const AText: string): string;
+begin
+  Result := GetColoredText(cMsgColors[AColor], AText);
+end;
+
+class function TCodexOTAHelper.GetColoredText(const AColor, AText: string): string;
+begin
+  Result := Format('<%s>%s</#>', [AColor, AText]);
+end;
+
 class function TCodexOTAHelper.GetDeployConfigs(const APlatformNames: TArray<string>; out ADeployConfigs: TDeployConfigs): Boolean;
 var
   LProject: IOTAProject;
@@ -143,5 +226,69 @@ begin
   end;
   Result := Length(ADeployConfigs) > 0;
 end;
+
+class function TCodexOTAHelper.GetProjectEnabledPlatforms(const AProject: IOTAProject): TProjectPlatforms;
+var
+  LProj: IXMLDocument;
+  LNode, LPlatformNode: IXMLNode;
+  I: Integer;
+  LPlatform: string;
+begin
+  Result := [];
+  LProj := LoadXMLDocument(AProject.FileName);
+  LNode := LProj.DocumentElement.ChildNodes.FindNode('ProjectExtensions');
+  if LNode <> nil then
+  begin
+    LNode := LNode.ChildNodes.FindNode('BorlandProject');
+    if LNode <> nil then
+    begin
+      LNode := LNode.ChildNodes.FindNode('Platforms');
+      if LNode <> nil then
+      begin
+        for I := 0 to LNode.ChildNodes.Count - 1 do
+        begin
+          LPlatformNode := LNode.ChildNodes[I];
+          if SameText(LPlatformNode.Text, 'True') then
+          begin
+            LPlatform := LPlatformNode.Attributes['value'];
+            if IndexStr(LPlatform, cProjectPlatforms) > -1 then
+              Include(Result, TOTAHelper.GetProjectPlatform(LPlatform));
+          end;
+        end;
+      end;
+    end;
+  end;
+end;
+
+class procedure TCodexOTAHelper.HideWaitSync;
+begin
+  TThread.Queue(nil, HideWait);
+end;
+
+class procedure TCodexOTAHelper.HideWait;
+{$IF CompilerVersion > 35}
+begin
+  (BorlandIDEServices as IOTAIDEWaitDialogServices).CloseDialog;
+end;
+{$ELSE}
+begin
+end;
+{$ENDIF}
+
+class procedure TCodexOTAHelper.ShowWait(const AMessage: string; const ACaption: string = '');
+{$IF CompilerVersion > 35}
+var
+  LCaption: string;
+begin
+  if ACaption.IsEmpty then
+    LCaption := sInProgress
+  else
+    LCaption := ACaption;
+  (BorlandIDEServices as IOTAIDEWaitDialogServices).Show(Babel.Tx(LCaption), Babel.Tx(AMessage))
+end;
+{$ELSE}
+begin
+end;
+{$ENDIF}
 
 end.
