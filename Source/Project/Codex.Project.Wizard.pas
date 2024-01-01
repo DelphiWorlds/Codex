@@ -19,11 +19,11 @@ uses
   System.SysUtils, System.Classes, System.IOUtils, System.StrUtils,
   Winapi.Windows, Winapi.Messages, ToolsAPI, DCCStrs, DeploymentAPI, PlatformAPI,
   Vcl.Menus, Vcl.Controls, Vcl.Forms, Vcl.StdCtrls, Vcl.ActnList, DW.OSLog,
-  DW.OTA.Wizard, DW.OTA.Helpers, DW.Types.Helpers, DW.Menus.Helpers,
+  DW.OTA.Wizard, DW.OTA.Helpers, DW.Types.Helpers, DW.Menus.Helpers, DW.OTA.Consts,
   DW.IOUtils.Helpers, DW.Classes.Helpers, DW.OTA.Notifiers, Codex.Consts,
   Codex.Config, Codex.Interfaces, Codex.Core, Codex.OTA.Helpers,
   Codex.Project.EffectivePathsView, Codex.Project.ProjectPathsView, Codex.Project.CommonPathsView, Codex.Project.AddFoldersView,
-  Codex.Project.ProjectToolsView, Codex.Project.DeployFolderView,
+  Codex.Project.ProjectToolsView, Codex.Project.DeployFolderView, Codex.Project.DeployExtensionsView,
   Codex.ProgressView, Codex.Project.ResourcesModule,
   Codex.Project.ProjectManagerMenu;
 
@@ -54,10 +54,12 @@ type
     function CanDeployProject: Boolean;
     procedure CleanProject;
     procedure CompileProject;
+    procedure DeployAppExtensions(const AFolders: TArray<string>);
     procedure DeployProject;
     procedure DeployProjectFolder;
     function HasActiveProject: Boolean;
     procedure InsertProjectPaths;
+    procedure ShowDeployAppExtensions;
     procedure ShowProjectDeployment;
     procedure ShowProjectOptions;
     procedure TotalCleanProject;
@@ -92,7 +94,6 @@ constructor TProjectWizard.Create;
 begin
   inherited;
   ProjectToolsProvider := Self;
-  TOTAHelper.RegisterThemeForms([TEffectivePathsView, TProjectPathsView, TProjectToolsView, TDeployFolderView, TCommonPathsView, TAddFoldersView]);
   FResources := TProjectResourcesModule.Create(Application);
   FResources.LinkAction('CommonPathsAction', CommonPathsMenuItemHandler);
   FResources.AddToolbarActions;
@@ -346,6 +347,34 @@ end;
 procedure TProjectWizard.CompileProject;
 begin
   TCodexOTAHelper.ExecuteIDEAction('ProjectCompileCommand');
+end;
+
+procedure TProjectWizard.DeployAppExtensions(const AFolders: TArray<string>);
+var
+  LDeployConfigs: TDeployConfigs;
+  LDeployConfig: TDeployConfig;
+  LFolder: string;
+begin
+  for LFolder in AFolders do
+  begin
+    LDeployConfig.PlatformName := cProjectPlatforms[ActiveProjectProperties.ProjectPlatform];
+    LDeployConfig.Configs := ['Debug', 'Release'];
+    LDeployConfigs := [LDeployConfig];
+    TCodexOTAHelper.DeployFolder(LFolder, TPath.Combine('.\PlugIns', TPath.GetFileName(LFolder)), LDeployConfigs);
+  end;
+  ShowProjectDeployment;
+end;
+
+procedure TProjectWizard.ShowDeployAppExtensions;
+var
+  LView: TForm;
+begin
+  LView := TDeployExtensionsView.Create(nil);
+  try
+    LView.ShowModal;
+  finally
+    LView.Free;
+  end;
 end;
 
 procedure TProjectWizard.DeployProject;
