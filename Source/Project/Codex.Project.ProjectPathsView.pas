@@ -41,6 +41,7 @@ type
     CustomPaths: TCustomPathsView;
     procedure ActionListUpdate(Action: TBasicAction; var Handled: Boolean);
     procedure OKActionExecute(Sender: TObject);
+    procedure CustomPathsMovePathUpSpeedButtonClick(Sender: TObject);
   private
     function GetExistingPaths: TStrings;
     function GetSelectedPaths: TStringDynArray;
@@ -72,6 +73,11 @@ constructor TProjectPathsView.Create(AOwner: TComponent);
 begin
   inherited;
   CustomPaths.PathsLabel.Caption := Babel.Tx(sPathsToInsert);
+end;
+
+procedure TProjectPathsView.CustomPathsMovePathUpSpeedButtonClick(Sender: TObject);
+begin
+  CustomPaths.MovePathUpActionExecute(Sender);
 end;
 
 function TProjectPathsView.GetExistingPaths: TStrings;
