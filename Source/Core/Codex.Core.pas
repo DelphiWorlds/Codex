@@ -21,10 +21,10 @@ var
   ActiveProjectProperties: TProjectProperties;
   CodexProvider: ICodexProvider;
   CodexResources: IResourcesModule;
+  ModuleNotifier: IModuleNotifier;
   MoscoProvider: IMoscoProvider;
   ProjectResources: IResourcesModule;
   ProjectToolsProvider: IProjectToolsProvider;
-  ModuleNotifier: IModuleNotifier;
   Babel: TBabel;
 
 implementation
