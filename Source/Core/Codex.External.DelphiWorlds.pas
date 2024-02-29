@@ -13,10 +13,14 @@ unit Codex.External.DelphiWorlds;
 
 interface
 
+uses
+  Codex.Types;
+
 type
   IDelphiWorlds = interface(IInterface)
     ['{1E5025D7-B015-4AC6-97D8-49A92C619154}']
     procedure SysJarsMismatch;
+    procedure UseSymbolUnits(const ASourceSymbols: TSourceSymbols);
   end;
 
 var
