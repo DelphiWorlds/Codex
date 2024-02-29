@@ -27,6 +27,7 @@ type
     function GetJDKPath(const AVersion: string): string;
     procedure GetSDKNames(const AVersion: string; const ASDKNames: TStrings);
     procedure GetSearchPaths(const AVersion, APlatform: string; const AVars: TStrings);
+    function GetStringValue(const AValueKey: string; const ARelativePath: string = ''): string;
     procedure GetVariables(const AVersion: string; const AVars: TStrings);
     function GetVersion(const AIndex: Integer): string;
     function GetVersionName(const AIndex: Integer): string; overload;
@@ -94,6 +95,11 @@ begin
   LPath := GetValue('SearchPath', AVersion + '\Library\' + APlatform);
   for LPath in LPath.Split([';']) do
     AVars.Add(LPath);
+end;
+
+function TRSEnvironment.GetStringValue(const AValueKey: string; const ARelativePath: string = ''): string;
+begin
+  Result := GetValue(AValueKey, ARelativePath);
 end;
 
 function TRSEnvironment.GetDefaultSDKName(const AVersion, APlatform: string): string;
