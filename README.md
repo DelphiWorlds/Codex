@@ -41,6 +41,11 @@ Can be found [here](Docs/Readme.md).
 
 ## Change history
 
+v2.1.1 (Mar 1st, 2024) Delphi 12 and 11.x only
+
+* Fixed R jar generation (was locking up)
+* Added timeout for package search (currently needs to be changed manually in config.json)
+
 v2.1.0 (Jan 1st, 2024) Delphi 12 and 11.x only
 
 **Mosco functions require Mosco v1.6.0**
