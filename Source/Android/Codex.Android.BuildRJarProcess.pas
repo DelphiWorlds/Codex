@@ -45,14 +45,15 @@ type
     function CompileResources: Boolean;
     procedure CompileJavaSource;
     procedure DoComplete(const ASuccess: Boolean);
+    procedure DoSyncOutput(const AOutput: string);
     procedure ExecuteBuild;
     procedure GenerateRJava;
     procedure GenerateSource;
     function GetRJarFileName: string;
     procedure LinkResources;
     procedure MergeResources;
-    procedure ProcessComplete(const AMsg: string; const ASuccess: Boolean);
     procedure OutputExecuting;
+    procedure ProcessComplete(const AMsg: string; const ASuccess: Boolean);
   protected
     procedure DoTerminated(const AExitCode: Cardinal); override;
   public
@@ -75,11 +76,10 @@ type
 implementation
 
 uses
-  DW.OSLog,
   System.IOUtils, System.SysUtils,
   Winapi.ActiveX,
   Xml.XMLIntf, Xml.XMLDoc,
-  DW.ResourcesMerger, DW.IOUtils.Helpers, DW.ManifestMerger, DW.Classes.Helpers,
+  DW.OSLog, DW.ResourcesMerger, DW.IOUtils.Helpers, DW.ManifestMerger,
   Codex.Core, Codex.Consts.Text;
 
 const
@@ -295,6 +295,11 @@ begin
     FOnComplete(Self, ASuccess);
 end;
 
+procedure TBuildRJarProcess.DoSyncOutput(const AOutput: string);
+begin
+  TThread.Synchronize(nil, procedure begin DoOutput(AOutput); end);
+end;
+
 procedure TBuildRJarProcess.DoTerminated(const AExitCode: Cardinal);
 begin
   if AExitCode = 0 then
@@ -324,7 +329,7 @@ procedure TBuildRJarProcess.Build;
 begin
   FWorkingPath := TPath.Combine(TPath.GetTempPath, TGUID.NewGuid.ToString.Trim(['{', '}']));
   ForceDirectories(FWorkingPath);
-  TDo.Run(ExecuteBuild);
+  TThread.CreateAnonymousThread(ExecuteBuild).Start;
 end;
 
 procedure TBuildRJarProcess.ExecuteBuild;
@@ -343,7 +348,7 @@ begin
     if LIsInitialized then
       CoUninitialize;
   end;
-  TDo.SyncMain(GenerateSource);
+  TThread.Synchronize(nil, GenerateSource);
 end;
 
 procedure TBuildRJarProcess.MergeResources;
@@ -366,7 +371,7 @@ begin
       LManifestFileName := TPath.Combine(LDependency, 'AndroidManifest.xml');
       if TDirectory.Exists(LResPath) then
       begin
-        DoOutput(Format(Babel.Tx(sMergingResources), [LDependencyName]));
+        DoSyncOutput(Format(Babel.Tx(sMergingResources), [LDependencyName]));
         TResourcesMerger.MergeResources(LResPath, FMergedResPath, FMergedResPath); // This returns a result, so perhaps check for failure
         LPath := TPath.Combine(FWorkingPath, LDependencyName);
         // e.g. appcompat-1.2.0\src
@@ -378,6 +383,11 @@ begin
     LMergeFileName := TPath.Combine(FProjectPath, TPath.GetFileName(LPackage) + '-Manifest.merge.xml');
     MergeManifests(LDependencies, LMergeFileName);
   end;
+end;
+
+procedure TBuildRJarProcess.OutputExecuting;
+begin
+  DoOutput(Format(Babel.Tx(sExecutingCommand), [CommandLine]));
 end;
 
 procedure TBuildRJarProcess.GenerateSource;
@@ -400,11 +410,6 @@ procedure TBuildRJarProcess.GenerateRJava;
 begin
   if not CompileResources then
     ProcessComplete('Failed to generate R.java for', False); // TODO: Indicate which
-end;
-
-procedure TBuildRJarProcess.OutputExecuting;
-begin
-  DoOutput(Format(Babel.Tx(sExecutingCommand), [CommandLine]));
 end;
 
 function TBuildRJarProcess.CompileResources: Boolean;
