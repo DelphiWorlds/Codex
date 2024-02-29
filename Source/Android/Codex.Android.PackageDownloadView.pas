@@ -248,6 +248,12 @@ end;
 procedure TPackageDownloadView.DoShow;
 begin
   inherited;
+  if Config.Android.PackageSearchTimeout < 30000 then
+  begin
+    Config.Android.PackageSearchTimeout := 30000;
+    Config.Save;
+  end;
+  SearchTimer.Interval := Config.Android.PackageSearchTimeout;
   SearchEdit.Text := '';
   PackagesListView.Items.Clear;
   ReleasesListView.Items.Clear;

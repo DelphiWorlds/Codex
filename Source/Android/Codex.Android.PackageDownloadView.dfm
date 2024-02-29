@@ -1,10 +1,10 @@
 object PackageDownloadView: TPackageDownloadView
   Left = 0
   Top = 0
-  Margins.Left = 5
-  Margins.Top = 5
-  Margins.Right = 5
-  Margins.Bottom = 5
+  Margins.Left = 8
+  Margins.Top = 8
+  Margins.Right = 8
+  Margins.Bottom = 8
   Caption = 'Package Download/Extract'
   ClientHeight = 648
   ClientWidth = 913
@@ -44,13 +44,14 @@ object PackageDownloadView: TPackageDownloadView
       AlignWithMargins = True
       Left = 4
       Top = 0
-      Width = 3
+      Width = 740
       Height = 39
       Margins.Left = 4
       Margins.Top = 0
       Margins.Right = 0
       Margins.Bottom = 0
-      Align = alLeft
+      Align = alClient
+      AutoSize = False
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clRed
       Font.Height = -11
@@ -58,7 +59,7 @@ object PackageDownloadView: TPackageDownloadView
       Font.Style = [fsBold]
       ParentFont = False
       Layout = tlCenter
-      ExplicitHeight = 13
+      ExplicitWidth = 739
     end
     object ExtractAARButton: TButton
       AlignWithMargins = True
@@ -459,20 +460,20 @@ object PackageDownloadView: TPackageDownloadView
       end>
     Options = [fdoFileMustExist]
     Title = 'Select location of Gradle'
-    Left = 280
-    Top = 128
+    Left = 658
+    Top = 716
   end
   object ExtractPathOpenDialog: TFileOpenDialog
     FavoriteLinks = <>
     FileTypes = <>
     Options = [fdoPickFolders, fdoPathMustExist]
     Title = 'Select path to extract packages to'
-    Left = 412
-    Top = 128
+    Left = 886
+    Top = 716
   end
   object ActionList: TActionList
-    Left = 156
-    Top = 130
+    Left = 474
+    Top = 712
     object ExtractAction: TAction
       Caption = 'Extract'
       OnExecute = ExtractActionExecute
@@ -488,7 +489,7 @@ object PackageDownloadView: TPackageDownloadView
     Enabled = False
     Interval = 30000
     OnTimer = SearchTimerTimer
-    Left = 544
-    Top = 130
+    Left = 1108
+    Top = 712
   end
 end
