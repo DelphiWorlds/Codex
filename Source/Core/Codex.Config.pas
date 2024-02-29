@@ -71,6 +71,7 @@ type
     JavaFolder: string;
     Java2OP: TJava2OPConfig;
     KeyStoreItems: TKeyStoreItems;
+    PackageSearchTimeout: Integer;
     ResourcesFolder: string;
     function FindKeyStoreItemDefault(out AKeyStoreItem: TKeyStoreItem): Boolean;
     function GetKeyStoreItem(const AKeyStoreFileName, AKeyAlias: string): TKeyStoreItem;
