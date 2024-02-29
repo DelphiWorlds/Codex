@@ -13,6 +13,8 @@ unit Codex.Types;
 
 interface
 
+{$SCOPEDENUMS ON}
+
 uses
   Mosco.API,
   DW.OTA.Types;
@@ -40,6 +42,38 @@ type
     function IsDistributionBuildType: Boolean;
     function Update(const AProperties: TProjectProperties): Boolean;
   end;
+
+  TSourceErrorKind = (Hint, Warning, Error);
+
+  TSourceError = record
+    LineNo: Integer;
+    ColumnNo: Integer;
+    Kind: TSourceErrorKind;
+    Message: string;
+    constructor Create(const AMessage: string);
+    function Equals(const AError: TSourceError): Boolean;
+  end;
+
+  TSourceErrors = TArray<TSourceError>;
+
+  TSourceSymbol = record
+    Symbol: string;
+    LineNo: Integer;
+    ColumnNo: Integer;
+    Units: TArray<string>;
+    UseUnit: Integer;
+  end;
+
+  TSourceSymbols = TArray<TSourceSymbol>;
+
+  TUnitSection = (InterfaceSection, ImplementationSection);
+
+  TUseUnit = record
+    UnitName: string;
+    Section: TUnitSection;
+  end;
+
+  TUseUnits = TArray<TUseUnit>;
 
 implementation
 
@@ -121,6 +155,41 @@ begin
     Self := AProperties;
     Result := True;
   end;
+end;
+
+{ TSourceError }
+
+constructor TSourceError.Create(const AMessage: string);
+var
+  LValue, LError: string;
+  LColonIndex: Integer;
+begin
+  LError := AMessage.Substring(AMessage.LastIndexOf('(') + 1);
+  // eg
+  //  012345678901234567 (18)
+  //  at line xx (xx:yy)
+  LColonIndex := LError.IndexOf(':');
+  LValue := LError.Substring(0, LColonIndex);
+  if not integer.TryParse(LValue, LineNo) then
+    LineNo := -1;
+  LValue := LError.Substring(LColonIndex + 1, Length(LError) - LColonIndex - 2); // skip the last bracket
+  if not integer.TryParse(LValue, ColumnNo) then
+    ColumnNo := -1;
+  case AMessage.Chars[0] of
+    'H':
+      Kind := TSourceErrorKind.Hint;
+    'W':
+      Kind := TSourceErrorKind.Warning;
+    else
+      Kind := TSourceErrorKind.Error;
+  end;
+  LError := AMessage.Substring(0, AMessage.LastIndexOf(' at line ')); // TODO: Might need to allow for localized text!
+  Message := LError.Substring(LError.IndexOf(' ') + 1).Trim;
+end;
+
+function TSourceError.Equals(const AError: TSourceError): Boolean;
+begin
+  Result := (LineNo = AError.LineNo) and (ColumnNo = AError.ColumnNo) and (Kind = AError.Kind) and (Message = AError.Message);
 end;
 
 end.
