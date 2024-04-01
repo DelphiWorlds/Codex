@@ -9,6 +9,7 @@
         <Platform Condition="'$(Platform)'==''">Win32</Platform>
         <TargetedPlatforms>1</TargetedPlatforms>
         <AppType>Library</AppType>
+        <ProjectName Condition="'$(ProjectName)'==''">Codex</ProjectName>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
         <Base>true</Base>
@@ -58,7 +59,7 @@
         <GenDll>true</GenDll>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
         <SanitizedProjectName>Codex</SanitizedProjectName>
-        <DCC_UnitSearchPath>.\Core;.\External\DelphiWorlds;.\Helpers;.\Mosco;$(Mosco)\Client;$(TOTAL);$(Kastri)\API;$(Kastri)\Core;$(Kastri)\Features\Proj;$(Kastri)\Include;$(Kastri)\Tools\Core;$(DelphiAST);$(DelphiAST)\SimpleParser;$(NEON);$(Babel);$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_UnitSearchPath>.\Core;.\External\DelphiWorlds;.\Helpers;.\Mosco;$(Mosco)\Client;$(TOTAL);$(Kastri)\API;$(Kastri)\Core;$(Kastri)\Include;$(Kastri)\Tools\AST;$(Kastri)\Tools\Core;$(DelphiAST);$(DelphiAST)\SimpleParser;$(NEON);$(Babel);$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_MajorVer>0</VerInfo_MajorVer>
         <VerInfo_Release>1</VerInfo_Release>
@@ -224,7 +225,7 @@
         <DCCReference Include="Core\Codex.ProjectFilesView.pas">
             <Form>ProjectFilesView</Form>
         </DCCReference>
-        <DCCReference Include="Wizards\Codex.PostDeployment.Wizard.pas"/>
+        <DCCReference Include="Core\Codex.ProjectNotifier.pas"/>
         <DCCReference Include="Project\Codex.Project.AddFoldersView.pas">
             <Form>AddFoldersView</Form>
         </DCCReference>
@@ -293,9 +294,9 @@
                     <Source Name="MainSource">Codex.dpr</Source>
                 </Source>
                 <Excluded_Packages>
-                    <Excluded_Packages Name="V:\IBCSCustLib\IBCSCoreLib.W32.bpl">(untitled)</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k280.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp280.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclemsedge290.bpl">Embarcadero RAD Server Edge Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dcloffice2k290.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\dclofficexp290.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
                 </Excluded_Packages>
             </Delphi.Personality>
             <Deployment Version="4">
@@ -1000,6 +1001,9 @@
                     <Platform Name="Win64">
                         <Operation>1</Operation>
                     </Platform>
+                    <Platform Name="Win64x">
+                        <Operation>1</Operation>
+                    </Platform>
                 </DeployClass>
                 <DeployClass Name="ProjectiOSDeviceDebug">
                     <Platform Name="iOSDevice32">
@@ -1293,6 +1297,7 @@
                 <ProjectRoot Platform="OSXARM64" Name="$(PROJECTNAME).app"/>
                 <ProjectRoot Platform="Win32" Name="$(PROJECTNAME)"/>
                 <ProjectRoot Platform="Win64" Name="$(PROJECTNAME)"/>
+                <ProjectRoot Platform="Win64x" Name="$(PROJECTNAME)"/>
             </Deployment>
             <Platforms>
                 <Platform value="Win32">True</Platform>

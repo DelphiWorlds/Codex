@@ -66,7 +66,7 @@ uses
   Codex.ProgressView in 'Core\Codex.ProgressView.pas' {ProgressView},
   Codex.ProjectFiles in 'Core\Codex.ProjectFiles.pas',
   Codex.ProjectFilesView in 'Core\Codex.ProjectFilesView.pas' {ProjectFilesView},
-  Codex.PostDeployment.Wizard in 'Wizards\Codex.PostDeployment.Wizard.pas',
+  Codex.ProjectNotifier in 'Core\Codex.ProjectNotifier.pas',
   Codex.Project.AddFoldersView in 'Project\Codex.Project.AddFoldersView.pas' {AddFoldersView},
   Codex.Project.CommonPathsView in 'Project\Codex.Project.CommonPathsView.pas' {CommonPathsView},
   Codex.Project.DeployExtensionsView in 'Project\Codex.Project.DeployExtensionsView.pas' {DeployExtensionsView},
