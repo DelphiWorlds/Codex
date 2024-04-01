@@ -86,6 +86,7 @@ type
     URLGetButton: TButton;
     EdgeBrowser: TEdgeBrowser;
     SearchTimer: TTimer;
+    RetainCheckBox: TCheckBox;
     procedure SelectExtractPathActionExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure SelectGradlePathButtonClick(Sender: TObject);
@@ -154,8 +155,19 @@ const
   cCopyCommandTemplate =
     '    copy {'#13#10 +
     '      duplicatesStrategy = ''exclude'''#13#10 +
-    '      from configurations.%s into ''..'''#13#10 +
+    '      from configurations.%s.resolve() into ''..'''#13#10 +
     '    }';
+
+  // Ensures that the Android variant is chosen for packages/dependencies that have variants (e.g. Android and JVM)
+  cConfigurationTemplate =
+    '  register(''%s'') {'#13#10 +
+    '    attributes {'#13#10 +
+    '      attribute('#13#10 +
+    '        TargetJvmEnvironment.TARGET_JVM_ENVIRONMENT_ATTRIBUTE,'#13#10 +
+    '        objects.named(TargetJvmEnvironment, TargetJvmEnvironment.ANDROID)'#13#10 +
+    '      )'#13#10 +
+    '    }'#13#10 +
+    '  }';
 
 resourcestring
   sErrorUnknown = 'Unknown error';
@@ -321,7 +333,7 @@ var
   LConfigurations: TArray<string>;
 begin
   for LItem in AItems do
-    LConfigurations := LConfigurations + [LItem.ConfigurationName];
+    LConfigurations := LConfigurations + [Format(cConfigurationTemplate, [LItem.ConfigurationName])];
   Result := string.Join(#13#10, LConfigurations);
 end;
 
@@ -553,6 +565,7 @@ begin
   ForceDirectories(LBuildPath);
   if GenerateBuildGradle(LBuildPath) then
   begin
+    FProcess.NeedsWorkingFiles := RetainCheckBox.Checked;
     FProcess.GradlePath := GradlePathEdit.Text;
     FProcess.BuildPath := LBuildPath;
     FProcess.Run;

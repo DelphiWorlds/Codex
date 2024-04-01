@@ -26,6 +26,7 @@ type
     FCurrentDir: string;
     FGradlePath: string;
     FIsError: Boolean;
+    FNeedsWorkingFiles: Boolean;
     FStage: TGradleDepsStage;
     FOnCompleted: TNotifyEvent;
     function CheckRequirements: Boolean;
@@ -40,6 +41,7 @@ type
     function Run: Boolean; override;
     property BuildPath: string read FBuildPath write FBuildPath;
     property GradlePath: string read FGradlePath write FGradlePath;
+    property NeedsWorkingFiles: Boolean read FNeedsWorkingFiles write FNeedsWorkingFiles;
     property OnProcessOutput;
     property OnCompleted: TNotifyEvent read FOnCompleted write FOnCompleted;
   end;
@@ -65,7 +67,8 @@ end;
 
 procedure TGradleDepsProcess.Cleanup;
 begin
-  TDirectoryHelper.Delete(FBuildPath);
+  if not FNeedsWorkingFiles then
+    TDirectoryHelper.Delete(FBuildPath);
   TDirectory.SetCurrentDirectory(FCurrentDir);
 end;
 
