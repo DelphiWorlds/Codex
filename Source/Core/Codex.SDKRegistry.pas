@@ -277,12 +277,19 @@ function TSDKRegistry.GetAAPTPath: string;
 {$IF Defined(EXPERT)}
 var
   LAndroidSDK: IOTAPlatformSDKAndroid;
+  LFolders: TArray<string>;
 {$ENDIF}
 begin
   Result := '';
   {$IF Defined(EXPERT)}
   if GetProjectAndroidSDK(LAndroidSDK) then
     Result := LAndroidSDK.SDKAaptPath;
+  if Result.IsEmpty then
+  begin
+    LFolders := TDirectory.GetDirectories(TPath.Combine(LAndroidSDK.SystemRoot, 'build-tools'), '*.*', TSearchOption.soTopDirectoryOnly);
+    if Length(LFolders) > 0 then
+      Result := TPath.Combine(LFolders[Length(LFolders) - 1], 'aapt.exe');
+  end;
   {$ENDIF}
   if Result.IsEmpty then
     Result := GetAndroidDefaultValue('SDKAaptPath');
