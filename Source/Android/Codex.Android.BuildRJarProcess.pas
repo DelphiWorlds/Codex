@@ -24,10 +24,11 @@ type
 
   TBuildRJarProcess = class(TRunProcess)
   private
+    FAAPT2EXE: string;
     FAPILevelPath: string;
     FBuildStage: TBuildStage;
     FBuildToolsPath: string;
-    FIsDebugConfig: Boolean;
+    FIsAppStore: Boolean;
     FJDKPath: string;
     FMergedResPath: string;
     FNeedsWorkingFiles: Boolean;
@@ -38,6 +39,7 @@ type
     FRFolders: TArray<string>;
     FRIndex: Integer;
     FRJarPath: string;
+    FUseAAPT2Always: Boolean;
     FWorkingPath: string;
     FOnComplete: TBuildRJarCompleteEvent;
     procedure BuildJar;
@@ -60,7 +62,7 @@ type
     procedure Build;
     property APILevelPath: string read FAPILevelPath write FAPILevelPath;
     property BuildToolsPath: string read FBuildToolsPath write FBuildToolsPath;
-    property IsDebugConfig: Boolean read FIsDebugConfig write FIsDebugConfig;
+    property IsAppStore: Boolean read FIsAppStore write FIsAppStore;
     property JDKPath: string read FJDKPath write FJDKPath;
     property MergedResPath: string read FMergedResPath write FMergedResPath;
     property NeedsWorkingFiles: Boolean read FNeedsWorkingFiles write FNeedsWorkingFiles;
@@ -76,10 +78,10 @@ type
 implementation
 
 uses
-  System.IOUtils, System.SysUtils,
+  System.IOUtils, System.SysUtils, System.Zip,
   Winapi.ActiveX,
   Xml.XMLIntf, Xml.XMLDoc,
-  DW.OSLog, DW.ResourcesMerger, DW.IOUtils.Helpers, DW.ManifestMerger,
+  DW.OSLog, DW.ResourcesMerger, DW.IOUtils.Helpers, DW.ManifestMerger, DW.OS.Win,
   Codex.Core, Codex.Consts.Text;
 
 const
@@ -93,6 +95,7 @@ const
   cManifestFilename = 'AndroidManifest.xml';
   cApplicationNodeName = 'application';
   cPackageAttributeName = 'package';
+  cApplicationIDMacro = '${applicationId}';
 
 function FindMatchingNode(const ATargetParentNode, ASourceNode: IXMLNode; out AMatchingNode: IXMLNode): Boolean;
 var
@@ -135,8 +138,8 @@ begin
     else
     begin
       LValue := ANode.Attributes[LAttributeNode.NodeName];
-      if LValue.Contains('${applicationId}') then
-        ANode.Attributes[LAttributeNode.NodeName] := LValue.Replace('${applicationId}', '%package%');
+      if LValue.Contains(cApplicationIDMacro) then
+        ANode.Attributes[LAttributeNode.NodeName] := LValue.Replace(cApplicationIDMacro, '%package%');
     end;
   end;
 end;
@@ -248,6 +251,14 @@ begin
   end;
 end;
 
+procedure ReplaceApplicationID(const AManifestFileName: string; const AApplicationID: string);
+var
+  LText: string;
+begin
+  LText := TFile.ReadAllText(AManifestFileName).Replace(cApplicationIDMacro, AApplicationID, [rfReplaceAll]);
+  TFile.WriteAllText(AManifestFileName, LText);
+end;
+
 procedure MergeManifests(const APackagePaths: TArray<string>; const AMergedFileName: string);
 var
   LMergedXmlDoc: IXMLDocument;
@@ -306,7 +317,7 @@ begin
   begin
     case FBuildStage of
       TBuildStage.BuildJar:
-        ProcessComplete(Format(Babel.Tx(sCompletedBuildingJar), [GetRJarFileName]), True);
+        ProcessComplete('***' + Format(Babel.Tx(sCompletedBuildingJar), [GetRJarFileName]) + '***', True);
       TBuildStage.CompileJava:
         BuildJar;
       TBuildStage.CompileResources:
@@ -326,7 +337,26 @@ begin
 end;
 
 procedure TBuildRJarProcess.Build;
+var
+  LFileName: string;
+  LFileTime: TDateTime;
 begin
+  {$IF RTLVersion121}
+  FUseAAPT2Always := True;
+  FBuildToolsPath := TPath.Combine(TPlatformOS.GetEnvironmentVariable('BDSBIN'), 'android');
+  LFileTime := 0;
+  for LFileName in TDirectory.GetFiles(FBuildToolsPath, 'aapt2*.exe') do
+  begin
+    if TFile.GetLastWriteTime(LFileName) > LFileTime then
+    begin
+      LFileTime := TFile.GetLastWriteTime(LFileName);
+      FAAPT2EXE := TPath.GetFileName(LFileName);
+    end;
+  end;
+  {$ELSE}
+  FUseAAPT2Always := False;
+  FAAPT2EXE := 'aapt2.exe';
+  {$ENDIF}
   FWorkingPath := TPath.Combine(TPath.GetTempPath, TGUID.NewGuid.ToString.Trim(['{', '}']));
   ForceDirectories(FWorkingPath);
   TThread.CreateAnonymousThread(ExecuteBuild).Start;
@@ -353,12 +383,18 @@ end;
 
 procedure TBuildRJarProcess.MergeResources;
 var
-  LPackage, LResPath, LDependency, LDependencyName, LPath, LManifestFileName, LMergeFileName: string;
+  LPackage, LResPath, LDependency, LDependencyName, LPath, LManifestFileName, LMergeFileName, LPackageName: string;
   LDependencies: TArray<string>;
+  LManifestDoc: IXMLDocument;
 begin
   if TDirectory.Exists(FMergedResPath) then
     TDirectoryHelper.Delete(FMergedResPath);
   ForceDirectories(FMergedResPath);
+  LManifestFileName := TPath.Combine(FProjectOutputPath, cManifestFilename);
+  LManifestDoc := LoadXMLDocument(LManifestFileName);
+  LPackageName := LManifestDoc.DocumentElement.Attributes['package'];
+  DoSyncOutput(Format(Babel.Tx(sMergingResources), [FProjectName]));
+  TResourcesMerger.MergeResources(TPath.Combine(FProjectOutputPath, 'res'), FMergedResPath, FMergedResPath);
   for LPackage in FPackages do
   begin
     // e.g. Package of:  Z:\Lib\Android\androidx-biometric-1.1.0
@@ -368,7 +404,7 @@ begin
       // Call MergeResources only for folders that have a res subfolder
       LResPath := TPath.Combine(LDependency, 'res');
       LDependencyName := TPath.GetFileName(LDependency);
-      LManifestFileName := TPath.Combine(LDependency, 'AndroidManifest.xml');
+      LManifestFileName := TPath.Combine(LDependency, cManifestFilename);
       if TDirectory.Exists(LResPath) then
       begin
         DoSyncOutput(Format(Babel.Tx(sMergingResources), [LDependencyName]));
@@ -377,10 +413,12 @@ begin
         // e.g. appcompat-1.2.0\src
         ForceDirectories(TPath.Combine(LPath, 'src'));
         // Copy the manifest to make it easier to generate R.java
-        TFile.Copy(LManifestFileName, TPath.Combine(LPath, 'AndroidManifest.xml'));
+        ReplaceApplicationID(LManifestFileName, LPackageName);
+        TFile.Copy(LManifestFileName, TPath.Combine(LPath, cManifestFilename));
       end;
     end;
     LMergeFileName := TPath.Combine(FProjectPath, TPath.GetFileName(LPackage) + '-Manifest.merge.xml');
+    TOSLog.d('Merging manifests into: %s', [LMergeFileName]);
     MergeManifests(LDependencies, LMergeFileName);
   end;
 end;
@@ -392,6 +430,8 @@ end;
 
 procedure TBuildRJarProcess.GenerateSource;
 begin
+  TOSLog.d('Generating source..');
+  TDirectoryHelper.Delete(TPath.Combine(FWorkingPath, 'obj'));
   FRFolders := TDirectory.GetDirectories(FWorkingPath, '*.*', TSearchOption.soTopDirectoryOnly);
   if Length(FRFolders) > 0 then
   begin
@@ -417,7 +457,7 @@ var
   LEXEPath, LRPath: string;
 begin
   LRPath := FRFolders[FRIndex];
-  if FIsDebugConfig then
+  if not FIsAppStore and not FUseAAPT2Always then
   begin
     FBuildStage := TBuildStage.LinkResources; // because it is all done in one step
     LEXEPath := TPath.Combine(FBuildToolsPath, 'aapt.exe');
@@ -426,7 +466,7 @@ begin
   else
   begin
     FBuildStage := TBuildStage.CompileResources;
-    LEXEPath := TPath.Combine(FBuildToolsPath, 'aapt2.exe');
+    LEXEPath := TPath.Combine(FBuildToolsPath, FAAPT2EXE);
     CommandLine := Format(cAAPT2CompileCommand, [LEXEPath, FMergedResPath, FWorkingPath]);
   end;
   OutputExecuting;
@@ -437,9 +477,9 @@ procedure TBuildRJarProcess.LinkResources;
 var
   LEXEPath, LRPath: string;
 begin
-  LRPath := FRFolders[FRIndex];
   FBuildStage := TBuildStage.LinkResources;
-  LEXEPath := TPath.Combine(FBuildToolsPath, 'aapt2.exe');
+  LRPath := FRFolders[FRIndex];
+  LEXEPath := TPath.Combine(FBuildToolsPath, FAAPT2EXE);
   CommandLine := Format(cAAPT2LinkCommand, [LEXEPath, FWorkingPath, FAPILevelPath, LRPath, FWorkingPath, LRPath]);
   OutputExecuting;
   Run;
