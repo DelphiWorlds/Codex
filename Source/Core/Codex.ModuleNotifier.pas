@@ -26,15 +26,26 @@ type
 
   TModuleItems = TArray<TModuleItem>;
 
+  TProjectItem = record
+    Notifier: IOTAModuleNotifier;
+    NotifierIndex: Integer;
+    FileName: string;
+  end;
+
+  TProjectItems = TArray<TProjectItem>;
+
   TModuleListeners = TArray<IModuleListener>;
 
   TCodexModuleNotifier = class(TNonRefInterfacedObject, IOTANotifier, IOTAModuleNotifier, IOTAModuleNotifier80, IOTAModuleNotifier90, IModuleNotifier)
   private
     FModuleItems: TModuleItems;
     FListeners: TModuleListeners;
+    FProjectItems: TProjectItems;
     function IndexOfModuleItem(const AFileName: string): Integer;
+    function ModuleServices: IOTAModuleServices;
     procedure NotifyProjectSaved(const AFileName: string);
     procedure NotifySourceSaved(const AFileName: string);
+    procedure RemoveProjectItem(const AModule: IOTAModule; const AFileName: string);
   public
     { IOTANotifier }
     procedure AfterSave;
@@ -66,7 +77,7 @@ implementation
 uses
   DW.OSLog,
   System.SysUtils, System.DateUtils, System.IOUtils, System.StrUtils,
-  Codex.Core;
+  Codex.Core, Codex.ProjectNotifier;
 
 { TCodexModuleNotifier }
 
@@ -74,6 +85,11 @@ constructor TCodexModuleNotifier.Create;
 begin
   inherited Create;
   ModuleNotifier := Self;
+end;
+
+function TCodexModuleNotifier.ModuleServices: IOTAModuleServices;
+begin
+  Result := BorlandIDEServices as IOTAModuleServices;
 end;
 
 function TCodexModuleNotifier.IndexOfModuleItem(const AFileName: string): Integer;
@@ -91,20 +107,36 @@ begin
   end;
 end;
 
+procedure TCodexModuleNotifier.RemoveProjectItem(const AModule: IOTAModule; const AFileName: string);
+var
+  I: Integer;
+begin
+  for I := 0 to High(FProjectItems) do
+  begin
+    if SameText(FProjectItems[I].FileName, AFileName)  then
+    begin
+      AModule.RemoveNotifier(FProjectItems[I].NotifierIndex);
+      Delete(FProjectItems, I, 1);
+      Break;
+    end;
+  end;
+end;
+
 procedure TCodexModuleNotifier.FileClosing(const AFileName: string);
 var
   LModule: IOTAModule;
   LIndex: Integer;
 begin
-  LIndex := IndexOfModuleItem(AFileName);
-  if LIndex > -1 then
+  LModule := ModuleServices.FindModule(AFileName);
+  if LModule <> nil then
   begin
-    LModule := (BorlandIDEServices as IOTAModuleServices).FindModule(AFileName);
-    if LModule <> nil then
+    LIndex := IndexOfModuleItem(AFileName);
+    if LIndex > -1 then
     begin
       LModule.RemoveNotifier(FModuleItems[LIndex].NotifierIndex);
       Delete(FModuleItems, LIndex, 1);
     end;
+    RemoveProjectItem(LModule, AFileName);
   end;
 end;
 
@@ -112,13 +144,22 @@ procedure TCodexModuleNotifier.FileOpened(const AFileName: string);
 var
   LModule: IOTAModule;
   LModuleItem: TModuleItem;
+  LProjectItem: TProjectItem;
+  LProject: IOTAProject;
 begin
-  LModule := (BorlandIDEServices as IOTAModuleServices).FindModule(AFileName);
+  LModule := ModuleServices.FindModule(AFileName);
   if LModule <> nil then
   begin
     LModuleItem.NotifierIndex := LModule.AddNotifier(Self);
     LModuleItem.FileName := AFileName;
     FModuleItems := FModuleItems + [LModuleItem];
+    if Supports(LModule, IOTAProject, LProject) then
+    begin
+      LProjectItem.FileName := AFileName;
+      LProjectItem.Notifier := TCodexProjectNotifier.Create(AFileName);
+      LProjectItem.NotifierIndex := LModule.AddNotifier(LProjectItem.Notifier);
+      FProjectItems := FProjectItems + [LProjectItem];
+    end;
   end;
 end;
 

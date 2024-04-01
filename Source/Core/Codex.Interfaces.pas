@@ -16,6 +16,7 @@ interface
 uses
   System.Classes, System.SysUtils,
   Vcl.ActnList, Vcl.ImgList, Vcl.Menus,
+  ToolsAPI,
   Codex.Types;
 
 type
@@ -47,6 +48,7 @@ type
     ['{C6C7CBEB-8166-44B6-B8ED-1307200DA4BB}']
     function GetEditorActionList: TActionList;
     procedure NotifyContextMenu(const AMenuItem: TMenuItem);
+    procedure ProjectModified(const AProject: IOTAProject);
   end;
 
   IProjectToolsProvider = interface(IInterface)
