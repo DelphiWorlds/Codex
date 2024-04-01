@@ -6,7 +6,7 @@ unit Codex.Wizard;
 {                                                       }
 {         Add-in for Delphi from Delphi Worlds          }
 {                                                       }
-{  Copyright 2020-2023 Dave Nottage under MIT license   }
+{  Copyright 2020-2024 Dave Nottage under MIT license   }
 {  which is located in the root folder of this library  }
 {                                                       }
 {*******************************************************}
@@ -60,6 +60,7 @@ type
     { ICodexProvider }
     function GetEditorActionList: TActionList;
     procedure NotifyContextMenu(const AMenuItem: TMenuItem);
+    procedure ProjectModified(const AProject: IOTAProject);
     { IModuleListener }
     procedure ProjectSaved(const AFileName: string);
     procedure SourceSaved(const AFileName: string);
@@ -201,6 +202,12 @@ begin
     Config.IDE.ProjectLastOpenedFileName := AFileName;
     Config.Save;
   end;
+end;
+
+procedure TCodexWizard.ProjectModified(const AProject: IOTAProject);
+begin
+  if not AProject.FileName.EndsWith('.groupproj') then
+    TCodexOTAHelper.CheckProjectChanged;
 end;
 
 procedure TCodexWizard.ProjectSaved(const AFileName: string);
