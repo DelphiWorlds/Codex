@@ -1,51 +1,72 @@
 object PackagesView: TPackagesView
   Left = 0
   Top = 0
+  Margins.Left = 5
+  Margins.Top = 5
+  Margins.Right = 5
+  Margins.Bottom = 5
   Caption = 'Android Packages'
-  ClientHeight = 405
-  ClientWidth = 594
+  ClientHeight = 608
+  ClientWidth = 900
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -11
+  Font.Height = -17
   Font.Name = 'Tahoma'
   Font.Style = []
   Position = poOwnerFormCenter
-  TextHeight = 13
+  PixelsPerInch = 144
+  TextHeight = 21
   object PackageFolderLabel: TLabel
     AlignWithMargins = True
-    Left = 3
-    Top = 3
-    Width = 588
-    Height = 13
+    Left = 5
+    Top = 5
+    Width = 890
+    Height = 21
+    Margins.Left = 5
+    Margins.Top = 5
+    Margins.Right = 5
+    Margins.Bottom = 5
     Align = alTop
     Caption = 'Packages:'
-    ExplicitWidth = 49
+    ExplicitWidth = 75
   end
   object ExtractButtonsPanel: TPanel
     Left = 0
-    Top = 367
-    Width = 594
-    Height = 38
+    Top = 555
+    Width = 900
+    Height = 53
+    Margins.Left = 5
+    Margins.Top = 5
+    Margins.Right = 5
+    Margins.Bottom = 5
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 0
     object BuildButton: TButton
       AlignWithMargins = True
-      Left = 398
-      Top = 3
-      Width = 92
-      Height = 32
+      Left = 606
+      Top = 5
+      Width = 138
+      Height = 43
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 5
       Action = BuildAction
       Align = alRight
       TabOrder = 0
     end
     object CloseButton: TButton
       AlignWithMargins = True
-      Left = 496
-      Top = 3
-      Width = 95
-      Height = 32
+      Left = 754
+      Top = 5
+      Width = 141
+      Height = 43
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 5
       Align = alRight
       Caption = '&Close'
       DoubleBuffered = True
@@ -56,11 +77,15 @@ object PackagesView: TPackagesView
     object RetainWorkingFilesCheckBox: TCheckBox
       Left = 0
       Top = 0
-      Width = 205
-      Height = 38
+      Width = 308
+      Height = 53
       Hint = 
         'Leaves working files in place, which can be useful when errors o' +
         'ccur'
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 5
       Align = alLeft
       Caption = 'Retain working files'
       ParentShowHint = False
@@ -71,11 +96,14 @@ object PackagesView: TPackagesView
   end
   object RJarPanel: TPanel
     AlignWithMargins = True
-    Left = 3
-    Top = 261
-    Width = 588
-    Height = 50
+    Left = 5
+    Top = 397
+    Width = 890
+    Height = 73
+    Margins.Left = 5
     Margins.Top = 0
+    Margins.Right = 5
+    Margins.Bottom = 5
     Align = alBottom
     BevelOuter = bvNone
     Caption = '...'
@@ -83,87 +111,113 @@ object PackagesView: TPackagesView
     Visible = False
     object SelectRJarPathButton: TSpeedButton
       AlignWithMargins = True
-      Left = 560
-      Top = 22
-      Width = 24
-      Height = 25
+      Left = 848
+      Top = 36
+      Width = 36
+      Height = 32
       Margins.Left = 0
-      Margins.Right = 4
+      Margins.Top = 5
+      Margins.Right = 6
+      Margins.Bottom = 5
       Align = alRight
       Caption = '...'
-      ExplicitLeft = 557
-      ExplicitTop = 24
-      ExplicitHeight = 23
+      ExplicitLeft = 840
+      ExplicitTop = 33
+      ExplicitHeight = 36
     end
     object RJarFileNameLabel: TLabel
       AlignWithMargins = True
-      Left = 3
-      Top = 3
-      Width = 582
-      Height = 13
+      Left = 5
+      Top = 5
+      Width = 880
+      Height = 21
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 5
       Align = alTop
       Caption = 'Output folder:'
-      ExplicitWidth = 69
+      ExplicitWidth = 104
     end
     object RJarPathEdit: TEdit
       AlignWithMargins = True
-      Left = 4
-      Top = 23
-      Width = 556
-      Height = 23
-      Margins.Left = 4
-      Margins.Top = 4
+      Left = 6
+      Top = 37
+      Width = 842
+      Height = 30
+      Margins.Left = 6
+      Margins.Top = 6
       Margins.Right = 0
-      Margins.Bottom = 4
+      Margins.Bottom = 6
       Align = alClient
       TabOrder = 0
-      ExplicitHeight = 21
+      ExplicitHeight = 29
     end
   end
   object PackagesPanel: TPanel
     AlignWithMargins = True
-    Left = 3
-    Top = 22
-    Width = 588
-    Height = 236
+    Left = 5
+    Top = 36
+    Width = 890
+    Height = 356
+    Margins.Left = 5
+    Margins.Top = 5
+    Margins.Right = 5
+    Margins.Bottom = 5
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 2
     object PackagesListBox: TListBox
       AlignWithMargins = True
-      Left = 3
-      Top = 3
-      Width = 582
-      Height = 192
+      Left = 5
+      Top = 5
+      Width = 880
+      Height = 289
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 5
       Align = alClient
-      ItemHeight = 13
+      ItemHeight = 21
       MultiSelect = True
       TabOrder = 0
     end
     object PackagesButtonsPanel: TPanel
       Left = 0
-      Top = 198
-      Width = 588
-      Height = 38
+      Top = 299
+      Width = 890
+      Height = 57
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 5
       Align = alBottom
       BevelOuter = bvNone
       TabOrder = 1
       object RemovePackageButton: TButton
         AlignWithMargins = True
-        Left = 101
-        Top = 3
-        Width = 92
-        Height = 32
+        Left = 153
+        Top = 5
+        Width = 138
+        Height = 47
+        Margins.Left = 5
+        Margins.Top = 5
+        Margins.Right = 5
+        Margins.Bottom = 5
         Action = RemovePackageAction
         Align = alLeft
         TabOrder = 1
       end
       object AddPackageButton: TButton
         AlignWithMargins = True
-        Left = 3
-        Top = 3
-        Width = 92
-        Height = 32
+        Left = 5
+        Top = 5
+        Width = 138
+        Height = 47
+        Margins.Left = 5
+        Margins.Top = 5
+        Margins.Right = 5
+        Margins.Bottom = 5
         Action = AddPackageAction
         Align = alLeft
         TabOrder = 0
@@ -172,52 +226,61 @@ object PackagesView: TPackagesView
   end
   object ProjectFolderPanel: TPanel
     AlignWithMargins = True
-    Left = 3
-    Top = 314
-    Width = 588
-    Height = 50
+    Left = 5
+    Top = 475
+    Width = 890
+    Height = 75
+    Margins.Left = 5
     Margins.Top = 0
+    Margins.Right = 5
+    Margins.Bottom = 5
     Align = alBottom
     BevelOuter = bvNone
     Caption = '...'
     TabOrder = 3
     object SelectProjectFolderButton: TSpeedButton
       AlignWithMargins = True
-      Left = 560
-      Top = 22
-      Width = 24
-      Height = 25
+      Left = 848
+      Top = 36
+      Width = 36
+      Height = 34
       Margins.Left = 0
-      Margins.Right = 4
+      Margins.Top = 5
+      Margins.Right = 6
+      Margins.Bottom = 5
       Align = alRight
       Caption = '...'
-      ExplicitLeft = 557
-      ExplicitTop = 24
-      ExplicitHeight = 23
+      ExplicitLeft = 840
+      ExplicitTop = 33
+      ExplicitHeight = 38
     end
     object ProjectFolderLabel: TLabel
       AlignWithMargins = True
-      Left = 3
-      Top = 3
-      Width = 582
-      Height = 13
+      Left = 5
+      Top = 5
+      Width = 880
+      Height = 21
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 5
       Align = alTop
       Caption = 'Project folder:'
-      ExplicitWidth = 69
+      ExplicitWidth = 105
     end
     object ProjectFolderEdit: TEdit
       AlignWithMargins = True
-      Left = 4
-      Top = 23
-      Width = 556
-      Height = 23
-      Margins.Left = 4
-      Margins.Top = 4
+      Left = 6
+      Top = 37
+      Width = 842
+      Height = 32
+      Margins.Left = 6
+      Margins.Top = 6
       Margins.Right = 0
-      Margins.Bottom = 4
+      Margins.Bottom = 6
       Align = alClient
       TabOrder = 0
-      ExplicitHeight = 21
+      ExplicitHeight = 29
     end
   end
   object ActionList: TActionList

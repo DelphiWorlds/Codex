@@ -126,8 +126,8 @@ begin
     LProjectPath := TOTAHelper.GetProjectPath(LProject);
     LProjectName := LConfiguration.Value[sSanitizedProjectName];
     LProjectOutputPath := TPath.Combine(TOTAHelper.GetProjectOutputDir(LProject), LProjectName);
-    FBuildR.IsDebugConfig := SameText(LConfiguration.Name, 'Debug'); // TODO: May not be called "Debug"
   end;
+  FBuildR.IsAppStore := SameText(TOTAHelper.GetProjectCurrentBuildType(LProject), 'AppStore');
   FBuildR.MergedResPath := TPath.Combine(LProjectPath, 'Resources\Merged\res');
   FBuildR.ProjectName := LProjectName;
   FBuildR.ProjectOutputPath := LProjectOutputPath;
@@ -166,6 +166,8 @@ begin
     end;
     if TCodexOTAHelper.GetDeployConfigs(['Android', 'Android64'], LDeployConfigs) then
     begin
+      DoOutput(' ');
+      DoOutput('Adding files to deployment..');
       if TCodexOTAHelper.DeployFolder(FBuildR.MergedResPath, 'res', LDeployConfigs) then
         DoOutput(Babel.Tx(sAddedResourcesToDeployment));
     end;
