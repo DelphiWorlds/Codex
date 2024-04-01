@@ -49,7 +49,7 @@ uses
   DeploymentAPI, PlatformAPI,
   Xml.XmlIntf, Xml.XMLDoc,
   Vcl.ActnList,
-  DW.OTA.Helpers, DW.IOUtils.Helpers, DW.OTA.Consts, DW.OTA.CustomMessage,
+  DW.OTA.Helpers, DW.IOUtils.Helpers, DW.OTA.Consts, DW.OTA.CustomMessage, DW.Proj,
   Codex.Core, Codex.Consts.Text, Codex.Consts;
 
 { TCodexOTAHelper }
@@ -116,14 +116,16 @@ var
   LProject: IOTAProject;
   LDeployment: IProjectDeployment;
   LDeploymentFile: IProjectDeploymentFile;
-  LRemoteDir, LLocalDir, LFileName, LSourcePath, LRemoteName, LConfigName: string;
+  LRemoteDir, LLocalDir, LFileName, LSourcePath, LLocalName, LRemoteName, LConfigName: string;
   LDeployConfig: TDeployConfig;
   LDeployed: Boolean;
+  LProjDeployment: IProjDeployment;
 begin
   Result := False;
   LProject := TOTAHelper.GetCurrentSelectedProject;
   if Supports(LProject, IProjectDeployment, LDeployment) then
   begin
+    LProjDeployment := TProj.Create(LProject.FileName).GetProjectDeployment;
     LDeployed := False;
     // eg: Z:\Kastri\ThirdParty\Android\androidx-biometric-1.1.0\res
     LSourcePath := IncludeTrailingPathDelimiter(ALocalPath);
@@ -143,16 +145,20 @@ begin
         begin
           for LConfigName in LDeployConfig.Configs do
           begin
+            LLocalName := TPath.Combine(LLocalDir, TPath.GetFileName(LFileName));
             LRemoteName := TPath.GetFileName(LFileName);
-            LDeploymentFile := LDeployment.CreateFile(LConfigName, LDeployConfig.PlatformName, TPath.Combine(LLocalDir, TPath.GetFileName(LFileName)));
-            LDeploymentFile.Enabled[LDeployConfig.PlatformName] := True;
-            LDeploymentFile.DeploymentClass := 'File';
-            LDeploymentFile.FilePlatform := LDeployConfig.PlatformName;
-            LDeploymentFile.Configuration := LConfigName;
-            LDeploymentFile.RemoteDir[LDeployConfig.PlatformName] := LRemoteDir;
-            LDeploymentFile.RemoteName[LDeployConfig.PlatformName] := LRemoteName;
-            LDeployment.AddFile(LConfigName, LDeployConfig.PlatformName, LDeploymentFile);
-            LDeployed := True;
+            if not LProjDeployment.HasDeployFile(LDeployConfig.PlatformName, LConfigName, LRemoteDir, LRemoteName) then
+            begin
+              LDeploymentFile := LDeployment.CreateFile(LConfigName, LDeployConfig.PlatformName, LLocalName);
+              LDeploymentFile.Enabled[LDeployConfig.PlatformName] := True;
+              LDeploymentFile.DeploymentClass := 'File';
+              LDeploymentFile.FilePlatform := LDeployConfig.PlatformName;
+              LDeploymentFile.Configuration := LConfigName;
+              LDeploymentFile.RemoteDir[LDeployConfig.PlatformName] := LRemoteDir;
+              LDeploymentFile.RemoteName[LDeployConfig.PlatformName] := LRemoteName;
+              LDeployment.AddFile(LConfigName, LDeployConfig.PlatformName, LDeploymentFile);
+              LDeployed := True;
+            end;
           end;
         end;
       end;
