@@ -41,6 +41,14 @@ Can be found [here](Docs/Readme.md).
 
 ## Change history
 
+v2.2.0 (Apr 5th, 2024) Delphi 12.x and 11.x only
+
+* Refactored R jar generation for Delphi 12.1 support
+* Fixed R jar generation for App Store in Delphi 12.0
+* Fixed resolution of packages which target more than one environment (e.g. Guava - Android/JVM) in Package Download 
+* Added project modification notification - title now updates when deployment type is changed
+* Minor fixes/tweaks
+
 v2.1.1 (Mar 1st, 2024) Delphi 12 and 11.x only
 
 * Fixed R jar generation (was locking up)
