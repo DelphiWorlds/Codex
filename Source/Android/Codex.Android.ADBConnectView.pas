@@ -133,6 +133,7 @@ end;
 procedure TADBConnectView.ProcessFinished;
 begin
   FStep := TADBProcessStep.None;
+  ConnectButton.Enabled := True;
 end;
 
 procedure TADBConnectView.RunADB;
