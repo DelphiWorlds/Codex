@@ -1,36 +1,32 @@
 object PackageDownloadView: TPackageDownloadView
   Left = 0
   Top = 0
-  Margins.Left = 12
-  Margins.Top = 12
-  Margins.Right = 12
-  Margins.Bottom = 12
+  Margins.Left = 8
+  Margins.Top = 8
+  Margins.Right = 8
+  Margins.Bottom = 8
   Caption = 'Package Download/Extract'
-  ClientHeight = 972
-  ClientWidth = 1379
+  ClientHeight = 648
+  ClientWidth = 915
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -17
+  Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
   Position = poOwnerFormCenter
   ShowHint = True
   OnClose = FormClose
-  PixelsPerInch = 144
+  OnResize = FormResize
   DesignSize = (
-    1379
-    972)
-  TextHeight = 21
+    915
+    648)
+  TextHeight = 13
   object EdgeBrowser: TEdgeBrowser
     Left = 0
     Top = 0
-    Width = 1394
-    Height = 972
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
+    Width = 929
+    Height = 648
     Anchors = [akLeft, akTop, akRight, akBottom]
     TabOrder = 5
     AllowSingleSignOnUsingOSPrimaryAccount = False
@@ -41,23 +37,19 @@ object PackageDownloadView: TPackageDownloadView
   end
   object ExtractButtonsPanel: TPanel
     Left = 0
-    Top = 914
-    Width = 1379
-    Height = 58
-    Margins.Left = 5
-    Margins.Top = 5
-    Margins.Right = 5
-    Margins.Bottom = 5
+    Top = 609
+    Width = 915
+    Height = 39
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 0
     object MessageLabel: TLabel
       AlignWithMargins = True
-      Left = 260
+      Left = 177
       Top = 0
-      Width = 864
-      Height = 58
-      Margins.Left = 6
+      Width = 569
+      Height = 39
+      Margins.Left = 4
       Margins.Top = 0
       Margins.Right = 0
       Margins.Bottom = 0
@@ -65,38 +57,30 @@ object PackageDownloadView: TPackageDownloadView
       AutoSize = False
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clRed
-      Font.Height = -17
+      Font.Height = -11
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentFont = False
       Layout = tlCenter
-      ExplicitWidth = 856
-      ExplicitHeight = 59
+      ExplicitLeft = 173
+      ExplicitWidth = 576
     end
     object ExtractAARButton: TButton
       AlignWithMargins = True
-      Left = 1129
-      Top = 5
-      Width = 123
-      Height = 48
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+      Left = 749
+      Top = 3
+      Width = 82
+      Height = 33
       Action = ExtractAction
       Align = alRight
       TabOrder = 0
     end
     object CloseButton: TButton
       AlignWithMargins = True
-      Left = 1262
-      Top = 5
-      Width = 112
-      Height = 48
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+      Left = 837
+      Top = 3
+      Width = 75
+      Height = 33
       Align = alRight
       Caption = '&Close'
       DoubleBuffered = True
@@ -106,186 +90,172 @@ object PackageDownloadView: TPackageDownloadView
       OnClick = CloseButtonClick
     end
     object RetainCheckBox: TCheckBox
-      Left = 0
+      AlignWithMargins = True
+      Left = 4
       Top = 0
-      Width = 254
-      Height = 58
+      Width = 169
+      Height = 39
       Hint = 'Retains the files generated, for diagnostic purposes'
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+      Margins.Left = 4
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
       Align = alLeft
       Caption = 'Retain working files'
       TabOrder = 2
+      ExplicitLeft = 0
     end
   end
   object ExtractPathPanel: TPanel
     AlignWithMargins = True
     Left = 0
-    Top = 833
-    Width = 1379
-    Height = 75
+    Top = 555
+    Width = 915
+    Height = 50
     Margins.Left = 0
     Margins.Top = 0
     Margins.Right = 0
-    Margins.Bottom = 6
+    Margins.Bottom = 4
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 1
     object SelectExtractPathButton: TSpeedButton
       AlignWithMargins = True
-      Left = 1338
-      Top = 36
-      Width = 35
-      Height = 34
+      Left = 888
+      Top = 22
+      Width = 23
+      Height = 25
       Margins.Left = 0
-      Margins.Top = 5
-      Margins.Right = 6
-      Margins.Bottom = 5
+      Margins.Right = 4
       Align = alRight
       Caption = '...'
       OnClick = SelectExtractPathActionExecute
-      ExplicitLeft = 1329
-      ExplicitTop = 33
-      ExplicitHeight = 38
+      ExplicitLeft = 892
+      ExplicitTop = 24
+      ExplicitHeight = 23
     end
     object ExtractPathLabel: TLabel
       AlignWithMargins = True
-      Left = 5
-      Top = 5
-      Width = 1369
-      Height = 21
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+      Left = 3
+      Top = 3
+      Width = 909
+      Height = 13
       Align = alTop
       Caption = 'Extract Root Path:'
-      ExplicitWidth = 137
+      ExplicitWidth = 90
     end
     object ExtractPathEdit: TEdit
       AlignWithMargins = True
-      Left = 6
-      Top = 37
-      Width = 1332
-      Height = 32
+      Left = 4
+      Top = 23
+      Width = 884
+      Height = 23
       Hint = 'Path to extract the jars and resources to'
-      Margins.Left = 6
-      Margins.Top = 6
+      Margins.Left = 4
+      Margins.Top = 4
       Margins.Right = 0
-      Margins.Bottom = 6
+      Margins.Bottom = 4
       Align = alClient
       TabOrder = 0
-      ExplicitHeight = 29
+      ExplicitHeight = 21
     end
   end
   object GradlePathPanel: TPanel
     AlignWithMargins = True
     Left = 0
-    Top = 12
-    Width = 1379
-    Height = 75
+    Top = 8
+    Width = 915
+    Height = 50
     Margins.Left = 0
-    Margins.Top = 12
+    Margins.Top = 8
     Margins.Right = 0
     Margins.Bottom = 0
     Align = alTop
     BevelOuter = bvNone
-    Padding.Bottom = 2
+    Padding.Bottom = 1
     TabOrder = 2
     object SelectGradlePathButton: TSpeedButton
       AlignWithMargins = True
-      Left = 1338
-      Top = 36
-      Width = 35
-      Height = 32
+      Left = 888
+      Top = 22
+      Width = 23
+      Height = 24
       Margins.Left = 0
-      Margins.Top = 5
-      Margins.Right = 6
-      Margins.Bottom = 5
+      Margins.Right = 4
       Align = alRight
       Caption = '...'
       OnClick = SelectGradlePathButtonClick
-      ExplicitLeft = 1329
-      ExplicitTop = 33
-      ExplicitHeight = 36
+      ExplicitLeft = 892
+      ExplicitTop = 24
+      ExplicitHeight = 21
     end
     object GradlePathLabel: TLabel
       AlignWithMargins = True
-      Left = 5
-      Top = 5
-      Width = 1369
-      Height = 21
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+      Left = 3
+      Top = 3
+      Width = 909
+      Height = 13
       Align = alTop
       Caption = 'Gradle (gradle.bat) location: (selection will be remembered)'
-      ExplicitWidth = 448
+      ExplicitWidth = 284
     end
     object GradlePathEdit: TEdit
       AlignWithMargins = True
-      Left = 6
-      Top = 37
-      Width = 1332
-      Height = 30
+      Left = 4
+      Top = 23
+      Width = 884
+      Height = 22
       Hint = 
         'Location of gradle.bat file in your Gradle install. Obtain Gradl' +
         'e from here: https://gradle.org/releases/'
-      Margins.Left = 6
-      Margins.Top = 6
+      Margins.Left = 4
+      Margins.Top = 4
       Margins.Right = 0
-      Margins.Bottom = 6
+      Margins.Bottom = 4
       Align = alClient
       ParentShowHint = False
       ShowHint = True
       TabOrder = 0
-      ExplicitHeight = 29
+      ExplicitHeight = 21
     end
   end
   object PackagesPanel: TPanel
     AlignWithMargins = True
     Left = 0
-    Top = 630
-    Width = 1379
-    Height = 197
+    Top = 420
+    Width = 915
+    Height = 131
     Margins.Left = 0
     Margins.Top = 0
     Margins.Right = 0
-    Margins.Bottom = 6
+    Margins.Bottom = 4
     Align = alBottom
     BevelOuter = bvNone
-    Padding.Bottom = 2
+    Padding.Bottom = 1
     TabOrder = 3
     object PackagesLabel: TLabel
       AlignWithMargins = True
-      Left = 5
-      Top = 5
-      Width = 1369
-      Height = 21
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+      Left = 3
+      Top = 3
+      Width = 909
+      Height = 13
       Align = alTop
       Caption = 
         'Packages: Each package on a new line, using Gradle short format ' +
         'e.g: androidx.biometric:biometric:1.1.0'
-      ExplicitWidth = 779
+      ExplicitWidth = 505
     end
     object PackagesMemo: TMemo
       AlignWithMargins = True
-      Left = 6
-      Top = 37
-      Width = 1367
-      Height = 152
+      Left = 4
+      Top = 23
+      Width = 907
+      Height = 103
       Hint = 'Packages to download'
-      Margins.Left = 6
-      Margins.Top = 6
-      Margins.Right = 6
-      Margins.Bottom = 6
+      Margins.Left = 4
+      Margins.Top = 4
+      Margins.Right = 4
+      Margins.Bottom = 4
       Align = alClient
       ParentShowHint = False
       ShowHint = True
@@ -295,84 +265,74 @@ object PackageDownloadView: TPackageDownloadView
   object PackageSearchPanel: TPanel
     AlignWithMargins = True
     Left = 0
-    Top = 93
-    Width = 1379
-    Height = 531
+    Top = 62
+    Width = 915
+    Height = 354
     Margins.Left = 0
-    Margins.Top = 6
+    Margins.Top = 4
     Margins.Right = 0
-    Margins.Bottom = 6
+    Margins.Bottom = 4
     Align = alClient
     BevelOuter = bvNone
-    Padding.Bottom = 2
+    Padding.Bottom = 1
     TabOrder = 4
     object SearchPackagesLabel: TLabel
       AlignWithMargins = True
-      Left = 5
-      Top = 5
-      Width = 1369
-      Height = 21
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+      Left = 3
+      Top = 3
+      Width = 909
+      Height = 13
       Align = alTop
       Caption = 'Search Packages:'
-      ExplicitWidth = 130
+      ExplicitWidth = 85
     end
     object URLLabel: TLabel
       AlignWithMargins = True
-      Left = 5
-      Top = 90
-      Width = 1369
-      Height = 21
-      Margins.Left = 5
-      Margins.Top = 5
-      Margins.Right = 5
-      Margins.Bottom = 5
+      Left = 3
+      Top = 58
+      Width = 909
+      Height = 13
       Align = alTop
       Caption = 'URL:'
-      ExplicitTop = 87
-      ExplicitWidth = 36
+      ExplicitWidth = 23
     end
     object PackageSearchEditPanel: TPanel
       AlignWithMargins = True
       Left = 0
-      Top = 31
-      Width = 1379
-      Height = 54
+      Top = 19
+      Width = 915
+      Height = 36
       Margins.Left = 0
       Margins.Top = 0
       Margins.Right = 0
       Margins.Bottom = 0
       Align = alTop
       BevelOuter = bvNone
-      Padding.Bottom = 2
+      Padding.Bottom = 1
       TabOrder = 0
       object SearchEdit: TEdit
         AlignWithMargins = True
-        Left = 6
-        Top = 5
-        Width = 1220
-        Height = 36
-        Margins.Left = 6
-        Margins.Top = 5
+        Left = 4
+        Top = 3
+        Width = 809
+        Height = 25
+        Margins.Left = 4
         Margins.Right = 0
-        Margins.Bottom = 11
+        Margins.Bottom = 7
         Align = alClient
         TabOrder = 0
-        ExplicitHeight = 29
+        ExplicitHeight = 21
       end
       object PackageSearchButton: TButton
         AlignWithMargins = True
-        Left = 1238
+        Left = 821
         Top = 0
-        Width = 135
-        Height = 46
-        Margins.Left = 12
+        Width = 90
+        Height = 31
+        Margins.Left = 8
         Margins.Top = 0
-        Margins.Right = 6
-        Margins.Bottom = 6
+        Margins.Right = 4
+        Margins.Bottom = 4
         Align = alRight
         Caption = 'Search'
         TabOrder = 1
@@ -382,36 +342,36 @@ object PackageDownloadView: TPackageDownloadView
     object PackageSearchResultsPanel: TPanel
       AlignWithMargins = True
       Left = 0
-      Top = 170
-      Width = 1379
-      Height = 359
+      Top = 110
+      Width = 915
+      Height = 243
       Margins.Left = 0
       Margins.Top = 0
       Margins.Right = 0
       Margins.Bottom = 0
       Align = alClient
       BevelOuter = bvNone
-      Padding.Bottom = 2
+      Padding.Bottom = 1
       TabOrder = 1
       object PackagesListView: TListView
         AlignWithMargins = True
-        Left = 6
+        Left = 4
         Top = 0
-        Width = 842
-        Height = 357
-        Margins.Left = 6
+        Width = 557
+        Height = 242
+        Margins.Left = 4
         Margins.Top = 0
-        Margins.Right = 6
+        Margins.Right = 4
         Margins.Bottom = 0
         Align = alClient
         Columns = <
           item
             Caption = 'Title'
-            Width = 300
+            Width = 200
           end
           item
             Caption = 'Package'
-            Width = 525
+            Width = 350
           end>
         ReadOnly = True
         RowSelect = True
@@ -420,14 +380,10 @@ object PackageDownloadView: TPackageDownloadView
         OnSelectItem = PackagesListViewSelectItem
       end
       object ReleasesPanel: TPanel
-        Left = 854
+        Left = 565
         Top = 0
-        Width = 525
-        Height = 357
-        Margins.Left = 5
-        Margins.Top = 5
-        Margins.Right = 5
-        Margins.Bottom = 5
+        Width = 350
+        Height = 242
         Align = alRight
         BevelOuter = bvNone
         TabOrder = 1
@@ -435,8 +391,8 @@ object PackageDownloadView: TPackageDownloadView
           AlignWithMargins = True
           Left = 0
           Top = 0
-          Width = 525
-          Height = 290
+          Width = 350
+          Height = 197
           Margins.Left = 0
           Margins.Top = 0
           Margins.Right = 0
@@ -445,11 +401,11 @@ object PackageDownloadView: TPackageDownloadView
           Columns = <
             item
               Caption = 'Name'
-              Width = 300
+              Width = 200
             end
             item
               Caption = 'Version'
-              Width = 188
+              Width = 125
             end>
           ReadOnly = True
           RowSelect = True
@@ -459,13 +415,13 @@ object PackageDownloadView: TPackageDownloadView
         object AddPackageButton: TButton
           AlignWithMargins = True
           Left = 0
-          Top = 296
-          Width = 525
-          Height = 55
+          Top = 201
+          Width = 350
+          Height = 37
           Margins.Left = 0
-          Margins.Top = 6
+          Margins.Top = 4
           Margins.Right = 0
-          Margins.Bottom = 6
+          Margins.Bottom = 4
           Action = AddPackageAction
           Align = alBottom
           TabOrder = 1
@@ -475,41 +431,40 @@ object PackageDownloadView: TPackageDownloadView
     object Panel1: TPanel
       AlignWithMargins = True
       Left = 0
-      Top = 116
-      Width = 1379
-      Height = 54
+      Top = 74
+      Width = 915
+      Height = 36
       Margins.Left = 0
       Margins.Top = 0
       Margins.Right = 0
       Margins.Bottom = 0
       Align = alTop
       BevelOuter = bvNone
-      Padding.Bottom = 2
+      Padding.Bottom = 1
       TabOrder = 2
       object URLEdit: TEdit
         AlignWithMargins = True
-        Left = 6
-        Top = 5
-        Width = 1220
-        Height = 36
-        Margins.Left = 6
-        Margins.Top = 5
+        Left = 4
+        Top = 3
+        Width = 809
+        Height = 25
+        Margins.Left = 4
         Margins.Right = 0
-        Margins.Bottom = 11
+        Margins.Bottom = 7
         Align = alClient
         TabOrder = 0
-        ExplicitHeight = 29
+        ExplicitHeight = 21
       end
       object URLGetButton: TButton
         AlignWithMargins = True
-        Left = 1238
+        Left = 821
         Top = 0
-        Width = 135
-        Height = 46
-        Margins.Left = 12
+        Width = 90
+        Height = 31
+        Margins.Left = 8
         Margins.Top = 0
-        Margins.Right = 6
-        Margins.Bottom = 6
+        Margins.Right = 4
+        Margins.Bottom = 4
         Align = alRight
         Caption = 'Get'
         TabOrder = 1

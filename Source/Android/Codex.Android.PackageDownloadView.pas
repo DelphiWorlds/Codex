@@ -17,6 +17,7 @@ uses
   System.SysUtils, System.Variants, System.Classes, System.Actions,
   Winapi.Windows, Winapi.Messages, Winapi.WebView2, Winapi.ActiveX,
   Vcl.Graphics, Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls, Vcl.ActnList, Vcl.CheckLst, Vcl.ComCtrls, Vcl.Edge,
+  Vcl.WinXCtrls,
   Codex.OutputView, Codex.Android.GradleDepsProcess, Codex.BaseView;
 
 type
@@ -101,7 +102,9 @@ type
     procedure EdgeBrowserExecuteScript(Sender: TCustomEdgeBrowser; AResult: HRESULT; const AResultObjectAsJson: string);
     procedure SearchTimerTimer(Sender: TObject);
     procedure EdgeBrowserNavigationCompleted(Sender: TCustomEdgeBrowser; IsSuccess: Boolean; WebErrorStatus: TOleEnum);
+    procedure FormResize(Sender: TObject);
   private
+    FActivityIndicator: TActivityIndicator;
     FArtifacts: TArtifacts;
     FPackageVersions: TPackageVersions;
     FMavenStep: TMavenStep;
@@ -121,8 +124,10 @@ type
     function IsValidExtractPath: Boolean;
     function IsValidGradlePath: Boolean;
     procedure OutputHandler(const AOutput: string);
+    procedure RepositionActivityIndicator;
     procedure SetErrorMessage(const AMessage: string);
     procedure SetSearchBusy(const ABusy: Boolean);
+    procedure ShowWaiting(const AShow: Boolean; const AText: string = '');
   protected
     procedure DoShow; override;
   public
@@ -143,7 +148,7 @@ uses
   Neon.Core.Persistence.JSON,
   DW.OSLog,
   DW.IOUtils.Helpers, DW.Classes.Helpers,
-  Codex.Config, Codex.Core;
+  Codex.Config, Codex.Core, Codex.OTA.Helpers, Codex.Consts.Text;
 
 const
   cMvnRepositoryRootURL = 'https://mvnrepository.com';
@@ -243,6 +248,10 @@ constructor TPackageDownloadView.Create(AOwner: TComponent);
 begin
   inherited;
   EdgeBrowser.Visible := False;
+  FActivityIndicator := TActivityIndicator.Create(Self);
+  FActivityIndicator.IndicatorSize := aisLarge;
+  FActivityIndicator.Visible := False;
+  FActivityIndicator.Parent := Self;
   FOutputView := TOutputView.Create(Self);
   FProcess := TGradleDepsProcess.Create;
   FProcess.OnProcessOutput := GradleDepsProcessOutputHandler;
@@ -296,6 +305,11 @@ begin
   if TDirectory.Exists(ExtractPathEdit.Text) then
     Config.Android.ResourcesFolder := ExtractPathEdit.Text;
   Config.Save;
+end;
+
+procedure TPackageDownloadView.FormResize(Sender: TObject);
+begin
+  RepositionActivityIndicator;
 end;
 
 function TPackageDownloadView.GenerateBuildGradle(const APath: string): Boolean;
@@ -453,6 +467,15 @@ begin
   end;
 end;
 
+procedure TPackageDownloadView.RepositionActivityIndicator;
+begin
+  if (FActivityIndicator <> nil) and FActivityIndicator.Visible then
+  begin
+    FActivityIndicator.Top := (ClientHeight div 2) - (FActivityIndicator.Height div 2);
+    FActivityIndicator.Left := (ClientWidth div 2) - (FActivityIndicator.Width div 2);
+  end;
+end;
+
 procedure TPackageDownloadView.SetSearchBusy(const ABusy: Boolean);
 begin
 //  {$IF not Defined(EXPERT)}
@@ -461,7 +484,22 @@ begin
 //    EdgeBrowser.BringToFront;
 //  {$ENDIF}
   PackageSearchButton.Enabled := not ABusy;
+  ShowWaiting(ABusy, Babel.Tx(sSearchingAndroidPackages));
   SearchTimer.Enabled := ABusy;
+end;
+
+procedure TPackageDownloadView.ShowWaiting(const AShow: Boolean; const AText: string);
+begin
+  {$IF CompilerVersion > 35}
+  if AShow then
+    TCodexOTAHelper.ShowWait(AText)
+  else
+    TCodexOTAHelper.HideWait;
+  {$ELSE}
+  FActivityIndicator.Animate := AShow;
+  FActivityIndicator.Visible := AShow;
+  RepositionActivityIndicator;
+  {$ENDIF}
 end;
 
 procedure TPackageDownloadView.EdgeBrowserExecuteScript(Sender: TCustomEdgeBrowser; AResult: HRESULT; const AResultObjectAsJson: string);
