@@ -24,7 +24,7 @@ uses
   Codex.Config.PreVersion2,
   Codex.AboutView, Codex.OptionsView, Codex.ProgressView, Codex.OutputView, Codex.Types,
   Codex.Config, Codex.ErrorInsight, Codex.Consts, Codex.Options, Codex.ResourcesModule, Codex.ModuleNotifier,
-  Codex.Interfaces, Codex.Core, Codex.OTA.Helpers;
+  Codex.Interfaces, Codex.Core, Codex.OTA.Helpers, Codex.External.DelphiWorlds;
 
 type
   TCodexWizard = class(TIDENotifierOTAWizard, IConfigOptionsHost, ICodexProvider, IModuleListener)
@@ -207,7 +207,11 @@ end;
 procedure TCodexWizard.ProjectModified(const AProject: IOTAProject);
 begin
   if not AProject.FileName.EndsWith('.groupproj') then
+  begin
     TCodexOTAHelper.CheckProjectChanged;
+    if Assigned(DelphiWorlds) then
+      DelphiWorlds.ProjectModified(AProject);
+  end;
 end;
 
 procedure TCodexWizard.ProjectSaved(const AFileName: string);
