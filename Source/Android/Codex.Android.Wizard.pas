@@ -26,7 +26,8 @@ uses
   Codex.Consts, Codex.Core, Codex.SDKRegistry, Codex.Consts.Text,
   Codex.Android.ADBConnectView, Codex.Android.AssetPackDetailsView, Codex.Android.AssetPacksView, Codex.Android.BuildJarView,
   Codex.Android.PackageDownloadView, Codex.Android.Java2OPView, Codex.Android.PackagesView,
-  Codex.Android.KeyStoreInfoView, Codex.Android.ProjectManagerMenu, Codex.Android.ResourcesModule, Codex.Android.GenerateAppProcess;
+  Codex.Android.KeyStoreInfoView, Codex.Android.ProjectManagerMenu, Codex.Android.ResourcesModule, Codex.Android.GenerateAppProcess,
+  Codex.Android.SDKToolsView;
 
 type
   TAndroidWizard = class(TWizard)
@@ -49,6 +50,7 @@ type
     procedure BuildAssetPacksActionUpdateHandler(Sender: TObject);
     procedure BuildJarActionHandler(Sender: TObject);
     procedure ExtractAPKsActionHandler(Sender: TObject);
+    procedure SDKToolsActionHandler(Sender: TObject);
     procedure Java2OPActionHandler(Sender: TObject);
     procedure LinkActions;
     procedure LogCatActionHandler(Sender: TObject);
@@ -73,6 +75,7 @@ resourcestring
   sExtractAPKsCaption = 'Extract APKs From AAB';
   sImportGoogleServicesJsonCaption = 'Import google-services.json';
   sInstallAABCaption = 'Install AAB';
+  sSDKToolsCaption = 'SDK Tools';
   sJava2OPCaption = 'Java2OP';
   sLogCatCaption = 'Logcat Viewer';
   sMergePackagesCaption = 'Merge Packages';
@@ -121,6 +124,8 @@ begin
     LMenuItem := TMenuItem.CreateWithAction(FAndroidMenuItem, Babel.Tx(sLogCatCaption), LogCatActionHandler);
     FAndroidMenuItem.Insert(FAndroidMenuItem.Count, LMenuItem);
     LMenuItem := TMenuItem.CreateWithAction(FAndroidMenuItem, Babel.Tx(sPackageDownloadCaption), PackageDownloadActionHandler);
+    FAndroidMenuItem.Insert(FAndroidMenuItem.Count, LMenuItem);
+    LMenuItem := TMenuItem.CreateWithAction(FAndroidMenuItem, Babel.Tx(sSDKToolsCaption), SDKToolsActionHandler);
     FAndroidMenuItem.Insert(FAndroidMenuItem.Count, LMenuItem);
   end;
 end;
@@ -248,6 +253,23 @@ begin
     TOTAFileNotification.ofnActiveProjectChanged:
       Modification;
   end;
+end;
+
+procedure TAndroidWizard.SDKToolsActionHandler(Sender: TObject);
+var
+  LForm: TSDKToolsView;
+begin
+  if not FSDKRegistry.GetSDKPath.IsEmpty then
+  begin
+    LForm := TSDKToolsView.Create(nil);
+    try
+      LForm.ShowModal;
+    finally
+      LForm.Free;
+    end;
+  end
+  else
+    ShowFixSDKMessage;
 end;
 
 procedure TAndroidWizard.Java2OPActionHandler(Sender: TObject);
