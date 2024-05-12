@@ -103,6 +103,9 @@ type
     procedure SearchTimerTimer(Sender: TObject);
     procedure EdgeBrowserNavigationCompleted(Sender: TCustomEdgeBrowser; IsSuccess: Boolean; WebErrorStatus: TOleEnum);
     procedure FormResize(Sender: TObject);
+    procedure SearchEditKeyPress(Sender: TObject; var Key: Char);
+    procedure URLEditKeyPress(Sender: TObject; var Key: Char);
+    procedure ReleasesListViewDblClick(Sender: TObject);
   private
     FActivityIndicator: TActivityIndicator;
     FArtifacts: TArtifacts;
@@ -145,6 +148,8 @@ implementation
 uses
   System.IOUtils, System.Zip, System.Generics.Collections, System.Generics.Defaults,
   Xml.XmlDoc, Xml.XmlIntf,
+  BrandingAPI,
+  Vcl.GraphUtil,
   Neon.Core.Persistence.JSON,
   DW.OSLog,
   DW.IOUtils.Helpers, DW.Classes.Helpers,
@@ -249,9 +254,9 @@ begin
   inherited;
   EdgeBrowser.Visible := False;
   FActivityIndicator := TActivityIndicator.Create(Self);
-  FActivityIndicator.IndicatorSize := aisLarge;
   FActivityIndicator.Visible := False;
   FActivityIndicator.Parent := Self;
+  FActivityIndicator.IndicatorSize := aisLarge;
   FOutputView := TOutputView.Create(Self);
   FProcess := TGradleDepsProcess.Create;
   FProcess.OnProcessOutput := GradleDepsProcessOutputHandler;
@@ -268,7 +273,11 @@ end;
 
 procedure TPackageDownloadView.DoShow;
 begin
-  inherited;
+  if ThemeProperties <> nil then
+  begin
+    if not ColorIsBright(ThemeProperties.MainToolBarColor) then
+      FActivityIndicator.IndicatorColor := aicWhite;
+  end;
   if Config.Android.PackageSearchTimeout < 30000 then
   begin
     Config.Android.PackageSearchTimeout := 30000;
@@ -278,6 +287,7 @@ begin
   SearchEdit.Text := '';
   PackagesListView.Items.Clear;
   ReleasesListView.Items.Clear;
+  inherited;
 end;
 
 procedure TPackageDownloadView.AddPackageActionExecute(Sender: TObject);
@@ -444,6 +454,15 @@ begin
   SetSearchBusy(True);
 end;
 
+procedure TPackageDownloadView.URLEditKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #13 then
+  begin
+    Key := #0;
+    URLGetButtonClick(URLGetButton);
+  end;
+end;
+
 procedure TPackageDownloadView.URLGetButtonClick(Sender: TObject);
 begin
   MessageLabel.Caption := '';
@@ -465,6 +484,12 @@ begin
     EdgeBrowser.Navigate(cMvnRepositoryRootURL + FArtifacts[Item.Index].HREF);
     SetSearchBusy(True);
   end;
+end;
+
+procedure TPackageDownloadView.ReleasesListViewDblClick(Sender: TObject);
+begin
+  if ReleasesListView.Selected <> nil then
+    AddPackageAction.Execute;
 end;
 
 procedure TPackageDownloadView.RepositionActivityIndicator;
@@ -552,6 +577,15 @@ begin
   end
   else
     SetErrorMessage(Babel.Tx(sErrorUnknown));
+end;
+
+procedure TPackageDownloadView.SearchEditKeyPress(Sender: TObject; var Key: Char);
+begin
+  if Key = #13 then
+  begin
+    Key := #0;
+    PackageSearchButtonClick(PackageSearchButton);
+  end;
 end;
 
 procedure TPackageDownloadView.SearchTimerTimer(Sender: TObject);
