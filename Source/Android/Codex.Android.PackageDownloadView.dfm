@@ -29,8 +29,6 @@ object PackageDownloadView: TPackageDownloadView
     Height = 648
     Anchors = [akLeft, akTop, akRight, akBottom]
     TabOrder = 5
-    AllowSingleSignOnUsingOSPrimaryAccount = False
-    TargetCompatibleBrowserVersion = '117.0.2045.28'
     UserDataFolder = '%LOCALAPPDATA%\bds.exe.WebView2'
     OnExecuteScript = EdgeBrowserExecuteScript
     OnNavigationCompleted = EdgeBrowserNavigationCompleted
@@ -103,7 +101,6 @@ object PackageDownloadView: TPackageDownloadView
       Align = alLeft
       Caption = 'Retain working files'
       TabOrder = 2
-      ExplicitLeft = 0
     end
   end
   object ExtractPathPanel: TPanel
@@ -321,6 +318,7 @@ object PackageDownloadView: TPackageDownloadView
         Margins.Bottom = 7
         Align = alClient
         TabOrder = 0
+        OnKeyPress = SearchEditKeyPress
         ExplicitHeight = 21
       end
       object PackageSearchButton: TButton
@@ -411,6 +409,7 @@ object PackageDownloadView: TPackageDownloadView
           RowSelect = True
           TabOrder = 0
           ViewStyle = vsReport
+          OnDblClick = ReleasesListViewDblClick
         end
         object AddPackageButton: TButton
           AlignWithMargins = True
@@ -453,6 +452,7 @@ object PackageDownloadView: TPackageDownloadView
         Margins.Bottom = 7
         Align = alClient
         TabOrder = 0
+        OnKeyPress = URLEditKeyPress
         ExplicitHeight = 21
       end
       object URLGetButton: TButton
