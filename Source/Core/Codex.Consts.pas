@@ -57,8 +57,8 @@ const
   cPMMPSuppAddSection = pmmpAddSection + 900000; // Makes sure that items in this section appear after the other "Add" items
   {$ENDIF}
 
-//!!!!! Android consts?
   cManifestFileName = 'AndroidManifest.xml';
+  cManifestTemplateFileName = 'AndroidManifest.template.xml';
   cBundleToolPath = 'android\bundletool-all-1.2.0.jar';
   cAAPT2Path = 'android\aapt2.exe';
 

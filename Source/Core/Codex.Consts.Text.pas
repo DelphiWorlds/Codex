@@ -91,6 +91,10 @@ resourcestring
   sFetchingSDKs = 'Fetching SDKs from macOS..';
   sFetchingFrameworks = 'Fetching frameworks from macOS..';
 
+  sFetchingAPILevels = 'Fetching API Levels..';
+  sInstallingAPILevels = 'Installing selected API Levels..';
+  sSearchingAndroidPackages = 'Searching Android packages..';
+
 implementation
 
 end.
