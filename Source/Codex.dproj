@@ -160,6 +160,10 @@
             <Form>AndroidResources</Form>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
+        <DCCReference Include="Android\Codex.Android.SDKToolsProcess.pas"/>
+        <DCCReference Include="Android\Codex.Android.SDKToolsView.pas">
+            <Form>SDKToolsView</Form>
+        </DCCReference>
         <DCCReference Include="Android\Codex.Android.Types.pas"/>
         <DCCReference Include="Android\Codex.Android.Wizard.pas"/>
         <DCCReference Include="Core\Codex.AST.pas"/>
@@ -272,7 +276,14 @@
         </DCCReference>
         <DCCReference Include="SourcePatch\Codex.SourcePatch.Wizard.pas"/>
         <DCCReference Include="Core\Codex.Types.pas"/>
-        <DCCReference Include="Core\Codex.Wizard.pas"/>
+        <DCCReference Include="Visualizers\Codex.Visualizer.MultiLineString.pas"/>
+        <DCCReference Include="Visualizers\Codex.Visualizer.MultiLineStringFrame.pas">
+            <Form>MultiLineStringFrame</Form>
+            <DesignClass>TFrame</DesignClass>
+        </DCCReference>
+        <DCCReference Include="Core\Codex.Wizard.pas">
+            <Form>$R *.res</Form>
+        </DCCReference>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

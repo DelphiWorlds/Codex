@@ -25,6 +25,8 @@ uses
   Codex.Android.PackagesView in 'Android\Codex.Android.PackagesView.pas' {PackagesView},
   Codex.Android.ProjectManagerMenu in 'Android\Codex.Android.ProjectManagerMenu.pas',
   Codex.Android.ResourcesModule in 'Android\Codex.Android.ResourcesModule.pas' {AndroidResources: TDataModule},
+  Codex.Android.SDKToolsProcess in 'Android\Codex.Android.SDKToolsProcess.pas',
+  Codex.Android.SDKToolsView in 'Android\Codex.Android.SDKToolsView.pas' {SDKToolsView},
   Codex.Android.Types in 'Android\Codex.Android.Types.pas',
   Codex.Android.Wizard in 'Android\Codex.Android.Wizard.pas',
   Codex.AST in 'Core\Codex.AST.pas',
@@ -85,6 +87,8 @@ uses
   Codex.SourcePatch.ResourcesModule in 'SourcePatch\Codex.SourcePatch.ResourcesModule.pas' {SourcePatchResourcesModule: TDataModule},
   Codex.SourcePatch.Wizard in 'SourcePatch\Codex.SourcePatch.Wizard.pas',
   Codex.Types in 'Core\Codex.Types.pas',
+  Codex.Visualizer.MultiLineString in 'Visualizers\Codex.Visualizer.MultiLineString.pas',
+  Codex.Visualizer.MultiLineStringFrame in 'Visualizers\Codex.Visualizer.MultiLineStringFrame.pas' {MultiLineStringFrame: TFrame},
   Codex.Wizard in 'Core\Codex.Wizard.pas';
 
 {$R *.res}
