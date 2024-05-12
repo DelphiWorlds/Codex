@@ -74,14 +74,9 @@ begin
   FProcess.OnInstallProgress := ProcessInstallProgressHandler;
   FProcess.OnStepComplete := ProcessStepCompleteHandler;
   FActivityIndicator := TActivityIndicator.Create(Self);
-  FActivityIndicator.IndicatorSize := aisLarge;
   FActivityIndicator.Visible := False;
   FActivityIndicator.Parent := Self;
-  if ThemeProperties <> nil then
-  begin
-    if not ColorIsBright(ThemeProperties.MainToolBarColor) then
-      FActivityIndicator.IndicatorColor := aicWhite;
-  end;
+  FActivityIndicator.IndicatorSize := aisLarge;
 end;
 
 destructor TSDKToolsView.Destroy;
@@ -97,6 +92,11 @@ end;
 
 procedure TSDKToolsView.DoShow;
 begin
+  if ThemeProperties <> nil then
+  begin
+    if not ColorIsBright(ThemeProperties.MainToolBarColor) then
+      FActivityIndicator.IndicatorColor := aicWhite;
+  end;
   FProcess.SDKFolder := TSDKRegistry.Current.GetSDKPath;
   if not IsShown then
   begin
