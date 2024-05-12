@@ -52,6 +52,7 @@ type
     function GetBuildToolsPath: string;
     function GetJDKPath: string;
     function GetSDKAPILevelPath: string;
+    function GetSDKPath: string;
     property Items[const AIndex: Integer]: string read GetItem;
     property Count: Integer read GetCount;
   end;
@@ -64,7 +65,7 @@ uses
   {$IF Defined(EXPERT)}
   ToolsAPI, DW.OTA.Helpers,
   {$ENDIF}
-  DW.OS.Win,
+  DW.OS.Win, DW.IOUtils.Helpers,
   Codex.Consts;
 
 const
@@ -278,6 +279,7 @@ function TSDKRegistry.GetAAPTPath: string;
 var
   LAndroidSDK: IOTAPlatformSDKAndroid;
   LFolders: TArray<string>;
+  LAAPTFolder: string;
 {$ENDIF}
 begin
   Result := '';
@@ -286,9 +288,13 @@ begin
     Result := LAndroidSDK.SDKAaptPath;
   if Result.IsEmpty then
   begin
-    LFolders := TDirectory.GetDirectories(TPath.Combine(LAndroidSDK.SystemRoot, 'build-tools'), '*.*', TSearchOption.soTopDirectoryOnly);
-    if Length(LFolders) > 0 then
-      Result := TPath.Combine(LFolders[Length(LFolders) - 1], 'aapt.exe');
+    LAAPTFolder := TPath.Combine(LAndroidSDK.SystemRoot, 'build-tools');
+    if TDirectoryHelper.Exists(LAAPTFolder) then
+    begin
+      LFolders := TDirectory.GetDirectories(TPath.Combine(LAndroidSDK.SystemRoot, 'build-tools'), '*.*', TSearchOption.soTopDirectoryOnly);
+      if Length(LFolders) > 0 then
+        Result := TPath.Combine(LFolders[Length(LFolders) - 1], 'aapt.exe');
+    end;
   end;
   {$ENDIF}
   if Result.IsEmpty then
@@ -338,6 +344,21 @@ begin
   {$ENDIF}
   if Result.IsEmpty then
     Result := GetAndroidDefaultValue('SDKApiLevelPath');
+end;
+
+function TSDKRegistry.GetSDKPath: string;
+{$IF Defined(EXPERT)}
+var
+  LAndroidSDK: IOTAPlatformSDKAndroid;
+{$ENDIF}
+begin
+  Result := '';
+  {$IF Defined(EXPERT)}
+  if GetProjectAndroidSDK(LAndroidSDK) then
+    Result := LAndroidSDK.SystemRoot;
+  {$ENDIF}
+  if Result.IsEmpty then
+    Result := GetAndroidDefaultValue('SystemRoot');
 end;
 
 function TSDKRegistry.CanCreateJar: Boolean;
