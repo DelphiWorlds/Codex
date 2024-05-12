@@ -41,6 +41,15 @@ Can be found [here](Docs/Readme.md).
 
 ## Change history
 
+v2.3.0 (May 13th, 2024) Delphi 12.x and 11.x only
+
+* Added SDK Tools feature - at present, just install of API levels
+* Added Multiline string visualizer for string variables
+* Added waiting indicator for Package Download
+* Fixed adding of R jar to project
+* Fixed Connect button re-enable on ADB Connect
+* Minor fixes/tweaks
+
 v2.2.0 (Apr 5th, 2024) Delphi 12.x and 11.x only
 
 * Refactored R jar generation for Delphi 12.1 support
