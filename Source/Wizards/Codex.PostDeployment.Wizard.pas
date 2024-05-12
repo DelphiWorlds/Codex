@@ -6,7 +6,7 @@ unit Codex.PostDeployment.Wizard;
 {                                                       }
 {         Add-in for Delphi from Delphi Worlds          }
 {                                                       }
-{  Copyright 2020-2023 Dave Nottage under MIT license   }
+{  Copyright 2020-2024 Dave Nottage under MIT license   }
 {  which is located in the root folder of this library  }
 {                                                       }
 {*******************************************************}
