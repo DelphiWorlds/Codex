@@ -74,10 +74,10 @@ implementation
 
 uses
   System.IOUtils,
-  ToolsAPI, CommonOptionStrs, DW.OTA.Helpers, Codex.OTA.Helpers, DW.OTA.Consts,
+  ToolsAPI, CommonOptionStrs,
   Vcl.FileCtrl,
-  DW.IOUtils.Helpers, DW.RunProcess.Win, DW.Vcl.DialogService,
-  Codex.Config, Codex.Core, Codex.Consts.Text;
+  DW.IOUtils.Helpers, DW.RunProcess.Win, DW.Vcl.DialogService, DW.OTA.Types, DW.OTA.Consts, DW.OTA.Helpers,
+  Codex.Config, Codex.Core, Codex.Consts.Text, Codex.OTA.Helpers;
 
 resourcestring
   sAddedJarToProject = 'Added %s to project';
@@ -140,7 +140,6 @@ begin
   FOutputView.Clear;
   UpdateProjectPaths;
   FBuildR.APILevelPath := FSDKRegistry.GetSDKAPILevelPath;
-  FBuildR.BuildToolsPath := FSDKRegistry.GetBuildToolsPath;
   FBuildR.JDKPath := TPath.Combine(FSDKRegistry.GetJDKPath, 'bin');
   FBuildR.Packages := PackagesListBox.Items.ToStringArray;
   FBuildR.Build;
@@ -155,13 +154,20 @@ procedure TPackagesView.BuildRJarCompleteHandler(Sender: TObject; const ASuccess
 var
   LDeployConfigs: TDeployConfigs;
   LProject: IOTAProject;
+  LPlatform: string;
 begin
   if ASuccess then
   begin
     LProject := TOTAHelper.GetCurrentSelectedProject;
     if LProject <> nil then
     begin
-      LProject.AddFile(FBuildR.RJarFileName, False);
+      LPlatform := LProject.CurrentPlatform;
+      try
+        LProject.CurrentPlatform := cProjectPlatformsIDE[TProjectPlatform.Android32];
+        LProject.AddFile(FBuildR.RJarFileName, False);
+      finally
+        LProject.CurrentPlatform := LPlatform;
+      end;
       DoOutput(Format(Babel.Tx(sAddedJarToProject), [FBuildR.RJarFileName]));
     end;
     if TCodexOTAHelper.GetDeployConfigs(['Android', 'Android64'], LDeployConfigs) then
