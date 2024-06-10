@@ -16,12 +16,12 @@ interface
 implementation
 
 uses
-  System.Win.Registry, System.SysUtils, System.IOUtils,
+  System.Win.Registry, System.SysUtils, System.IOUtils, System.DateUtils,
   Winapi.Windows, Winapi.ShellAPI,
   ToolsAPI, CommonOptionStrs,
   Vcl.Menus, Vcl.Forms, Vcl.ActnList, Vcl.Controls,
   DW.OSLog,
-  DW.OTA.Wizard, DW.OTA.Notifiers, DW.OTA.Helpers, DW.OTA.Consts, DW.OS.Win,
+  DW.OTA.Wizard, DW.OTA.Notifiers, DW.OTA.Helpers, DW.OTA.Registry, DW.OTA.Consts, DW.OS.Win, DW.ManifestMerger,
   DW.Menus.Helpers, DW.Vcl.DialogService,
   Codex.Consts, Codex.Core, Codex.SDKRegistry, Codex.Consts.Text,
   Codex.Android.ADBConnectView, Codex.Android.AssetPackDetailsView, Codex.Android.AssetPacksView, Codex.Android.BuildJarView,
@@ -36,6 +36,7 @@ type
     FAppProcess: TGenerateAppProcess;
     FAssetPacksView: TAssetPacksView;
     FBuildJarView: TBuildJarView;
+    FIsDelphi12Update1: Boolean;
     FJava2OPView: TJava2OPView;
     FPackageDownloadView: TPackageDownloadView;
     FProjectManagerMenuNotifier: ITOTALNotifier;
@@ -49,6 +50,7 @@ type
     procedure BuildAssetPacksActionHandler(Sender: TObject);
     procedure BuildAssetPacksActionUpdateHandler(Sender: TObject);
     procedure BuildJarActionHandler(Sender: TObject);
+    procedure CheckManifest;
     procedure ExtractAPKsActionHandler(Sender: TObject);
     procedure SDKToolsActionHandler(Sender: TObject);
     procedure Java2OPActionHandler(Sender: TObject);
@@ -59,6 +61,7 @@ type
     procedure ShowFixSDKMessage;
   protected
     procedure FileNotification(const ANotifyCode: TOTAFileNotification; const AFileName: string); override;
+    procedure PeriodicTimer; override;
   public
     constructor Create; override;
     destructor Destroy; override;
@@ -88,6 +91,7 @@ resourcestring
 constructor TAndroidWizard.Create;
 begin
   inherited;
+  FIsDelphi12Update1 := TPlatformOS.GetEnvironmentVariable('ProductVersion').Equals('23.0') and (TBDSRegistry.Current.GetUpdateVersion = 1);
   FAppProcess := TGenerateAppProcess.Create;
   FSDKRegistry := TSDKRegistry.Current;
   AddMenuItems;
@@ -237,6 +241,42 @@ begin
     end;
   finally
     LKeyStoreInfo.Free;
+  end;
+end;
+
+procedure TAndroidWizard.PeriodicTimer;
+begin
+  if FIsDelphi12Update1 then
+    CheckManifest;
+end;
+
+procedure TAndroidWizard.CheckManifest;
+var
+  LProject: IOTAProject;
+  LProjectPath, LMergeFileName, LManifestFileName, LStampFileName: string;
+  LManifestDateTime, LStampDateTime: TDateTime;
+begin
+  LProject := TOTAHelper.GetActiveProject;
+  if TOTAHelper.GetProjectCurrentPlatform(LProject) in cAndroidProjectPlatforms then
+  begin
+    LProjectPath := TOTAHelper.GetProjectPath(LProject);
+    if Length(TDirectory.GetFiles(LProjectPath, '*Manifest.merge.xml', TSearchOption.soTopDirectoryOnly)) > 0 then
+    begin
+      LManifestFileName := TPath.Combine(TOTAHelper.GetProjectOutputDir(LProject), 'AndroidManifest.xml');
+      if TFile.Exists(LManifestFileName) then
+      begin
+        LManifestDateTime := TFile.GetLastWriteTime(LManifestFileName);
+        LStampFileName := TPath.Combine(TOTAHelper.GetProjectOutputDir(LProject), 'CodexManifest.stamp');
+        LStampDateTime := 0;
+        if TFile.Exists(LStampFileName) then
+          LStampDateTime := TFile.GetLastWriteTime(LStampFileName);
+        if (LManifestDateTime > LStampDateTime) and (MillisecondsBetween(LManifestDateTime, LStampDateTime) > 500) then
+        begin
+          if TManifestMerger.MergeManifest(LProjectPath, LManifestFileName) = 0 then
+            TFile.WriteAllText(LStampFileName, '');
+        end;
+      end;
+    end;
   end;
 end;
 
