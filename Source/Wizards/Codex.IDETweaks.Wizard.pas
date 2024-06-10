@@ -59,8 +59,8 @@ type
     procedure CheckProject;
     procedure CheckProjectSysJars;
     procedure CreateProjectTargetLabel;
-    procedure HookBaseActionList2;
     procedure CheckKillProcess(const AProject: IOTAProject);
+    procedure HookBaseActionList2;
     procedure ModifyEditWindowViewSelector(const AForm: TComponent);
     procedure RunRunCommandExecuteHandler(Sender: TObject);
     procedure TrustProjectBuildEvents(const AProject: IOTAProject);
