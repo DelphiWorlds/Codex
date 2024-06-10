@@ -41,6 +41,12 @@ Can be found [here](Docs/Readme.md).
 
 ## Change history
 
+v2.3.1 (Jun 11th, 2024) Delphi 12.x only
+
+**This release affects Delphi 12.1 only** (but can be installed in any Delphi 12.x version)
+
+* Added workaround for merging of AndroidManifest.xml
+
 v2.3.0 (May 13th, 2024) Delphi 12.x and 11.x only
 
 * Added SDK Tools feature - at present, just install of API levels
