@@ -12,6 +12,8 @@ Codex:
 
 The latest release version can be downloaded [here](https://www.delphiworlds.com/codex/latest), and older installers are [here](https://www.delphiworlds.com/codex/older).
 
+**NOTE: Codex 2.3.1 is a special build for Delphi 12.1, which has a [workaround for merging AndroidManifest.xml](https://github.com/DelphiWorlds/Kastri/blob/master/Delphi12.1.AndroidManifestIssue.md)**, and can be [downloaded from here](https://www.delphiworlds.com/files/download.php?file=/codex/CodexSetup_2.3.1.exe).
+
 ## Installation
 
 Installation is straightforward - run the installer and follow the prompts
