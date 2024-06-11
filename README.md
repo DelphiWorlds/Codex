@@ -45,7 +45,7 @@ v2.3.1 (Jun 11th, 2024) Delphi 12.x only
 
 **This release affects Delphi 12.1 only** (but can be installed in any Delphi 12.x version)
 
-* Added workaround for merging of AndroidManifest.xml
+* Added [workaround for merging of AndroidManifest.xml](https://github.com/DelphiWorlds/Kastri/blob/master/Delphi12.1.AndroidManifestIssue.md)
 
 v2.3.0 (May 13th, 2024) Delphi 12.x and 11.x only
 
