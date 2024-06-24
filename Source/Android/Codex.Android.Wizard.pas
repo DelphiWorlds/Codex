@@ -36,7 +36,6 @@ type
     FAppProcess: TGenerateAppProcess;
     FAssetPacksView: TAssetPacksView;
     FBuildJarView: TBuildJarView;
-    FIsDelphi12Update1: Boolean;
     FJava2OPView: TJava2OPView;
     FPackageDownloadView: TPackageDownloadView;
     FProjectManagerMenuNotifier: ITOTALNotifier;
@@ -91,7 +90,6 @@ resourcestring
 constructor TAndroidWizard.Create;
 begin
   inherited;
-  FIsDelphi12Update1 := TPlatformOS.GetEnvironmentVariable('ProductVersion').Equals('23.0') and (TBDSRegistry.Current.GetUpdateVersion = 1);
   FAppProcess := TGenerateAppProcess.Create;
   FSDKRegistry := TSDKRegistry.Current;
   AddMenuItems;
@@ -227,7 +225,7 @@ begin
     begin
       FAppProcess.ADBPath := FSDKRegistry.GetADBPath;
       FAppProcess.JDKPath := TPath.Combine(FSDKRegistry.GetJDKPath, 'bin');
-      FAppProcess.BundleToolPath := TPath.Combine(TPlatformOS.GetEnvironmentVariable('BDSBIN'), cBundleToolPath);
+      FAppProcess.BundleToolPath := FSDKRegistry.GetBundleToolJarPath;
       FAppProcess.KeyStoreFileName := LKeyStoreInfo.KeystoreFileNameEdit.Text;
       FAppProcess.KeyStoreAlias := LKeyStoreInfo.KeystoreAliasEdit.Text;
       FAppProcess.KeyStoreAliasPass := LKeyStoreInfo.KeystoreAliasPassEdit.Text;
@@ -246,7 +244,7 @@ end;
 
 procedure TAndroidWizard.PeriodicTimer;
 begin
-  if FIsDelphi12Update1 then
+  if CodexProvider.GetDelphiVersionInfo.IsDelphi12Update1 then
     CheckManifest;
 end;
 

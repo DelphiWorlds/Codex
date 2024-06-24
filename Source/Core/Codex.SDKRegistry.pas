@@ -49,6 +49,8 @@ type
     function CanCreateRJar: Boolean;
     function GetADBPath: string;
     function GetAAPTPath: string;
+    function GetAAPT2ExePath: string;
+    function GetBundleToolJarPath: string;
     function GetBuildToolsPath: string;
     function GetJDKPath: string;
     function GetSDKAPILevelPath: string;
@@ -65,7 +67,7 @@ uses
   {$IF Defined(EXPERT)}
   ToolsAPI, DW.OTA.Helpers,
   {$ENDIF}
-  DW.OS.Win, DW.IOUtils.Helpers,
+  DW.OS.Win, DW.IOUtils.Helpers, DW.OTA.Registry,
   Codex.Consts;
 
 const
@@ -274,24 +276,69 @@ begin
     Result := TPath.GetDirectoryName(Result);
 end;
 
+function TSDKRegistry.GetAAPT2ExePath: string;
+var
+  LFileName: string;
+  LFileTime: TDateTime;
+begin
+  Result := '';
+  if TPlatformOS.GetEnvironmentVariable('ProductVersion').Equals('23.0') and (TBDSRegistry.Current.GetUpdateVersion = 1) then
+  begin
+    LFileTime := 0;
+    for LFileName in TDirectory.GetFiles(TPath.Combine(TPlatformOS.GetEnvironmentVariable('BDSBIN'), 'android'), 'aapt2*.exe') do
+    begin
+      if TFile.GetLastWriteTime(LFileName) > LFileTime then
+      begin
+        LFileTime := TFile.GetLastWriteTime(LFileName);
+        Result := LFileName;
+      end;
+    end;
+  end
+  else
+    Result := TPath.Combine(GetBuildToolsPath, 'aapt2.exe');
+end;
+
+function TSDKRegistry.GetBundleToolJarPath: string;
+var
+  LFileName: string;
+  LFileTime: TDateTime;
+begin
+  Result := '';
+  LFileTime := 0;
+  for LFileName in TDirectory.GetFiles(TPath.Combine(TPlatformOS.GetEnvironmentVariable('BDSBIN'), 'android'), 'bundletool-*.jar') do
+  begin
+    if TFile.GetLastWriteTime(LFileName) > LFileTime then
+    begin
+      LFileTime := TFile.GetLastWriteTime(LFileName);
+      Result := LFileName;
+    end;
+  end;
+end;
+
 function TSDKRegistry.GetAAPTPath: string;
 {$IF Defined(EXPERT)}
 var
   LAndroidSDK: IOTAPlatformSDKAndroid;
   LFolders: TArray<string>;
-  LAAPTFolder: string;
+  LAAPTFolder, LSDKRoot: string;
 {$ENDIF}
 begin
   Result := '';
+  LSDKRoot := '';
   {$IF Defined(EXPERT)}
   if GetProjectAndroidSDK(LAndroidSDK) then
+  begin
+    LSDKRoot := LAndroidSDK.SystemRoot;
     Result := LAndroidSDK.SDKAaptPath;
+  end
+  else
+    LSDKRoot := GetSDKPath;
   if Result.IsEmpty then
   begin
-    LAAPTFolder := TPath.Combine(LAndroidSDK.SystemRoot, 'build-tools');
+    LAAPTFolder := TPath.Combine(LSDKRoot, 'build-tools');
     if TDirectoryHelper.Exists(LAAPTFolder) then
     begin
-      LFolders := TDirectory.GetDirectories(TPath.Combine(LAndroidSDK.SystemRoot, 'build-tools'), '*.*', TSearchOption.soTopDirectoryOnly);
+      LFolders := TDirectory.GetDirectories(TPath.Combine(LSDKRoot, 'build-tools'), '*.*', TSearchOption.soTopDirectoryOnly);
       if Length(LFolders) > 0 then
         Result := TPath.Combine(LFolders[Length(LFolders) - 1], 'aapt.exe');
     end;
