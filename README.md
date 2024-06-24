@@ -43,6 +43,10 @@ Can be found [here](Docs/Readme.md).
 
 ## Change history
 
+v2.3.2 (Jun 25th, 2024) Delphi 12.x and 11.x only
+
+* Fixed issues with Asset Packs build process
+
 v2.3.1 (Jun 11th, 2024) Delphi 12.x only
 
 **This release affects Delphi 12.1 only** (but can be installed in any Delphi 12.x version)
