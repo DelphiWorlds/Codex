@@ -1,32 +1,45 @@
 object AssetPackDetailsView: TAssetPackDetailsView
   Left = 0
   Top = 0
+  Margins.Left = 5
+  Margins.Top = 5
+  Margins.Right = 5
+  Margins.Bottom = 5
   Caption = 'Asset Pack Details'
-  ClientHeight = 252
-  ClientWidth = 400
+  ClientHeight = 378
+  ClientWidth = 609
   Color = clBtnFace
-  Constraints.MinHeight = 290
+  Constraints.MinHeight = 291
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -12
+  Font.Height = -18
   Font.Name = 'Segoe UI'
   Font.Style = []
   Position = poOwnerFormCenter
-  TextHeight = 15
+  PixelsPerInch = 144
+  TextHeight = 25
   object CommandButtonsPanel: TPanel
     Left = 0
-    Top = 218
-    Width = 400
-    Height = 34
+    Top = 327
+    Width = 609
+    Height = 51
+    Margins.Left = 5
+    Margins.Top = 5
+    Margins.Right = 5
+    Margins.Bottom = 5
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 0
     object CancelButton: TButton
       AlignWithMargins = True
-      Left = 322
-      Top = 3
-      Width = 75
-      Height = 28
+      Left = 491
+      Top = 5
+      Width = 113
+      Height = 41
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 5
       Align = alRight
       Cancel = True
       Caption = 'Cancel'
@@ -38,10 +51,14 @@ object AssetPackDetailsView: TAssetPackDetailsView
     end
     object OKButton: TButton
       AlignWithMargins = True
-      Left = 241
-      Top = 3
-      Width = 75
-      Height = 28
+      Left = 369
+      Top = 5
+      Width = 112
+      Height = 41
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 5
       Action = OKAction
       Align = alRight
       DoubleBuffered = True
@@ -51,63 +68,88 @@ object AssetPackDetailsView: TAssetPackDetailsView
   end
   object AssetPackDetailsPanel: TPanel
     AlignWithMargins = True
-    Left = 3
-    Top = 3
-    Width = 394
-    Height = 212
+    Left = 5
+    Top = 5
+    Width = 599
+    Height = 317
+    Margins.Left = 5
+    Margins.Top = 5
+    Margins.Right = 5
+    Margins.Bottom = 5
     Align = alClient
     BevelOuter = bvNone
     ParentBackground = False
     TabOrder = 1
     TabStop = True
-    ExplicitWidth = 386
-    ExplicitHeight = 208
     object PackFolderLabel: TLabel
       AlignWithMargins = True
-      Left = 3
-      Top = 103
-      Width = 388
-      Height = 15
+      Left = 5
+      Top = 161
+      Width = 589
+      Height = 25
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 5
       Align = alTop
       Caption = 'Folder:'
-      ExplicitWidth = 36
+      ExplicitTop = 135
+      ExplicitWidth = 54
     end
     object AssetPackTypeLabel: TLabel
       AlignWithMargins = True
-      Left = 3
-      Top = 153
-      Width = 388
-      Height = 15
+      Left = 5
+      Top = 239
+      Width = 589
+      Height = 25
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 5
       Align = alTop
       Caption = 'Pack Type:'
-      ExplicitWidth = 55
+      ExplicitTop = 203
+      ExplicitWidth = 81
     end
     object PackNameLabel: TLabel
       AlignWithMargins = True
-      Left = 3
-      Top = 53
-      Width = 388
-      Height = 15
+      Left = 5
+      Top = 83
+      Width = 589
+      Height = 25
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 5
       Align = alTop
       Caption = 'Pack Name:'
-      ExplicitWidth = 63
+      ExplicitTop = 70
+      ExplicitWidth = 91
     end
     object PackPackageNameLabel: TLabel
       AlignWithMargins = True
-      Left = 3
-      Top = 3
-      Width = 388
-      Height = 15
+      Left = 5
+      Top = 5
+      Width = 589
+      Height = 25
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 5
       Align = alTop
       Caption = 'Package:'
-      ExplicitWidth = 47
+      ExplicitWidth = 68
     end
     object PackKindComboBox: TComboBox
       AlignWithMargins = True
-      Left = 3
-      Top = 174
-      Width = 388
-      Height = 23
+      Left = 5
+      Top = 274
+      Width = 589
+      Height = 33
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 5
       Align = alTop
       Style = csDropDownList
       ItemIndex = 0
@@ -117,37 +159,45 @@ object AssetPackDetailsView: TAssetPackDetailsView
         'Install Time'
         'Fast Follow'
         'On Demand')
-      ExplicitWidth = 380
     end
     object PackNameEdit: TEdit
       AlignWithMargins = True
-      Left = 3
-      Top = 74
-      Width = 388
-      Height = 23
+      Left = 5
+      Top = 118
+      Width = 589
+      Height = 33
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 5
       Align = alTop
       TabOrder = 2
-      ExplicitWidth = 380
     end
     object PackageEdit: TEdit
       AlignWithMargins = True
-      Left = 3
-      Top = 24
-      Width = 388
-      Height = 23
+      Left = 5
+      Top = 40
+      Width = 589
+      Height = 33
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 5
       Align = alTop
       TabOrder = 3
-      ExplicitWidth = 380
     end
     object FolderComboBox: TComboBox
       AlignWithMargins = True
-      Left = 3
-      Top = 124
-      Width = 388
-      Height = 23
+      Left = 5
+      Top = 196
+      Width = 589
+      Height = 33
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 5
       Align = alTop
       TabOrder = 0
-      ExplicitWidth = 380
     end
   end
   object ActionList: TActionList

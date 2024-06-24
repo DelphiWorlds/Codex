@@ -1,32 +1,45 @@
 object AssetPacksView: TAssetPacksView
   Left = 0
   Top = 0
+  Margins.Left = 5
+  Margins.Top = 5
+  Margins.Right = 5
+  Margins.Bottom = 5
   Caption = 'Asset Packs'
-  ClientHeight = 425
-  ClientWidth = 703
+  ClientHeight = 638
+  ClientWidth = 1055
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -11
+  Font.Height = -17
   Font.Name = 'Tahoma'
   Font.Style = []
   Position = poOwnerFormCenter
   ShowHint = True
-  TextHeight = 13
+  PixelsPerInch = 144
+  TextHeight = 21
   object CommandButtonsPanel: TPanel
     Left = 0
-    Top = 389
-    Width = 703
-    Height = 36
+    Top = 584
+    Width = 1055
+    Height = 54
+    Margins.Left = 5
+    Margins.Top = 5
+    Margins.Right = 5
+    Margins.Bottom = 5
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 0
     object CloseButton: TButton
       AlignWithMargins = True
-      Left = 608
-      Top = 3
-      Width = 92
-      Height = 30
+      Left = 912
+      Top = 5
+      Width = 138
+      Height = 44
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 5
       Align = alRight
       Caption = '&Close'
       DoubleBuffered = True
@@ -37,20 +50,28 @@ object AssetPacksView: TAssetPacksView
     end
     object BuildAllButton: TButton
       AlignWithMargins = True
-      Left = 3
-      Top = 3
-      Width = 96
-      Height = 30
+      Left = 5
+      Top = 5
+      Width = 144
+      Height = 44
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 5
       Action = BuildAllAction
       Align = alLeft
       TabOrder = 1
     end
     object InstallButton: TButton
       AlignWithMargins = True
-      Left = 105
-      Top = 3
-      Width = 96
-      Height = 30
+      Left = 159
+      Top = 5
+      Width = 144
+      Height = 44
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 5
       Action = InstallAction
       Align = alLeft
       TabOrder = 2
@@ -58,119 +79,143 @@ object AssetPacksView: TAssetPacksView
   end
   object AssetPackPathPanel: TPanel
     AlignWithMargins = True
-    Left = 4
-    Top = 4
-    Width = 695
-    Height = 54
-    Margins.Left = 4
-    Margins.Top = 4
-    Margins.Right = 4
+    Left = 6
+    Top = 6
+    Width = 1043
+    Height = 81
+    Margins.Left = 6
+    Margins.Top = 6
+    Margins.Right = 6
     Margins.Bottom = 0
     Align = alTop
     BevelOuter = bvNone
-    Padding.Bottom = 1
+    Padding.Bottom = 2
     TabOrder = 1
     object SelectAssetPacksPathButton: TSpeedButton
       AlignWithMargins = True
-      Left = 668
-      Top = 22
-      Width = 23
-      Height = 27
+      Left = 1002
+      Top = 36
+      Width = 35
+      Height = 37
       Margins.Left = 0
-      Margins.Right = 4
-      Margins.Bottom = 4
+      Margins.Top = 5
+      Margins.Right = 6
+      Margins.Bottom = 6
       Align = alRight
       Caption = '...'
       OnClick = SelectAssetPacksPathButtonClick
-      ExplicitLeft = 658
-      ExplicitTop = 19
-      ExplicitHeight = 25
+      ExplicitTop = 33
+      ExplicitHeight = 41
     end
     object AssetPackPathLabel: TLabel
       AlignWithMargins = True
-      Left = 3
-      Top = 3
-      Width = 689
-      Height = 13
+      Left = 5
+      Top = 5
+      Width = 1033
+      Height = 21
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 5
       Align = alTop
       Caption = 'Asset packs path:'
-      ExplicitWidth = 86
+      ExplicitWidth = 133
     end
     object AssetPacksPathEdit: TEdit
       AlignWithMargins = True
-      Left = 4
-      Top = 23
-      Width = 664
-      Height = 26
-      Margins.Left = 4
-      Margins.Top = 4
+      Left = 6
+      Top = 37
+      Width = 996
+      Height = 36
+      Margins.Left = 6
+      Margins.Top = 6
       Margins.Right = 0
-      Margins.Bottom = 4
+      Margins.Bottom = 6
       Align = alClient
       ParentShowHint = False
       ReadOnly = True
       ShowHint = True
       TabOrder = 0
-      ExplicitHeight = 21
+      ExplicitHeight = 29
     end
   end
   object AssetPacksListPanel: TPanel
     AlignWithMargins = True
-    Left = 4
-    Top = 62
-    Width = 695
-    Height = 319
-    Margins.Left = 4
-    Margins.Top = 4
-    Margins.Right = 4
-    Margins.Bottom = 8
+    Left = 6
+    Top = 93
+    Width = 1043
+    Height = 479
+    Margins.Left = 6
+    Margins.Top = 6
+    Margins.Right = 6
+    Margins.Bottom = 12
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 2
     object AssetPacksLabel: TLabel
       AlignWithMargins = True
-      Left = 3
-      Top = 3
-      Width = 689
-      Height = 13
+      Left = 5
+      Top = 5
+      Width = 1033
+      Height = 21
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 5
       Align = alTop
       Caption = 'Asset Packs:'
-      ExplicitWidth = 61
+      ExplicitWidth = 95
     end
     object PackButtonsPanel: TPanel
       Left = 0
-      Top = 283
-      Width = 695
-      Height = 36
+      Top = 425
+      Width = 1043
+      Height = 54
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 5
       Align = alBottom
       BevelOuter = bvNone
       TabOrder = 1
       object DeletePackButton: TButton
         AlignWithMargins = True
-        Left = 600
-        Top = 3
-        Width = 92
-        Height = 30
+        Left = 900
+        Top = 5
+        Width = 138
+        Height = 44
+        Margins.Left = 5
+        Margins.Top = 5
+        Margins.Right = 5
+        Margins.Bottom = 5
         Action = DeletePackAction
         Align = alRight
         TabOrder = 1
       end
       object AddPackButton: TButton
         AlignWithMargins = True
-        Left = 404
-        Top = 3
-        Width = 92
-        Height = 30
+        Left = 604
+        Top = 5
+        Width = 138
+        Height = 44
+        Margins.Left = 5
+        Margins.Top = 5
+        Margins.Right = 5
+        Margins.Bottom = 5
         Action = AddPackAction
         Align = alRight
         TabOrder = 0
       end
       object EditPackButton: TButton
         AlignWithMargins = True
-        Left = 502
-        Top = 3
-        Width = 92
-        Height = 30
+        Left = 752
+        Top = 5
+        Width = 138
+        Height = 44
+        Margins.Left = 5
+        Margins.Top = 5
+        Margins.Right = 5
+        Margins.Bottom = 5
         Action = EditPackAction
         Align = alRight
         TabOrder = 2
@@ -178,28 +223,33 @@ object AssetPacksView: TAssetPacksView
     end
     object AssetPacksListView: TListView
       AlignWithMargins = True
-      Left = 3
-      Top = 22
-      Width = 689
-      Height = 258
+      Left = 5
+      Top = 36
+      Width = 1033
+      Height = 384
+      Margins.Left = 5
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 5
       Align = alClient
       Columns = <
         item
           Caption = 'Package'
-          Width = 250
+          Width = 375
         end
         item
           Caption = 'Asset Pack Name'
-          Width = 180
+          Width = 270
         end
         item
           Caption = 'Folder'
-          Width = 120
+          Width = 180
         end
         item
           Caption = 'Type'
-          Width = 100
+          Width = 150
         end>
+      Items.ItemData = {050000000000000000}
       MultiSelect = True
       ReadOnly = True
       RowSelect = True
