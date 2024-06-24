@@ -75,6 +75,14 @@ type
 
   TUseUnits = TArray<TUseUnit>;
 
+  TDelphiVersionInfo = record
+    Major: Integer;
+    Minor: Integer;
+    Version: Integer;
+    Build: Integer;
+    function IsDelphi12Update1: Boolean;
+  end;
+
 implementation
 
 uses
@@ -190,6 +198,13 @@ end;
 function TSourceError.Equals(const AError: TSourceError): Boolean;
 begin
   Result := (LineNo = AError.LineNo) and (ColumnNo = AError.ColumnNo) and (Kind = AError.Kind) and (Message = AError.Message);
+end;
+
+{ TDelphiVersionInfo }
+
+function TDelphiVersionInfo.IsDelphi12Update1: Boolean;
+begin
+  Result := (Major > 29) or ((Major = 29) and (Minor = 0) and (Version = 51961) and (Build = 7529));
 end;
 
 end.

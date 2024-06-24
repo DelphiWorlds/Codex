@@ -46,6 +46,7 @@ type
 
   ICodexProvider = interface(IInterface)
     ['{C6C7CBEB-8166-44B6-B8ED-1307200DA4BB}']
+    function GetDelphiVersionInfo: TDelphiVersionInfo;
     function GetEditorActionList: TActionList;
     procedure NotifyContextMenu(const AMenuItem: TMenuItem);
     procedure ProjectModified(const AProject: IOTAProject);

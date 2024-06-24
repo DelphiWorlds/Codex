@@ -21,6 +21,7 @@ uses
   Vcl.Forms, Vcl.Menus, Vcl.ActnList,
   DW.OSLog,
   DW.OTA.Wizard, DW.OTA.IDENotifierOTAWizard, DW.OTA.Notifiers, DW.OTA.Helpers, DW.Menus.Helpers, DW.OTA.WPPlugin, DW.OTA.Types, DW.OTA.Consts,
+  DW.FileVersionInfo.Win, DW.OS.Win,
   Codex.Config.PreVersion2,
   Codex.AboutView, Codex.OptionsView, Codex.ProgressView, Codex.OutputView, Codex.Types,
   Codex.Config, Codex.ErrorInsight, Codex.Consts, Codex.Options, Codex.ResourcesModule, Codex.ModuleNotifier,
@@ -30,6 +31,7 @@ type
   TCodexWizard = class(TIDENotifierOTAWizard, IConfigOptionsHost, ICodexProvider, IModuleListener)
   private
     FCodexMenuItem: TMenuItem;
+    FDelphiVersionInfo: TDelphiVersionInfo;
     FModuleNotifier: TCodexModuleNotifier;
     FOptionsView: TOptionsView;
     FThemeNotifier: ITOTALNotifier;
@@ -41,6 +43,7 @@ type
     procedure AddCodexMenuItem;
     procedure AddCodexMenuSubItems;
     procedure CheckProject(const AFileName: string; const AWasOpened: Boolean);
+    procedure InternalGetDelphiVersionInfo;
     procedure ShowProjectManager;
   protected
     class function GetWizardName: string; override;
@@ -58,6 +61,7 @@ type
     { IConfigOptionsHost }
     procedure ShowOptions(const ASectionID: string);
     { ICodexProvider }
+    function GetDelphiVersionInfo: TDelphiVersionInfo;
     function GetEditorActionList: TActionList;
     procedure NotifyContextMenu(const AMenuItem: TMenuItem);
     procedure ProjectModified(const AProject: IOTAProject);
@@ -102,6 +106,7 @@ constructor TCodexWizard.Create;
 begin
   inherited;
   CodexProvider := Self;
+  InternalGetDelphiVersionInfo;
   FThemeNotifier := TCodexThemingServicesNotifier.Create(Self);
   FModuleNotifier := TCodexModuleNotifier.Create;
   ModuleNotifier.AddListener(Self);
@@ -119,6 +124,31 @@ begin
   FThemeNotifier.RemoveNotifier;
   FModuleNotifier.Free;
   inherited;
+end;
+
+procedure TCodexWizard.InternalGetDelphiVersionInfo;
+var
+  LVersionInfo: TFileVersionInfo;
+  LFileName: string;
+begin
+  LFileName := TPath.Combine(TPlatformOS.GetEnvironmentVariable('BDS'), 'bin\bds.exe');
+  if TFile.Exists(LFileName) then
+  begin
+    LVersionInfo := TFileVersionInfo.Create(LFileName);
+    try
+      FDelphiVersionInfo.Major := LVersionInfo.FileLongVersion.All[1];
+      FDelphiVersionInfo.Minor := LVersionInfo.FileLongVersion.All[2];
+      FDelphiVersionInfo.Version := LVersionInfo.FileLongVersion.All[3];
+      FDelphiVersionInfo.Build := LVersionInfo.FileLongVersion.All[4];
+    finally
+      LVersionInfo.Free;
+    end;
+  end;
+end;
+
+function TCodexWizard.GetDelphiVersionInfo: TDelphiVersionInfo;
+begin
+  Result := FDelphiVersionInfo;
 end;
 
 function TCodexWizard.GetEditorActionList: TActionList;
