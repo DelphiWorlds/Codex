@@ -54,6 +54,7 @@ type
     procedure SelectKeyStoreFileActionExecute(Sender: TObject);
   private
     FFormMode: TKeyStoreFormMode;
+    function GetClientHeight(const Value: TKeyStoreFormMode): Integer;
     procedure SetFormMode(const Value: TKeyStoreFormMode);
   protected
     procedure DoShow; override;
@@ -78,6 +79,22 @@ resourcestring
   sInstallAABCaption = 'Install AAB';
   sRebuildBundleWithAssetPacksCaption = 'Rebuild Bundle With Asset Packs';
 
+type
+  TControlHelper = class helper for TControl
+    function AbsoluteHeight: Integer;
+  end;
+
+{ TControlHelper }
+
+function TControlHelper.AbsoluteHeight: Integer;
+begin
+  Result := Height;
+  if AlignWithMargins and (Align <> TAlign.alNone) then
+   Result := Result + Margins.Top + Margins.Bottom;
+end;
+
+{ TKeyStoreInfoView }
+
 procedure TKeyStoreInfoView.DoShow;
 var
   LProjectBuildBinPath: string;
@@ -96,6 +113,14 @@ begin
     KeystoreAliasEdit.Text := LKeyStoreItem.KeyAlias;
     KeystoreAliasPassEdit.Text := LKeyStoreItem.KeyAliasPass;
   end;
+end;
+
+function TKeyStoreInfoView.GetClientHeight(const Value: TKeyStoreFormMode): Integer;
+begin
+  Result := CustomTitleBarHeight + KeystoreFilePanel.AbsoluteHeight + KeystorePassPanel.AbsoluteHeight + KeystoreAliasPanel.AbsoluteHeight
+    + KeystoreAliasPassPanel.AbsoluteHeight + CommandButtonsPanel.AbsoluteHeight;
+  if Value <> TKeyStoreFormMode.KeyStore then
+    Inc(Result, AABPanel.AbsoluteHeight);
 end;
 
 procedure TKeyStoreInfoView.OKActionExecute(Sender: TObject);
@@ -128,17 +153,15 @@ end;
 procedure TKeyStoreInfoView.SetFormMode(const Value: TKeyStoreFormMode);
 const
   cFormCaptions: array[TKeyStoreFormMode] of string = (sRebuildBundleWithAssetPacksCaption, sExtractAPKFromAABCaption, sInstallAABCaption);
-  cFormHeights: array[TKeyStoreFormMode] of Integer = (300, 365, 365);
 var
-  LHeight: Integer;
+  LHeight, LOffset: Integer;
 begin
   FFormMode := Value;
   Caption := Babel.Tx(cFormCaptions[FFormMode]);
-  LHeight := cFormHeights[FFormMode];
-  Constraints.MaxHeight := LHeight;
-  Constraints.MinHeight := LHeight;
-  Height := LHeight;
   AABPanel.Visible := FFormMode in [TKeyStoreFormMode.ExtractAPKs, TKeyStoreFormMode.InstallBundle];
+  ClientHeight := GetClientHeight(FFormMode);
+  Constraints.MaxHeight := Height;
+  Constraints.MinHeight := Height;
 end;
 
 end.

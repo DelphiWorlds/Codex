@@ -3,7 +3,7 @@ object KeyStoreInfoView: TKeyStoreInfoView
   Top = 0
   Caption = 'Rebuild Bundle With Asset Packs'
   ClientHeight = 326
-  ClientWidth = 621
+  ClientWidth = 627
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -16,7 +16,7 @@ object KeyStoreInfoView: TKeyStoreInfoView
     AlignWithMargins = True
     Left = 4
     Top = 61
-    Width = 613
+    Width = 619
     Height = 53
     Margins.Left = 4
     Margins.Top = 0
@@ -28,7 +28,7 @@ object KeyStoreInfoView: TKeyStoreInfoView
     TabOrder = 1
     object SelectKeystoreFileButton: TSpeedButton
       AlignWithMargins = True
-      Left = 586
+      Left = 592
       Top = 24
       Width = 23
       Height = 25
@@ -36,14 +36,14 @@ object KeyStoreInfoView: TKeyStoreInfoView
       Margins.Right = 4
       Action = SelectKeyStoreFileAction
       Align = alRight
-      ExplicitLeft = 658
-      ExplicitTop = 19
+      ExplicitTop = 27
+      ExplicitHeight = 21
     end
     object KeystoreFileLabel: TLabel
       AlignWithMargins = True
       Left = 3
       Top = 3
-      Width = 607
+      Width = 613
       Height = 15
       Align = alTop
       Caption = 'KeyStore file:'
@@ -53,7 +53,7 @@ object KeyStoreInfoView: TKeyStoreInfoView
       AlignWithMargins = True
       Left = 4
       Top = 25
-      Width = 582
+      Width = 588
       Height = 23
       Margins.Left = 4
       Margins.Top = 4
@@ -69,7 +69,7 @@ object KeyStoreInfoView: TKeyStoreInfoView
     AlignWithMargins = True
     Left = 4
     Top = 175
-    Width = 613
+    Width = 619
     Height = 53
     Margins.Left = 4
     Margins.Top = 0
@@ -83,7 +83,7 @@ object KeyStoreInfoView: TKeyStoreInfoView
       AlignWithMargins = True
       Left = 3
       Top = 3
-      Width = 607
+      Width = 613
       Height = 15
       Align = alTop
       Caption = 'Alias:'
@@ -93,7 +93,7 @@ object KeyStoreInfoView: TKeyStoreInfoView
       AlignWithMargins = True
       Left = 4
       Top = 25
-      Width = 605
+      Width = 611
       Height = 23
       Margins.Left = 4
       Margins.Top = 4
@@ -109,7 +109,7 @@ object KeyStoreInfoView: TKeyStoreInfoView
     AlignWithMargins = True
     Left = 4
     Top = 118
-    Width = 613
+    Width = 619
     Height = 53
     Margins.Left = 4
     Margins.Top = 0
@@ -123,7 +123,7 @@ object KeyStoreInfoView: TKeyStoreInfoView
       AlignWithMargins = True
       Left = 3
       Top = 3
-      Width = 607
+      Width = 613
       Height = 15
       Align = alTop
       Caption = 'KeyStore Password:'
@@ -133,7 +133,7 @@ object KeyStoreInfoView: TKeyStoreInfoView
       AlignWithMargins = True
       Left = 4
       Top = 25
-      Width = 605
+      Width = 611
       Height = 23
       Margins.Left = 4
       Margins.Top = 4
@@ -150,7 +150,7 @@ object KeyStoreInfoView: TKeyStoreInfoView
     AlignWithMargins = True
     Left = 4
     Top = 232
-    Width = 613
+    Width = 619
     Height = 53
     Margins.Left = 4
     Margins.Top = 0
@@ -164,7 +164,7 @@ object KeyStoreInfoView: TKeyStoreInfoView
       AlignWithMargins = True
       Left = 3
       Top = 3
-      Width = 607
+      Width = 613
       Height = 15
       Align = alTop
       Caption = 'Alias Password:'
@@ -174,7 +174,7 @@ object KeyStoreInfoView: TKeyStoreInfoView
       AlignWithMargins = True
       Left = 4
       Top = 25
-      Width = 605
+      Width = 611
       Height = 23
       Margins.Left = 4
       Margins.Top = 4
@@ -188,16 +188,21 @@ object KeyStoreInfoView: TKeyStoreInfoView
     end
   end
   object CommandButtonsPanel: TPanel
+    AlignWithMargins = True
     Left = 0
     Top = 292
-    Width = 621
+    Width = 627
     Height = 34
+    Margins.Left = 0
+    Margins.Top = 0
+    Margins.Right = 0
+    Margins.Bottom = 0
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 5
     object CancelButton: TButton
       AlignWithMargins = True
-      Left = 543
+      Left = 549
       Top = 3
       Width = 75
       Height = 28
@@ -212,9 +217,9 @@ object KeyStoreInfoView: TKeyStoreInfoView
     end
     object OKButton: TButton
       AlignWithMargins = True
-      Left = 462
+      Left = 467
       Top = 3
-      Width = 75
+      Width = 76
       Height = 28
       Action = OKAction
       Align = alRight
@@ -227,7 +232,7 @@ object KeyStoreInfoView: TKeyStoreInfoView
     AlignWithMargins = True
     Left = 4
     Top = 4
-    Width = 613
+    Width = 619
     Height = 53
     Margins.Left = 4
     Margins.Top = 4
@@ -239,7 +244,7 @@ object KeyStoreInfoView: TKeyStoreInfoView
     TabOrder = 0
     object SelectAABFileButton: TSpeedButton
       AlignWithMargins = True
-      Left = 586
+      Left = 592
       Top = 24
       Width = 23
       Height = 25
@@ -247,14 +252,14 @@ object KeyStoreInfoView: TKeyStoreInfoView
       Margins.Right = 4
       Action = SelectAABFileAction
       Align = alRight
-      ExplicitLeft = 658
-      ExplicitTop = 19
+      ExplicitTop = 27
+      ExplicitHeight = 22
     end
     object AABLabel: TLabel
       AlignWithMargins = True
       Left = 3
       Top = 3
-      Width = 607
+      Width = 613
       Height = 15
       Align = alTop
       Caption = 'AAB file:'
@@ -264,7 +269,7 @@ object KeyStoreInfoView: TKeyStoreInfoView
       AlignWithMargins = True
       Left = 4
       Top = 25
-      Width = 582
+      Width = 588
       Height = 23
       Margins.Left = 4
       Margins.Top = 4
