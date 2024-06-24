@@ -59,8 +59,6 @@ const
 
   cManifestFileName = 'AndroidManifest.xml';
   cManifestTemplateFileName = 'AndroidManifest.template.xml';
-  cBundleToolPath = 'android\bundletool-all-1.2.0.jar';
-  cAAPT2Path = 'android\aapt2.exe';
 
   cRegistryCodexSubKey = '\DelphiWorlds\Codex';
 
