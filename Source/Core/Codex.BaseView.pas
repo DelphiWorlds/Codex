@@ -26,6 +26,7 @@ type
     procedure ReadProps;
     procedure WriteProps;
   protected
+    function CustomTitleBarHeight: Integer;
     procedure DoHide; override;
     procedure DoShow; override;
     property IsShown: Boolean read FIsShown;
@@ -66,6 +67,13 @@ begin
   {$ENDIF}
   {$ENDIF}
   Babel.Translate(Self);
+end;
+
+function TForm.CustomTitleBarHeight: Integer;
+begin
+  Result := 0;
+  if CustomTitleBar.Enabled and (CustomTitleBar.Control <> nil) then
+    Result := CustomTitleBar.Control.Height;
 end;
 
 procedure TForm.DoHide;
