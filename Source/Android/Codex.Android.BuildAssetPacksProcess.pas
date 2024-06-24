@@ -89,7 +89,6 @@ uses
 
 const
   cAAPT2LinkCommandLine = '"%s" link --proto-format --auto-add-overlay -o "%s" -I "%s" --manifest "%s" -A "%s"';
-  cAAPT2ExeFileName = 'aapt2.exe';
   cJavaExeFileName = 'java.exe';
   cAndroidManifestFileName = 'AndroidManifest.xml';
   cAndroidJarFileName = 'android.jar';

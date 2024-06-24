@@ -96,7 +96,7 @@ uses
   DW.OSLog,
   System.IOUtils,
   ToolsAPI, CommonOptionStrs, DCCStrs,
-  DW.OTA.Helpers,
+  DW.OTA.Helpers, DW.OTA.Registry,
   DW.OS.Win, DW.IOUtils.Helpers, DW.Types.Helpers, DW.Vcl.DialogService,
   Codex.Android.KeyStoreInfoView, Codex.Android.AssetPackDetailsView,
   Codex.Consts, Codex.Config, Codex.Core, Codex.ProgressView, Codex.Consts.Text;
@@ -426,8 +426,8 @@ begin
       if TFile.Exists(LAABFileName) then
       begin
         FAppProcess.JDKPath := TPath.Combine(FSDKRegistry.GetJDKPath, 'bin');
-        FAppProcess.BundleToolPath := TPath.Combine(TPlatformOS.GetEnvironmentVariable('BDSBIN'), cBundleToolPath);
-        FBuildPacksProcess.AAPT2ExePath := TPath.Combine(TPlatformOS.GetEnvironmentVariable('BDSBIN'), cAAPT2Path);
+        FAppProcess.BundleToolPath := FSDKRegistry.GetBundleToolJarPath;
+        FBuildPacksProcess.AAPT2ExePath := FSDKRegistry.GetAAPT2ExePath;
         FBuildPacksProcess.APILevelPath := FSDKRegistry.GetSDKAPILevelPath;
         if FBuildPacksProcess.Build(AssetPacksPathEdit.Text) then
         begin

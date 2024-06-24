@@ -204,7 +204,7 @@ end;
 function TGenerateAppProcess.BuildBundle(const AProjectName, ADeployedAppPath: string; const AAssetPacks: TArray<string>): Boolean;
 var
   LModuleFileNames: TArray<string>;
-  LBaseZipFileName, LModules: string;
+  LBaseZipFileName, LModules, LBaseFolder: string;
   I: Integer;
 begin
   Result := False;
@@ -213,20 +213,27 @@ begin
   begin
     FDeployedAppPath := ADeployedAppPath;
     FProjectName := AProjectName;
-    LBaseZipFileName := TPath.Combine(ADeployedAppPath, cDeployedAppBaseFolder + '.zip');
-    TZipFile.ZipDirectoryContents(LBaseZipFileName, TPath.Combine(ADeployedAppPath, cDeployedAppBaseFolder));
-    LModuleFileNames := AAssetPacks + [LBaseZipFileName];
-    for I := 0 to Length(LModuleFileNames) - 1 do
-      LModuleFileNames[I] := LModuleFileNames[I].QuotedString('"');
-    LModules := string.Join(',', LModuleFileNames);
-    FBundleFileName := TPath.Combine(TPath.Combine(FDeployedAppPath, cDeployedAppBinFolder), FProjectName + '.aab');
-    if TFile.Exists(FBundleFileName) then
-      TFile.Delete(FBundleFileName);
-    FStage := TGenerateAppStage.BuildBundle;
-    FRunProcess.CommandLine := Format(cBuildBundleCommandLine, [FJavaExePath, FBundleToolPath, LModules, FBundleFileName]);
-    TOSLog.d('Build Bundle: ' + FRunProcess.CommandLine);
-    FRunProcess.Run;
-    Result := True;
+    LBaseZipFileName := TPath.Combine(ADeployedAppPath, 'BaseModule.zip');
+    LBaseFolder := TPath.Combine(ADeployedAppPath, cDeployedAppBaseFolder);
+    if TDirectory.Exists(LBaseFolder) then
+      TZipFile.ZipDirectoryContents(LBaseZipFileName, LBaseFolder);
+    if TFile.Exists(LBaseZipFileName) then
+    begin
+      LModuleFileNames := AAssetPacks + [LBaseZipFileName];
+      for I := 0 to Length(LModuleFileNames) - 1 do
+        LModuleFileNames[I] := LModuleFileNames[I].QuotedString('"');
+      LModules := string.Join(',', LModuleFileNames);
+      FBundleFileName := TPath.Combine(TPath.Combine(FDeployedAppPath, cDeployedAppBinFolder), FProjectName + '.aab');
+      if TFile.Exists(FBundleFileName) then
+        TFile.Delete(FBundleFileName);
+      FStage := TGenerateAppStage.BuildBundle;
+      FRunProcess.CommandLine := Format(cBuildBundleCommandLine, [FJavaExePath, FBundleToolPath, LModules, FBundleFileName]);
+      TOSLog.d('Build Bundle: ' + FRunProcess.CommandLine);
+      FRunProcess.Run;
+      Result := True;
+    end
+    else
+      TOTAHelper.AddTitleMessage(Babel.Tx(sCheckConfigAndDeployed), 'Codex');
   end;
 end;
 
