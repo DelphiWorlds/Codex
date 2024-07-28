@@ -135,10 +135,10 @@ begin
   begin
     LVersionInfo := TFileVersionInfo.Create(LFileName);
     try
-      FDelphiVersionInfo.Major := LVersionInfo.FileLongVersion.All[1];
-      FDelphiVersionInfo.Minor := LVersionInfo.FileLongVersion.All[2];
-      FDelphiVersionInfo.Version := LVersionInfo.FileLongVersion.All[3];
-      FDelphiVersionInfo.Build := LVersionInfo.FileLongVersion.All[4];
+      FDelphiVersionInfo.Major := LVersionInfo.FileLongVersion.All[2];
+      FDelphiVersionInfo.Minor := LVersionInfo.FileLongVersion.All[1];
+      FDelphiVersionInfo.Version := LVersionInfo.FileLongVersion.All[4];
+      FDelphiVersionInfo.Build := LVersionInfo.FileLongVersion.All[3];
     finally
       LVersionInfo.Free;
     end;
