@@ -20,7 +20,7 @@ uses
   ToolsAPI,
   Vcl.Forms, Vcl.Menus, Vcl.ActnList,
   DW.OSLog,
-  DW.OTA.Wizard, DW.OTA.IDENotifierOTAWizard, DW.OTA.Notifiers, DW.OTA.Helpers, DW.Menus.Helpers, DW.OTA.WPPlugin, DW.OTA.Types, DW.OTA.Consts,
+  DW.OTA.Wizard, DW.OTA.IDENotifierOTAWizard, DW.OTA.Notifiers, DW.OTA.Helpers, DW.Menus.Helpers, DW.OTA.Types, DW.OTA.Consts,
   DW.FileVersionInfo.Win, DW.OS.Win,
   Codex.Config.PreVersion2,
   Codex.AboutView, Codex.OptionsView, Codex.ProgressView, Codex.OutputView, Codex.Types,
@@ -119,7 +119,6 @@ end;
 
 destructor TCodexWizard.Destroy;
 begin
-  TWPPluginRegistry.RemovePlugins;
   FStructureViewNotifier.RemoveNotifier;
   FThemeNotifier.RemoveNotifier;
   FModuleNotifier.Free;
@@ -287,7 +286,6 @@ end;
 procedure TCodexWizard.IDEStarted;
 begin
   inherited;
-  TWPPluginRegistry.CreatePlugins;
   FStructureViewNotifier := TCodexStructureViewNotifier.Create;
   if Config.IDE.LoadProjectLastOpened and TFile.Exists(Config.IDE.ProjectLastOpenedFileName) then
     TOTAHelper.OpenFile(Config.IDE.ProjectLastOpenedFileName);
