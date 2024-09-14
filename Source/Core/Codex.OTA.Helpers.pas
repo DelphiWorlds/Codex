@@ -33,6 +33,7 @@ type
     class function CheckProjectChanged: Boolean; static;
     class function DeployFolder(const ALocalPath, ARemotePath: string; const ADeployConfigs: TDeployConfigs): Boolean; static;
     class function ExecuteIDEAction(const AActionName: string): Boolean; static;
+    class function GetActiveConfigVerInfoValue(const AProject: IOTAProject; const AKey: string): string; static;
     class function GetDeployConfigs(const APlatformNames: TArray<string>; out ADeployConfigs: TDeployConfigs): Boolean; static;
     class function GetColoredText(const AColor, AText: string): string; static;
     class function GetMsgColoredText(const AColor: TTextColor; const AText: string): string; static;
@@ -46,7 +47,7 @@ implementation
 
 uses
   System.SysUtils, System.IOUtils, System.StrUtils, System.Classes,
-  DeploymentAPI, PlatformAPI,
+  DeploymentAPI, PlatformAPI, CommonOptionStrs,
   Xml.XmlIntf, Xml.XMLDoc,
   Vcl.ActnList,
   DW.OTA.Helpers, DW.IOUtils.Helpers, DW.OTA.Consts, DW.OTA.CustomMessage, DW.Proj,
@@ -100,6 +101,7 @@ begin
     LProperties.Platform := cProjectPlatformsLong[LPlatform];
     LProperties.Config := LProject.CurrentConfiguration;
     LProperties.BuildType := TOTAHelper.GetProjectCurrentBuildType(LProject);
+    LProperties.BuildTypeNumber := TProjectProperties.GetBuildTypeNumber(LProperties.BuildType);
     LProperties.Profile := TOTAHelper.GetProjectCurrentConnectionProfile(LProject);
     if ActiveProjectProperties.Update(LProperties) then
       Result := True;
@@ -190,6 +192,18 @@ end;
 class function TCodexOTAHelper.GetMsgColoredText(const AColor: TTextColor; const AText: string): string;
 begin
   Result := GetColoredText(cMsgColors[AColor], AText);
+end;
+
+class function TCodexOTAHelper.GetActiveConfigVerInfoValue(const AProject: IOTAProject; const AKey: string): string;
+var
+  LConfig: IOTABuildConfiguration;
+begin
+  LConfig := TOTAHelper.GetProjectActiveBuildConfiguration(AProject);
+  if LConfig <> nil then
+  begin
+    Result := TOTAHelper.GetVerInfoValue(LConfig.GetValue('VerInfo_Keys'), AKey);
+    Result := Result.Replace('$(MSBuildProjectName)', LConfig.Value[sSanitizedProjectName], []);
+  end;
 end;
 
 class function TCodexOTAHelper.GetColoredText(const AColor, AText: string): string;
@@ -290,7 +304,7 @@ begin
     LCaption := sInProgress
   else
     LCaption := ACaption;
-  (BorlandIDEServices as IOTAIDEWaitDialogServices).Show(Babel.Tx(LCaption), Babel.Tx(AMessage))
+  (BorlandIDEServices as IOTAIDEWaitDialogServices).Show(Babel.Tx(LCaption), Babel.Tx(AMessage));
 end;
 {$ELSE}
 begin
