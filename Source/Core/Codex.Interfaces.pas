@@ -37,6 +37,7 @@ type
   IMoscoProvider = interface(IInterface)
     ['{B039D52A-8B08-4EB4-ACB9-75DC4A63E5F1}']
     procedure AddSDKFramework;
+    procedure DeployIOSApp;
     procedure GetAppExtensionFiles(const AFileNames: TArray<string>);
     function GetAppExtensionNames: TArray<string>;
     procedure ProfileChanged;
