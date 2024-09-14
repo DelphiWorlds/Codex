@@ -29,6 +29,8 @@ object PackageDownloadView: TPackageDownloadView
     Height = 648
     Anchors = [akLeft, akTop, akRight, akBottom]
     TabOrder = 5
+    AllowSingleSignOnUsingOSPrimaryAccount = False
+    TargetCompatibleBrowserVersion = '117.0.2045.28'
     UserDataFolder = '%LOCALAPPDATA%\bds.exe.WebView2'
     OnExecuteScript = EdgeBrowserExecuteScript
     OnNavigationCompleted = EdgeBrowserNavigationCompleted
@@ -43,9 +45,9 @@ object PackageDownloadView: TPackageDownloadView
     TabOrder = 0
     object MessageLabel: TLabel
       AlignWithMargins = True
-      Left = 177
+      Left = 293
       Top = 0
-      Width = 569
+      Width = 453
       Height = 39
       Margins.Left = 4
       Margins.Top = 0
@@ -87,11 +89,11 @@ object PackageDownloadView: TPackageDownloadView
       TabOrder = 1
       OnClick = CloseButtonClick
     end
-    object RetainCheckBox: TCheckBox
+    object RetainWorkingFilesCheckBox: TCheckBox
       AlignWithMargins = True
-      Left = 4
+      Left = 169
       Top = 0
-      Width = 169
+      Width = 120
       Height = 39
       Hint = 'Retains the files generated, for diagnostic purposes'
       Margins.Left = 4
@@ -101,6 +103,23 @@ object PackageDownloadView: TPackageDownloadView
       Align = alLeft
       Caption = 'Retain working files'
       TabOrder = 2
+    end
+    object RetainAarFilesCheckBox: TCheckBox
+      AlignWithMargins = True
+      Left = 4
+      Top = 0
+      Width = 161
+      Height = 39
+      Hint = 'Retains .aar files that contain resources'
+      Margins.Left = 4
+      Margins.Top = 0
+      Margins.Right = 0
+      Margins.Bottom = 0
+      Align = alLeft
+      Caption = 'Retain resource .aar files '
+      Checked = True
+      State = cbChecked
+      TabOrder = 3
     end
   end
   object ExtractPathPanel: TPanel

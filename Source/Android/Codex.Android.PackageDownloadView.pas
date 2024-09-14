@@ -87,7 +87,8 @@ type
     URLGetButton: TButton;
     EdgeBrowser: TEdgeBrowser;
     SearchTimer: TTimer;
-    RetainCheckBox: TCheckBox;
+    RetainWorkingFilesCheckBox: TCheckBox;
+    RetainAarFilesCheckBox: TCheckBox;
     procedure SelectExtractPathActionExecute(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure SelectGradlePathButtonClick(Sender: TObject);
@@ -637,7 +638,7 @@ begin
   ForceDirectories(LBuildPath);
   if GenerateBuildGradle(LBuildPath) then
   begin
-    FProcess.NeedsWorkingFiles := RetainCheckBox.Checked;
+    FProcess.NeedsWorkingFiles := RetainWorkingFilesCheckBox.Checked;
     FProcess.GradlePath := GradlePathEdit.Text;
     FProcess.BuildPath := LBuildPath;
     FProcess.Run;
@@ -673,8 +674,8 @@ begin
   begin
     DoQueuedOutput(Format('Extracting %s..', [TPath.GetFileName(LAARFileName)]));
     LPackageFolder := ExtractAAR(LAARFileName, AExtractPath);
-    // TODO: Might want an option to leave them intact?
-    TFile.Delete(LAARFileName);
+    if not RetainAarFilesCheckBox.Checked or not TDirectory.Exists(TPath.Combine(LPackageFolder, 'res')) then
+      TFile.Delete(LAARFileName);
   end;
   for LJarFileName in TDirectory.GetFiles(AExtractPath, '*.jar', TSearchOption.soTopDirectoryOnly) do
   begin
