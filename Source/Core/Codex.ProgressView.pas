@@ -73,7 +73,7 @@ begin
   inherited;
   TOTAHelper.ApplyTheme(Self);
   Caption := '';
-  FStoredHeight := ClientHeight;
+  FStoredHeight := ClientHeight + CustomTitleBarHeight;
   HideProgressBar;
 end;
 
