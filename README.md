@@ -43,6 +43,14 @@ Can be found [here](Docs/Readme.md).
 
 ## Change history
 
+v2.4.0 (Sep 15th, 2024) Delphi 12.x only. 
+
+* Refactored rebuild of IPA for signing of extensions
+* Download of packages now allows for retaining .aar files
+* Minor fixes/tweaks
+
+**NOTE** Deploying extensions and IPA rebuild functions require [Mosco 1.7.0](https://www.delphiworlds.com/mosco/latest)
+
 v2.3.2 (Jun 25th, 2024) Delphi 12.x and 11.x only
 
 * Fixed issues with Asset Packs build process
