@@ -50,7 +50,7 @@ implementation
 {$R *.dfm}
 
 uses
-  System.IOUtils,
+  System.IOUtils, System.DateUtils,
   ToolsAPI, BrandingAPI,
   Vcl.GraphUtil,
   Codex.Core, Codex.Consts.Text, Codex.OTA.Helpers;
@@ -109,6 +109,7 @@ var
   LExtension: string;
   LItem: TListItem;
   LParts: TArray<string>;
+  LDateTime: TDateTime;
 begin
   FAppExtensions := AExtensions;
   ExtensionsListView.Items.Clear;
@@ -118,6 +119,8 @@ begin
     LItem := ExtensionsListView.Items.Add;
     LItem.Caption := TPath.GetFileName(LParts[0]);
     LItem.SubItems.Add(TPath.GetFileName(LParts[1]));
+    if (Length(LParts) > 2) and TryISO8601ToDate(LParts[2], LDateTime, True) then
+      LItem.SubItems.Add(FormatDateTime('dd-mmm-yy hh:nn:ss', LDateTime));
   end;
   ShowWaiting(False);
 end;

@@ -7,7 +7,7 @@ object DeployExtensionsView: TDeployExtensionsView
   Margins.Bottom = 4
   Caption = 'Deploy Extensions'
   ClientHeight = 355
-  ClientWidth = 598
+  ClientWidth = 722
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -20,14 +20,14 @@ object DeployExtensionsView: TDeployExtensionsView
   object CommandButtonsPanel: TPanel
     Left = 0
     Top = 319
-    Width = 598
+    Width = 722
     Height = 36
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 0
     object CancelButton: TButton
       AlignWithMargins = True
-      Left = 521
+      Left = 645
       Top = 3
       Width = 74
       Height = 30
@@ -42,7 +42,7 @@ object DeployExtensionsView: TDeployExtensionsView
     end
     object OKButton: TButton
       AlignWithMargins = True
-      Left = 441
+      Left = 565
       Top = 3
       Width = 74
       Height = 30
@@ -57,7 +57,7 @@ object DeployExtensionsView: TDeployExtensionsView
     AlignWithMargins = True
     Left = 2
     Top = 5
-    Width = 594
+    Width = 718
     Height = 307
     Margins.Left = 2
     Margins.Top = 5
@@ -72,6 +72,10 @@ object DeployExtensionsView: TDeployExtensionsView
       item
         Caption = 'App Extension'
         Width = 350
+      end
+      item
+        Caption = 'Date/Time'
+        Width = 120
       end>
     MultiSelect = True
     ReadOnly = True
