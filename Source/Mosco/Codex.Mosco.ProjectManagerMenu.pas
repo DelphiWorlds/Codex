@@ -26,6 +26,7 @@ type
     procedure AddSDKMenu(const AProjectManagerMenuList: IInterfaceList);
     procedure AddSDKMenuSubitems(const AProjectManagerMenuList: IInterfaceList; const ASDKs: TStrings);
     procedure AddSDKFramework;
+    procedure DeployIOSApp;
     procedure ShowDeployedApp;
     procedure ShowOptions;
   public
@@ -39,6 +40,7 @@ uses
   System.SysUtils,
   PlatformAPI,
   DW.OTA.Registry, DW.OTA.Helpers, DW.OTA.Consts,
+  Mosco.API,
   Codex.Consts, Codex.Core,
   Codex.Mosco.Helpers, Codex.Mosco.Consts, Codex.Types;
 
@@ -66,7 +68,7 @@ type
     function GetEnabled: Boolean; override;
   end;
 
-  TBuildIPAProjectManagerMenu = class(TProjectManagerMenu)
+  TDeployIOSAppProjectManagerMenu = class(TProjectManagerMenu)
   public
     constructor Create(const APosition: Integer; const AExecuteProc: TProc);
     function GetEnabled: Boolean; override;
@@ -114,8 +116,9 @@ type
 resourcestring
   sAddLinkedFrameworksCaption = 'Add Linked Frameworks';
   sAddSDKFrameworksCaption = 'Add SDK Frameworks';
-  sBuildIPACaption = 'Build IPA';
+  sBuildIPACaption = 'Rebuild IPA';
   sCheckProvisioningCaption = 'Check Provisioning';
+  sInstallAppCaption = 'Rebuild/Install';
   sMoscoOptionsCaption = 'Mosco Options';
   sSelectSDKCaption = 'Select SDK';
   sSelectProfileCaption = 'Select Profile';
@@ -162,21 +165,37 @@ begin
   Result := True; // TODO: Need to check if there are actually any iOS/macOS SDKs
 end;
 
-{ TBuildIPAProjectManagerMenu }
+{ TDeployIOSAppProjectManagerMenu }
 
-constructor TBuildIPAProjectManagerMenu.Create(const APosition: Integer; const AExecuteProc: TProc);
+constructor TDeployIOSAppProjectManagerMenu.Create(const APosition: Integer; const AExecuteProc: TProc);
+var
+  LProject: IOTAProject;
+  LCaption: string;
 begin
-  inherited Create(Babel.Tx(sBuildIPACaption), 'BuildIPA', APosition, AExecuteProc);
+  LProject := TOTAHelper.GetCurrentSelectedProject;
+  if TProjectProperties.GetBuildTypeNumber(TOTAHelper.GetProjectCurrentBuildType(LProject)) = 2 then
+    LCaption := sInstallAppCaption
+  else
+    LCaption := sBuildIPACaption;
+  inherited Create(Babel.Tx(LCaption), 'DeployIOSApp', APosition, AExecuteProc);
 end;
 
-function TBuildIPAProjectManagerMenu.GetEnabled: Boolean;
+function TDeployIOSAppProjectManagerMenu.GetEnabled: Boolean;
 var
   LProject: IOTAProject;
 begin
+  Result := False;
   LProject := TOTAHelper.GetCurrentSelectedProject;
-  Result :=  (LProject <> nil) and (TOTAHelper.GetProjectCurrentPlatform(LProject) in cIOSProjectPlatforms)
-    and not TOTAHelper.GetProjectCurrentConnectionProfile(LProject).IsEmpty
-    and (TProjectProperties.GetBuildTypeNumber(TOTAHelper.GetProjectCurrentBuildType(LProject)) in [0, 1]);
+  if (LProject <> nil) and (TOTAHelper.GetProjectCurrentPlatform(LProject) in cIOSProjectPlatforms)
+    and not TOTAHelper.GetProjectCurrentConnectionProfile(LProject).IsEmpty then
+  begin
+    case TProjectProperties.GetBuildTypeNumber(TOTAHelper.GetProjectCurrentBuildType(LProject)) of
+      0, 1:
+        Result := True;
+      2:
+        Result := not TOTAHelper.GetProjectCurrentMobileDeviceName(LProject).IsEmpty;
+    end;
+  end;
 end;
 
 { TShowDeployedAppProjectManagerMenu }
@@ -349,6 +368,7 @@ begin
   AddProfileMenu(AProjectManagerMenuList);
   AddSDKMenu(AProjectManagerMenuList);
   AProjectManagerMenuList.Add(TShowDeployedAppProjectManagerMenu.Create(cPMMPMoscoSection + 710, ShowDeployedApp));
+  AProjectManagerMenuList.Add(TDeployIOSAppProjectManagerMenu.Create(cPMMPMoscoSection + 715, DeployIOSApp));
 end;
 
 procedure TMoscoProjectManagerMenuNotifier.ShowDeployedApp;
@@ -446,6 +466,11 @@ begin
     if LSDKItems > 0 then
       AProjectManagerMenuList.Add(TProjectManagerMenu.Create(Babel.Tx(sSelectSDKCaption), 'SelectSDK', cPMMPMoscoSDKsSubsection, nil));
   end;
+end;
+
+procedure TMoscoProjectManagerMenuNotifier.DeployIOSApp;
+begin
+  MoscoProvider.DeployIOSApp;
 end;
 
 procedure TMoscoProjectManagerMenuNotifier.AddProfileMenuSubitems(const AProjectManagerMenuList: IInterfaceList; const AProfiles: TStrings);
