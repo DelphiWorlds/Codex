@@ -18,12 +18,12 @@ implementation
 uses
   System.Win.Registry, System.SysUtils, System.IOUtils, System.DateUtils,
   Winapi.Windows, Winapi.ShellAPI,
-  ToolsAPI, CommonOptionStrs,
+  ToolsAPI, CommonOptionStrs, DCCStrs,
   Vcl.Menus, Vcl.Forms, Vcl.ActnList, Vcl.Controls,
   DW.OSLog,
   DW.OTA.Wizard, DW.OTA.Notifiers, DW.OTA.Helpers, DW.OTA.Registry, DW.OTA.Consts, DW.OS.Win, DW.ManifestMerger,
   DW.Menus.Helpers, DW.Vcl.DialogService,
-  Codex.Consts, Codex.Core, Codex.SDKRegistry, Codex.Consts.Text,
+  Codex.Consts, Codex.Core, Codex.SDKRegistry, Codex.Consts.Text, Codex.OTA.Helpers, Codex.Types,
   Codex.Android.ADBConnectView, Codex.Android.AssetPackDetailsView, Codex.Android.AssetPacksView, Codex.Android.BuildJarView,
   Codex.Android.PackageDownloadView, Codex.Android.Java2OPView, Codex.Android.PackagesView,
   Codex.Android.KeyStoreInfoView, Codex.Android.ProjectManagerMenu, Codex.Android.ResourcesModule, Codex.Android.GenerateAppProcess,
@@ -244,18 +244,21 @@ end;
 
 procedure TAndroidWizard.PeriodicTimer;
 begin
-  if CodexProvider.GetDelphiVersionInfo.IsDelphi12Update1 then
+  if CodexProvider.GetDelphiVersionInfo.IsDelphi12Update1(False) then
     CheckManifest;
 end;
 
 procedure TAndroidWizard.CheckManifest;
 var
   LProject: IOTAProject;
-  LProjectPath, LMergeFileName, LManifestFileName, LStampFileName: string;
+  LProjectPath, LManifestFileName, LStampFileName, LProjectName, LDeployedPath: string;
   LManifestDateTime, LStampDateTime: TDateTime;
+  LConfig: IOTABuildConfiguration;
+  LHasMerged: Boolean;
 begin
   LProject := TOTAHelper.GetActiveProject;
-  if TOTAHelper.GetProjectCurrentPlatform(LProject) in cAndroidProjectPlatforms then
+  LConfig := TOTAHelper.GetProjectActiveBuildConfiguration(LProject);
+  if (LConfig <> nil) and (TOTAHelper.GetProjectCurrentPlatform(LProject) in cAndroidProjectPlatforms) then
   begin
     LProjectPath := TOTAHelper.GetProjectPath(LProject);
     if Length(TDirectory.GetFiles(LProjectPath, '*Manifest.merge.xml', TSearchOption.soTopDirectoryOnly)) > 0 then
@@ -270,8 +273,24 @@ begin
           LStampDateTime := TFile.GetLastWriteTime(LStampFileName);
         if (LManifestDateTime > LStampDateTime) and (MillisecondsBetween(LManifestDateTime, LStampDateTime) > 500) then
         begin
-          if TManifestMerger.MergeManifest(LProjectPath, LManifestFileName) = 0 then
-            TFile.WriteAllText(LStampFileName, '');
+          LHasMerged := False;
+          try
+            LHasMerged := TManifestMerger.MergeManifest(LProjectPath, LManifestFileName) = 0;
+          except
+            on E: Exception do
+              TCodexOTAHelper.AddMessage(Format('%s: %s', [E.ClassName, E.Message]), TTextColor.Error);
+          end;
+          if LHasMerged then
+          begin
+            LProjectName := LConfig.Value[sSanitizedProjectName];
+            LDeployedPath := ExpandPath(TOTAHelper.GetActiveProjectPath, TOTAHelper.ExpandConfiguration(LConfig.GetValue(sExeOutput), LConfig));
+            LDeployedPath := TPath.Combine(LDeployedPath, LProjectName);
+            if TDirectory.Exists(LDeployedPath) then
+            begin
+              TFile.Copy(LManifestFileName, TPath.Combine(LDeployedPath, 'AndroidManifest.xml'), True);
+              TFile.WriteAllText(LStampFileName, '');
+            end;
+          end;
         end;
       end;
     end;
