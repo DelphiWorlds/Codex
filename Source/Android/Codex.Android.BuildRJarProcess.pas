@@ -61,7 +61,6 @@ type
   public
     procedure Build;
     property APILevelPath: string read FAPILevelPath write FAPILevelPath;
-    property BuildToolsPath: string read FBuildToolsPath write FBuildToolsPath;
     property IsAppStore: Boolean read FIsAppStore write FIsAppStore;
     property JDKPath: string read FJDKPath write FJDKPath;
     property MergedResPath: string read FMergedResPath write FMergedResPath;
@@ -82,7 +81,7 @@ uses
   Winapi.ActiveX,
   Xml.XMLIntf, Xml.XMLDoc,
   DW.OSLog, DW.ResourcesMerger, DW.IOUtils.Helpers, DW.ManifestMerger, DW.OS.Win,
-  Codex.Core, Codex.Consts.Text;
+  Codex.Core, Codex.Consts.Text, Codex.SDKRegistry;
 
 const
   cAAPTPackageCommand = '"%s" package -f -m -I "%s\android.jar" -M "%s\AndroidManifest.xml" -S "%s" -J "%s\src"';
@@ -356,6 +355,7 @@ begin
   {$ELSE}
   FUseAAPT2Always := False;
   FAAPT2EXE := 'aapt2.exe';
+  FBuildToolsPath := TSDKRegistry.Current.GetBuildToolsPath;
   {$ENDIF}
   FWorkingPath := TPath.Combine(TPath.GetTempPath, TGUID.NewGuid.ToString.Trim(['{', '}']));
   ForceDirectories(FWorkingPath);
