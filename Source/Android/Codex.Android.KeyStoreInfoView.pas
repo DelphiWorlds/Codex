@@ -153,8 +153,6 @@ end;
 procedure TKeyStoreInfoView.SetFormMode(const Value: TKeyStoreFormMode);
 const
   cFormCaptions: array[TKeyStoreFormMode] of string = (sRebuildBundleWithAssetPacksCaption, sExtractAPKFromAABCaption, sInstallAABCaption);
-var
-  LHeight, LOffset: Integer;
 begin
   FFormMode := Value;
   Caption := Babel.Tx(cFormCaptions[FFormMode]);
