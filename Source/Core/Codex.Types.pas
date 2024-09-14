@@ -27,9 +27,8 @@ type
     class function GetBuildTypeNumber(const ABuildType: string): Integer; static;
   public
     BuildType: string;
-    BundleIdentifier: string;
+    BuildTypeNumber: Integer;
     Config: string;
-    DeviceID: string;
     Platform: string;
     Profile: string;
     ProjectFileName: string;
@@ -80,7 +79,7 @@ type
     Minor: Integer;
     Version: Integer;
     Build: Integer;
-    function IsDelphi12Update1: Boolean;
+    function IsDelphi12Update1(const ANeedExact: Boolean = True): Boolean;
   end;
 
 implementation
@@ -96,7 +95,7 @@ begin
     Result := 0
   else if ABuildType.Equals('Adhoc') then
     Result := 1
-  else if ABuildType.Equals('Development') then
+  else if ABuildType.Equals('Development') or ABuildType.Equals('Normal') then
     Result := 2
   else if ABuildType.Equals('DeveloperID') then
     Result := 3
@@ -107,9 +106,7 @@ end;
 procedure TProjectProperties.Clear;
 begin
   BuildType := '';
-  BundleIdentifier := '';
   Config := '';
-  DeviceID := '';
   Platform := '';
   ProjectFileName := '';
   TargetFileName := '';
@@ -135,7 +132,7 @@ begin
   else if BuildType.Equals('Adhoc') then
     Result := TProfileKind.AdHoc
   else if BuildType.Equals('DeveloperID') then
-    Result := TProfileKind.DeveloperID;
+    Result := TProfileKind.Enterprise;
 end;
 
 function TProjectProperties.GetCaption: string;
@@ -158,7 +155,7 @@ function TProjectProperties.Update(const AProperties: TProjectProperties): Boole
 begin
   Result := False;
   if not SameText(ProjectFileName, AProperties.ProjectFileName) or not Platform.Equals(AProperties.Platform) or not Config.Equals(AProperties.Config)
-    or not BuildType.Equals(AProperties.BuildType) or not BundleIdentifier.Equals(AProperties.BundleIdentifier) then
+    or not BuildType.Equals(AProperties.BuildType) then // or not BundleIdentifier.Equals(AProperties.BundleIdentifier) then
   begin
     Self := AProperties;
     Result := True;
@@ -202,9 +199,11 @@ end;
 
 { TDelphiVersionInfo }
 
-function TDelphiVersionInfo.IsDelphi12Update1: Boolean;
+function TDelphiVersionInfo.IsDelphi12Update1(const ANeedExact: Boolean = True): Boolean;
 begin
-  Result := (Major > 29) or ((Major = 29) and (Minor = 0) and (Version = 51961) and (Build = 7529));
+  Result := (Major = 29) and (Minor = 0) and (Version = 51961) and (Build = 7529);
+  if not Result and not ANeedExact then
+    Result := (Major > 29) or ((Major = 29) and ((Minor > 0) or (Version >= 51961)));
 end;
 
 end.
