@@ -49,7 +49,10 @@ v2.4.0 (Sep 15th, 2024) Delphi 12.x only.
 * Download of packages now allows for retaining .aar files
 * Minor fixes/tweaks
 
-**NOTE** Deploying extensions and IPA rebuild functions require [Mosco 1.7.0](https://www.delphiworlds.com/mosco/latest)
+**NOTE** 
+
+* Deploying extensions and IPA rebuild functions require [Mosco 1.7.0](https://www.delphiworlds.com/mosco/latest)
+* Delphi 12.0 and 12.1 users will need to replace the installed `Codex290.dll` file (installed by default in `C:\Program Files (x86)\DelphiWorlds\Codex`) with this [replacement DLL](https://www.delphiworlds.com/files/hotfix/Codex290.dll), as the DLL in the installer was built with Delphi 12.2 and is **not binary compatible** with Delphi 12.0 and Delphi 12.1.
 
 v2.3.2 (Jun 25th, 2024) Delphi 12.x and 11.x only
 
