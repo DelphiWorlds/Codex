@@ -18,15 +18,15 @@ The latest release version can be downloaded [here](https://www.delphiworlds.com
 
 Installation is straightforward - run the installer and follow the prompts
 
-## Compiling Codex
+## Building Codex from source
 
 ### Supported Delphi versions
 
 Codex should compile in at least Delphi 12 and Delphi 11.x, however it may compile in earlier versions.
 
-### Dependencies
+### Building
 
-Codex has dependencies on:
+Clone the Codex repo, and each of the dependencies:
 
 * [TOTAL](https://github.com/DelphiWorlds/TOTAL)
 * [Kastri](https://github.com/DelphiWorlds/Kastri)
@@ -35,7 +35,9 @@ Codex has dependencies on:
 * [NEON](https://github.com/paolo-rossi/delphi-neon)
 * [Delphi AST](https://github.com/RomanYankovsky/DelphiAST)
 
-The Codex project search paths make use of `User System Overrides` (These can be set up in the IDE options Tools | Options, IDE > Environment Variables), which point to the folders of the respective dependencies. Either create matching overrides in your IDE, or update the project search paths so that the compiler finds them.
+The Codex project search paths make use of `User System Overrides` (These can be set up in the IDE options Tools | Options, IDE > Environment Variables), which point to the folders of the respective dependencies. Either create matching overrides in your IDE, or update the project search paths in the Codex project so that the compiler finds them.
+
+Build from the Codex project (`Codex.dproj`), for the Windows 32-bit target.
 
 ## Documentation
 
