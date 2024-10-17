@@ -65,10 +65,7 @@ uses
   System.StrUtils, System.IOUtils,
   DW.OSLog,
   DW.OTA.Helpers, DW.Vcl.ListBoxHelper, DW.Classes.Helpers, DW.OTA.Registry, DW.Types.Helpers,
-  Codex.Core;
-
-resourcestring
-  sNoMatchingImportedSDKs = 'No matching imported SDKs found';
+  Codex.Core, Codex.Consts.Text;
 
 { TAddSDKFrameworkView }
 

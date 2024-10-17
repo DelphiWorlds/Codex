@@ -34,12 +34,7 @@ uses
   CommonOptionStrs,
   Vcl.Forms,
   DW.OTA.Helpers, DW.OTA.Consts, DW.Vcl.DialogService,
-  Codex.Android.PackagesView, Codex.Core;
-
-resourcestring
-  sAddAndroidPackageCaption = 'Add Android Package';
-  sBuildAssetPacksCaption = 'Build Asset Packs';
-  sPerformDeployment = 'Please perform a deployment before adding an Android package';
+  Codex.Android.PackagesView, Codex.Core, Codex.Consts.Text;
 
 const
   cPMMPAndroidToolsSection = pmmpVersionControlSection + 501000;

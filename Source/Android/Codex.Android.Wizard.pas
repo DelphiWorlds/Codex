@@ -66,25 +66,6 @@ type
     destructor Destroy; override;
   end;
 
-resourcestring
-  sADBConnectCaption = 'ADB Connect';
-  sAndroidToolsCaption = 'Android Tools';
-  sBuildAssetPacksCaption = 'Build Asset Packs';
-  sBuildJarCaption = 'Build Jar';
-  sCreateRJarCaption = 'Create R Jar';
-  sEnsureSDKCompleteMessage = 'Please ensure an Android SDK is configured correctly';
-  sExtractAARFilesCaption = 'Extract AAR File';
-  sExtractAPKsCaption = 'Extract APKs From AAB';
-  sImportGoogleServicesJsonCaption = 'Import google-services.json';
-  sInstallAABCaption = 'Install AAB';
-  sSDKToolsCaption = 'SDK Tools';
-  sJava2OPCaption = 'Java2OP';
-  sLogCatCaption = 'Logcat Viewer';
-  sMergePackagesCaption = 'Merge Packages';
-  sOptionsCaption = 'Options';
-  sPackageDownloadCaption = 'Package Download';
-  sRebuildAppCaption = 'Rebuild Project';
-
 { TAndroidWizard }
 
 constructor TAndroidWizard.Create;

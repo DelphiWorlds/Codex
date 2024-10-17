@@ -23,7 +23,7 @@ uses
   DW.OTA.Wizard, DW.OTA.IDENotifierOTAWizard, DW.OTA.Notifiers, DW.OTA.Helpers, DW.Menus.Helpers, DW.OTA.Types, DW.OTA.Consts,
   DW.FileVersionInfo.Win, DW.OS.Win,
   Codex.Config.PreVersion2,
-  Codex.AboutView, Codex.OptionsView, Codex.ProgressView, Codex.OutputView, Codex.Types,
+  Codex.AboutView, Codex.OptionsView, Codex.ProgressView, Codex.OutputView, Codex.Types, Codex.Consts.Text,
   Codex.Config, Codex.ErrorInsight, Codex.Consts, Codex.Options, Codex.ResourcesModule, Codex.ModuleNotifier,
   Codex.Interfaces, Codex.Core, Codex.OTA.Helpers, Codex.External.DelphiWorlds;
 
@@ -72,11 +72,6 @@ type
     constructor Create; override;
     destructor Destroy; override;
   end;
-
-resourcestring
-  sAbout = 'About';
-  sCodexMenuItemCaption = 'Codex';
-  sOptions = 'Options';
 
 type
   TCodexThemingServicesNotifier = class(TThemingServicesNotifier)

@@ -93,16 +93,6 @@ const
   cGitPatchCommandTemplate = '"%s" "%s" "%s"';
   cGitDiffCommandTemplate = '"%s" diff --output "%s" "%s" "%s"';
 
-resourcestring
-  sAllPatches = 'All patches';
-  sCouldNotOpenFile = 'Could not open %s';
-  sDiffFailed = 'Failed to create patch from %s and %s, exit code: %d';
-  sDiffSuccessful = 'Successfully created patch %s from %s and %s';
-  sPatchesForFileWithMask = 'Patches for %s (%s)';
-  sPatchFailed = 'Failed to patch %s using %s, exit code: %d';
-  sPatchSuccessful = 'Successfully patched %s using %s';
-  sXFilesCopiedToFolder = '%d file(s) copied to %s';
-
 { TSourcePatchResources }
 
 constructor TSourcePatchFunctionsModule.Create(AOwner: TComponent);

@@ -82,7 +82,7 @@ type
     AddPackageAction: TAction;
     MessageLabel: TLabel;
     URLLabel: TLabel;
-    Panel1: TPanel;
+    URLEditPanel: TPanel;
     URLEdit: TEdit;
     URLGetButton: TButton;
     EdgeBrowser: TEdgeBrowser;
@@ -179,10 +179,6 @@ const
     '      )'#13#10 +
     '    }'#13#10 +
     '  }';
-
-resourcestring
-  sErrorUnknown = 'Unknown error';
-  sErrorTimedOut = 'Timed out';
 
 function ExtractAAR(const AFileName, APath: string; const AUseFullPackageName: Boolean = False): string;
 var

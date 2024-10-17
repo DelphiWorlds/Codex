@@ -59,12 +59,7 @@ implementation
 
 uses
   System.IOUtils,
-  Codex.Config, Codex.Core;
-
-resourcestring
-  sSourcePatchTitle = 'Source Patch';
-  sSourceCopyRelativeCaption = 'Folder relative to project to copy source to: (blank means same folder as project)';
-  sSourceCopyDefaultFolderCaption = 'Default folder to copy source to:';
+  Codex.Config, Codex.Core, Codex.Consts.Text;
 
 { TSourcePatchOptionsView }
 

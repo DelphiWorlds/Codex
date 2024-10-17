@@ -76,13 +76,7 @@ uses
   ToolsAPI,
   VCL.ActnList,
   DW.OTA.Helpers, DW.OTA.Consts, DW.OTA.Types,
-  Codex.Config, Codex.Core;
-
-resourcestring
-  sExecuting = 'Executing';
-  sCommandFailed = 'The command: %s failed with an exit code of: %d';
-  sSucceededNotConnected = 'All commands succeeded, however device connection was not detected';
-  sConnectedSuccessfully = 'Connected successfully with device at: %s';
+  Codex.Config, Codex.Core, Codex.Consts.Text;
 
 { TADBConnectView }
 
@@ -109,7 +103,12 @@ begin
 end;
 
 procedure TADBConnectView.DoShow;
+var
+  LReminderCaption: string;
 begin
+  LReminderCaption := Babel.Tx('ADBConnectReminder');
+  if not LReminderCaption.IsEmpty then
+    ReminderLabel.Caption := LReminderCaption;
   if not IsShown then
     FIPAddress.IPByte1Edit.SetFocus;
   inherited;

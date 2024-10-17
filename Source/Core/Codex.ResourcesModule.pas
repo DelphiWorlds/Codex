@@ -48,10 +48,7 @@ uses
   ToolsAPI,
   DW.OTA.Helpers,
   DW.OSLog,
-  Codex.Core;
-
-resourcestring
-  sAddToProjectMenuCaption = 'Add To Project';
+  Codex.Core, Codex.Consts.Text;
 
 { TCodexResourcesModule }
 

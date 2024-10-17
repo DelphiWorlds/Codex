@@ -21,7 +21,7 @@ uses
   ToolsAPI,
   Vcl.Menus, Vcl.ActnList,
   DW.OTA.Helpers, DW.OTA.Wizard, DW.Menus.Helpers, DW.OTA.Notifiers,
-  Codex.Config, Codex.Consts, Codex.Types, Codex.Core, Codex.Interfaces, Codex.ProjectFiles, Codex.ProjectFilesView;
+  Codex.Config, Codex.Consts, Codex.Consts.Text, Codex.Types, Codex.Core, Codex.Interfaces, Codex.ProjectFiles, Codex.ProjectFilesView;
 
 type
   TFileMenuWizard = class(TWizard, IModuleListener)
@@ -50,11 +50,6 @@ type
     constructor Create; override;
     destructor Destroy; override;
   end;
-
-resourcestring
-  sCodexProjectItemCaption = 'Codex..';
-  sCodexReopenFilesItemCaption = 'Reopen File';
-  sCodexProjectFilesItemCaption = 'Project Files';
 
 { TFileMenuWizard }
 

@@ -61,10 +61,7 @@ uses
   System.IOUtils,
   BrandingAPI,
   Vcl.Themes, Vcl.GraphUtil,
-  Codex.Core;
-
-resourcestring
-  sFindUnitCaption = 'Find Unit';
+  Codex.Core, Codex.Consts.Text;
 
 type
   TOpenListBox = class(TListBox);

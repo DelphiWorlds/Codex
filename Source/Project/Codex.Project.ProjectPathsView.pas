@@ -62,10 +62,7 @@ implementation
 uses
   BrandingAPI, IDETheme.Utils,
   DW.Vcl.ListBoxHelper,
-  Codex.Core;
-
-resourcestring
-  sPathsToInsert = 'Paths To Insert';
+  Codex.Core, Codex.Consts.Text;
 
 { TfrmProjectPaths }
 

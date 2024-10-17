@@ -37,7 +37,7 @@ implementation
 uses
   System.SysUtils,
   DW.OTA.Helpers,
-  Codex.Consts, Codex.Core;
+  Codex.Consts, Codex.Core, Codex.Consts.Text;
 
 type
   TAddFoldersProjectManagerMenu = class(TProjectManagerMenu)
@@ -57,12 +57,6 @@ type
     constructor Create(const APosition: Integer; const AExecuteProc: TProc);
     function GetEnabled: Boolean; override;
   end;
-
-resourcestring
-  sAddFoldersCaption = 'Add Folders To Search Path';
-  sDeployExtensionsCaption = 'Deploy Extensions';
-  sDeployFolderCaption = 'Deploy Folder';
-  sTotalCleanCaption = 'Total Clean';
 
 { TAddFoldersProjectManagerMenu }
 

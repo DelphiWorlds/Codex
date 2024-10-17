@@ -70,9 +70,6 @@ uses
   DW.OTA.Consts,
   Codex.Config, Codex.Core, Codex.Consts.Text;
 
-resourcestring
-  sProjectHasBeenMoved = 'Project has been moved or deleted';
-
 { TCommonPathsView }
 
 constructor TCommonPathsView.Create(AOwner: TComponent);

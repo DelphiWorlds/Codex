@@ -53,10 +53,6 @@ uses
   DW.IOUtils.Helpers,
   Codex.Core, Codex.Consts.Text;
 
-resourcestring
-  sGetDependenciesFailed = 'Get dependencies failed with exit code: %d';
-  sInitializationFailed = 'Initialization failed with exit code: %d';
-
 { TGradleDepsProcess }
 
 function TGradleDepsProcess.CheckRequirements: Boolean;

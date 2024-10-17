@@ -41,7 +41,7 @@ uses
   PlatformAPI,
   DW.OTA.Registry, DW.OTA.Helpers, DW.OTA.Consts,
   Mosco.API,
-  Codex.Consts, Codex.Core,
+  Codex.Consts, Codex.Core, Codex.Consts.Text,
   Codex.Mosco.Helpers, Codex.Mosco.Consts, Codex.Types;
 
 const
@@ -112,18 +112,6 @@ type
     function GetChecked: Boolean; override;
     function GetEnabled: Boolean; override;
   end;
-
-resourcestring
-  sAddLinkedFrameworksCaption = 'Add Linked Frameworks';
-  sAddSDKFrameworksCaption = 'Add SDK Frameworks';
-  sBuildIPACaption = 'Rebuild IPA';
-  sCheckProvisioningCaption = 'Check Provisioning';
-  sInstallAppCaption = 'Rebuild/Install';
-  sMoscoOptionsCaption = 'Mosco Options';
-  sSelectSDKCaption = 'Select SDK';
-  sSelectProfileCaption = 'Select Profile';
-  sShowDeployedAppCaption = 'Show Deployed App';
-  sSignLibrariesCaption = 'Sign Libraries';
 
 
 { TCheckProvisioningProjectManagerMenu }

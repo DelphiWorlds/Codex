@@ -20,16 +20,10 @@ uses
   Vcl.Menus, Vcl.ActnList, Vcl.Forms,
   DW.OTA.Wizard, DW.OTA.Helpers, DW.Classes.Helpers, DW.IOUtils.Helpers, DW.Menus.Helpers, DW.Types.Helpers,
   Codex.ProgressView,
-  Codex.Consts, Codex.Cleaner.CleanView, Codex.Core;
+  Codex.Consts, Codex.Cleaner.CleanView, Codex.Core, Codex.Consts.Text;
 
 const
   cCleanerMenuItemName = 'CodexCleanerMenuItem';
-
-resourcestring
-  sCleanerCaption = 'Cleaner';
-  sCleaning = 'Cleaning';
-  sScanningFiles = 'Scanning files..';
-  sScanningFolders = 'Scanning folders..';
 
 type
   TCleanerWizard = class(TWizard)

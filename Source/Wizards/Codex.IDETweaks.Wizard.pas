@@ -22,7 +22,7 @@ uses
   Vcl.ActnList, Vcl.Controls, Vcl.StdCtrls, Vcl.Forms,
   DW.OSLog,
   DW.OTA.Helpers, DW.OTA.Wizard, DW.OTA.Types, DW.OTA.Consts, DW.OTA.Notifiers, DW.OTA.Registry,DW.Vcl.DialogService, DW.OS.Win, DW.RunProcess.Win,
-  Codex.Config, Codex.Types, Codex.Consts, Codex.Core, Codex.External.DelphiWorlds, Codex.OTA.Helpers;
+  Codex.Config, Codex.Types, Codex.Consts, Codex.Core, Codex.External.DelphiWorlds, Codex.OTA.Helpers, Codex.Consts.Text;
 
 type
   TEditorWindowHandler = reference to procedure(const Form: TForm);
@@ -84,10 +84,6 @@ type
     function FindComponentClass(const AClassName: string): TComponent;
     function FindChildComponent(const AHierarchy: array of string): TComponent;
   end;
-
-resourcestring
-  sConfirmContinueWithDistBuildType = 'Build type is: %s. Continue?';
-  sJarFilesMissing = 'One or more jar files for this project are not present in this version of Delphi';
 
 { TComponentHelper }
 

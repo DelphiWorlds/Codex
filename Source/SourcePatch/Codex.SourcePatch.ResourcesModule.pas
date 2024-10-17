@@ -17,15 +17,6 @@ uses
   System.SysUtils, System.Classes, System.Actions, Vcl.ActnList,
   Codex.CustomResourcesModule;
 
-resourcestring
-  sPatchMenuCaption = 'Source Patch';
-  sCopySourcesMenuCaption = 'Copy source files';
-  sCopySourceMenuCaption = 'Copy source file';
-  sCopySourceToProjectMenuCaption = 'Copy file to project folder';
-  sCreatePatchMenuCaption = 'Create patch file';
-  sPatchSourceMenuCaption = 'Apply patch';
-  sPatchSourceToProjectMenuCaption = 'Apply patch to project folder';
-
 type
   TSourcePatchResourcesModule = class(TDataModule)
     ActionList: TActionList;
@@ -49,7 +40,7 @@ implementation
 {$R *.dfm}
 
 uses
-  Codex.Core;
+  Codex.Core, Codex.Consts.Text;
 
 { TSourcePatchResourcesModule }
 

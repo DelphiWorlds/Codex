@@ -75,9 +75,6 @@ const
   cPostProcessContainsInternalClassZZSuffix = '_zz';
   cPostProcessEndStatement = 'end.';
 
-resourcestring
-  sPerformingPostProcessing = 'Performing post processing..';
-
 type
   TStringsHelper = class helper for TStrings
   public

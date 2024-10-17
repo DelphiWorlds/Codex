@@ -86,14 +86,6 @@ const
   cDexCommand = '%s\dx.bat'; // TODO: This command may have been deprecated
   cDexParams = '--dex --output="%s" --positions=lines "%s"';
 
-resourcestring
-  sBuildFailedWithExitCode = 'Build failed with exit code: %d';
-  sCompileFailedWithExitCode = 'Compile failed with exit code: %d';
-  sDexingFailedWithExitCode = 'Dex-ing failed with exit code: %d';
-  sDexingJar = 'Dexing %s..';
-  sSuccessfullyBuiltJar = 'Successfully built: %s';
-  sSuccessfullyDexedJar = 'Successfully dexed: %s';
-
 type
   TStringsHelper = class helper for TStrings
   public

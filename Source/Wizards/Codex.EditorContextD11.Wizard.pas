@@ -20,7 +20,7 @@ uses
   ToolsAPI,
   Vcl.Menus, Vcl.ActnPopup, Vcl.ActnList,
   DW.OTA.Wizard, DW.OTA.Helpers, DW.Menus.Helpers,
-  Codex.Core;
+  Codex.Core, Codex.Consts.Text;
 
 type
   TEditorContextWizard = class(TWizard)
@@ -35,9 +35,6 @@ type
   protected
     procedure IDEStarted; override;
   end;
-
-resourcestring
-  sAddToProjectMenuCaption = 'Add To Project';
 
 { TEditorContextWizard }
 

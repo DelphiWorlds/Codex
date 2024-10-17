@@ -76,14 +76,10 @@ uses
   System.IOUtils,
   DW.IOUtils.Helpers, DW.OTA.Helpers,
   Codex.Consts,
-  Codex.Modules.Types, Codex.Core;
+  Codex.Modules.Types, Codex.Core, Codex.Consts.Text;
 
 const
   cRegistryCodexModulesSubKey = cRegistryCodexSubKey + '\Modules';
-
-resourcestring
-  sSaveSource = 'Save source';
-  sSaveSourceAndResource = 'Save source and %s';
 
 { TModuleInfo }
 

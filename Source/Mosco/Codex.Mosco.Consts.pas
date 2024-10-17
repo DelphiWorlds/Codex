@@ -31,9 +31,6 @@ const
   cMoscoOptionsSectionID = 'Mosco';
   cMoscoOptionsSectionTitle = 'Mosco'; // Do not localize
 
-resourcestring
-  cMoscoShowDeployedAppMenuItemCaption = 'Show Deployed App';
-
 implementation
 
 end.

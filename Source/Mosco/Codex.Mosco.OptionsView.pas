@@ -89,15 +89,7 @@ implementation
 
 uses
   DW.Classes.Helpers, DW.OTA.Registry,
-  Codex.Mosco.Consts, Codex.Config, Codex.Core, Codex.ProgressView, Codex.Mosco.Helpers;
-
-resourcestring
-  sConnectionTestTitle = 'Connection test';
-  sConnectionTestCannotDetermineHost = 'Cannot test - hostname cannot be determined';
-  sConnectionTestConnected = 'Connected to %s';
-  sConnectionTestUnableToConnect = 'Unable to connect. Please ensure that Mosco is running';
-  sCurrentProfileNoHost = 'Current: %s (No hostname)';
-  sCurrentProfileWithHost = 'Current: %s (%s)';
+  Codex.Mosco.Consts, Codex.Config, Codex.Core, Codex.ProgressView, Codex.Mosco.Helpers, Codex.Consts.Text;
 
 { TOptionsView }
 

@@ -105,9 +105,6 @@ const
   cJavaExeName = 'java.exe';
   cJarSignerExeName = 'jarsigner.exe';
 
-resourcestring
-  sCannotInstallNoDevice = 'Cannot install - no device found for the active configuration';
-
 { TGenerateAppProcess }
 
 constructor TGenerateAppProcess.Create;

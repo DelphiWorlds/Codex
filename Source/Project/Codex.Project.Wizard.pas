@@ -20,8 +20,8 @@ uses
   Winapi.Windows, Winapi.Messages, ToolsAPI, DCCStrs, DeploymentAPI, PlatformAPI,
   Vcl.Menus, Vcl.Controls, Vcl.Forms, Vcl.StdCtrls, Vcl.ActnList, DW.OSLog,
   DW.OTA.Wizard, DW.OTA.Helpers, DW.Types.Helpers, DW.Menus.Helpers, DW.OTA.Consts,
-  DW.IOUtils.Helpers, DW.Classes.Helpers, DW.OTA.Notifiers, Codex.Consts,
-  Codex.Config, Codex.Interfaces, Codex.Core, Codex.OTA.Helpers,
+  DW.IOUtils.Helpers, DW.Classes.Helpers, DW.OTA.Notifiers,
+  Codex.Consts, Codex.Consts.Text, Codex.Config, Codex.Interfaces, Codex.Core, Codex.OTA.Helpers,
   Codex.Project.EffectivePathsView, Codex.Project.ProjectPathsView, Codex.Project.CommonPathsView, Codex.Project.AddFoldersView,
   Codex.Project.ProjectToolsView, Codex.Project.DeployFolderView, Codex.Project.DeployExtensionsView,
   Codex.ProgressView, Codex.Project.ResourcesModule,
@@ -68,22 +68,6 @@ type
     constructor Create; override;
     destructor Destroy; override;
   end;
-
-resourcestring
-  sProjectToolsCaption = 'Project Tools';
-  sBundleProjectCaption = 'Bundle Project';
-  sCleanCouldNotComplete = 'Clean could not complete. Please see the Codex tab of the Messages window';
-  sCleanCouldNotDeleteFile = 'Could not delete file: %s';
-  sCleanDeletingFile = 'Deleting %s';
-  sCleaningProjectTitle = 'Cleaning %s';
-  sCommonPathsCaption = 'Common Paths';
-  sEffectivePathsFormCaption = 'Effective Paths for: %s (%s\%s)';
-  sFindUnitCaption = 'Find Unit';
-  sInsertPathsCaption = 'Insert Paths';
-  sResourceFilesCaption = 'Resource Files';
-  sShowEffectivePathsCaption = 'Show Effective Paths';
-  sShowToolsCaption = 'Show Tools';
-  sTotalCleanOfProjectCompleted = 'Total Clean of %s completed successfully';
 
 const
   cProjectKnownExtensions: array[0..5] of string = ('.dpr', '.dproj', '.xml', '.fmx', '.pas', '.dfm');

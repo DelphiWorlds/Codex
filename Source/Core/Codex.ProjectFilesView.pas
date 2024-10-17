@@ -58,10 +58,7 @@ implementation
 uses
   System.IOUtils,
   DW.Vcl.ListBoxHelper, DW.OTA.Helpers,
-  Codex.Core;
-
-resourcestring
-  sProjectFilesForProject = 'Project files for: %s';
+  Codex.Core, Codex.Consts.Text;
 
 { TProjectFilesView }
 

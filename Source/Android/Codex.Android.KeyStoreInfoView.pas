@@ -72,12 +72,7 @@ implementation
 uses
   System.IOUtils,
   DW.OTA.Helpers,
-  Codex.Config, Codex.Core;
-
-resourcestring
-  sExtractAPKFromAABCaption = 'Extract APK From AAB';
-  sInstallAABCaption = 'Install AAB';
-  sRebuildBundleWithAssetPacksCaption = 'Rebuild Bundle With Asset Packs';
+  Codex.Config, Codex.Core, Codex.Consts.Text;
 
 type
   TControlHelper = class helper for TControl

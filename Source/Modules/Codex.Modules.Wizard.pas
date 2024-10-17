@@ -20,7 +20,7 @@ uses
   ToolsAPI,
   Vcl.Controls, Vcl.Menus, Vcl.Dialogs,
   DW.OTA.Wizard, DW.OTA.ProjectManagerMenu, DW.OTA.Helpers, DW.Menus.Helpers,
-  Codex.Consts, Codex.Modules.Types, Codex.Modules.DuplicateModuleView, Codex.Core;
+  Codex.Consts, Codex.Modules.Types, Codex.Modules.DuplicateModuleView, Codex.Core, Codex.Consts.Text;
 
 type
   TModulesWizard = class(TWizard)
@@ -34,9 +34,6 @@ type
     constructor Create; override;
     destructor Destroy; override;
   end;
-
-resourcestring
-  sDuplicateModuleCaption = 'Duplicate Module..';
 
 { TModulesWizard }
 

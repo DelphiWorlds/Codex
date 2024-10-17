@@ -64,10 +64,7 @@ uses
   System.IOUtils,
   DW.IOUtils.Helpers, DW.OTA.Helpers,
   DW.Vcl.ListBoxHelper,
-  Codex.Core;
-
-resourcestring
-  sConfirmClean = 'Confirm that you wish to delete files with the selected extensions, and the selected folders';
+  Codex.Core, Codex.Consts.Text;
 
 const
   cCheckedState: array[Boolean] of TCheckBoxState = (TCheckBoxState.cbUnchecked, TCheckBoxState.cbChecked);

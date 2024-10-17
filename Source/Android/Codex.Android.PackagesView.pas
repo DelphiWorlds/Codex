@@ -79,12 +79,6 @@ uses
   DW.IOUtils.Helpers, DW.RunProcess.Win, DW.Vcl.DialogService, DW.OTA.Types, DW.OTA.Consts, DW.OTA.Helpers,
   Codex.Config, Codex.Core, Codex.Consts.Text, Codex.OTA.Helpers;
 
-resourcestring
-  sAddedJarToProject = 'Added %s to project';
-  sAddedResourcesToDeployment = 'Added resources to deployment';
-  sPackageFolderAlreadyAdded = 'Package folder has already been added';
-  sSelectAndroidPackageFolder = 'Select Android Package Folder';
-
 function ControlsHeight(const AControls: array of TControl): Integer;
 var
   LControl: TControl;

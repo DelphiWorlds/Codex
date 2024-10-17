@@ -98,17 +98,6 @@ type
     function IndexOf(const APath, AMask: string): Integer;
   end;
 
-resourcestring
-  sAddSDKFrameworksTitle = 'Add SDK Frameworks';
-  sCannotObtainPlatformSDK = 'Unable to obtain platform SDK for %s';
-  sCertExpiresOn = '%s certificate expires/expired on: %s';
-  sNoFrameworksAdded = 'No frameworks added. Either they already exist, or errors occurred';
-  sNoMacDeveloperCert = 'You do not appear to have a macOS developer certificate';
-  sNoMacInstallerCert = 'You do not appear to have a macOS installer certificate';
-  sNoProvisioningProfile = 'There does not appear to be a matching provisioning profile for this project';
-  sUpdatedProjectInstallerCert = 'Updated project macOS installer certificate';
-  sUpdatedProjectDeveloperCert = 'Updated project macOS developer certificate';
-
 { TOTARemoteProfilePathArrayHelper }
 
 function TOTARemoteProfilePathArrayHelper.Add(const APath, AMask: string): Integer;
@@ -569,9 +558,9 @@ begin
     LTargetInfo.FileName := TOTAHelper.GetProjectDeployedFileName(LProject);
     LTargetInfo.BuildKind := TProjectProperties.GetBuildTypeNumber(TOTAHelper.GetProjectCurrentBuildType(LProject));
     LTargetInfo.DeviceID := TOTAHelper.GetProjectCurrentMobileDeviceName(LProject);
-    LWaitCaption := 'Rebuild/install iOS App..';
+    LWaitCaption := sRebuildInstalliOSApp;
     if LTargetInfo.BuildKind in [0, 1] then
-      LWaitCaption := 'Rebuild IPA..';
+      LWaitCaption := sRebuildIPA;
     TCodexOTAHelper.ShowWait(LWaitCaption);
     TThread.CreateAnonymousThread(procedure begin DoDeployIOSApp(LTargetInfo) end).Start;
   end;

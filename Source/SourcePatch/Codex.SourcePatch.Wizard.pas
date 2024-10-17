@@ -20,7 +20,7 @@ uses
   ToolsAPI,
   Vcl.Menus, Vcl.Forms, Vcl.ActnList,
   DW.OTA.Wizard, DW.OTA.Helpers, DW.Menus.Helpers,
-  Codex.Config, Codex.Consts, Codex.Core, Codex.ActionList.Helper,
+  Codex.Config, Codex.Consts, Codex.Core, Codex.ActionList.Helper, Codex.Consts.Text,
   Codex.SourcePatch.FunctionsModule, Codex.SourcePatch.ResourcesModule;
 
 const
