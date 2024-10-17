@@ -1,0 +1,18 @@
+[submodule "Deps/TOTAL"]
+	path = Deps/TOTAL
+	url = https://github.com/DelphiWorlds/TOTAL.git
+[submodule "Deps/Kastri"]
+	path = Deps/Kastri
+	url = https://github.com/DelphiWorlds/Kastri.git
+[submodule "Deps/Babel"]
+	path = Deps/Babel
+	url = https://github.com/DelphiWorlds/Babel.git
+[submodule "Deps/Mosco"]
+	path = Deps/Mosco
+	url = https://github.com/DelphiWorlds/Mosco.git
+[submodule "Deps/delphi-neon"]
+	path = Deps/delphi-neon
+	url = https://github.com/paolo-rossi/delphi-neon.git
+[submodule "Deps/DelphiAST"]
+	path = Deps/DelphiAST
+	url = https://github.com/RomanYankovsky/DelphiAST.git
