@@ -103,6 +103,7 @@ begin
     LProperties.BuildType := TOTAHelper.GetProjectCurrentBuildType(LProject);
     LProperties.BuildTypeNumber := TProjectProperties.GetBuildTypeNumber(LProperties.BuildType);
     LProperties.Profile := TOTAHelper.GetProjectCurrentConnectionProfile(LProject);
+    LProperties.ProjectOutputFolder := TOTAHelper.GetActiveProjectOutputDir;
     if ActiveProjectProperties.Update(LProperties) then
       Result := True;
   end

@@ -32,6 +32,7 @@ type
     Platform: string;
     Profile: string;
     ProjectFileName: string;
+    ProjectOutputFolder: string;
     ProjectPlatform: TProjectPlatform;
     TargetFileName: string;
     procedure Clear;
@@ -143,6 +144,7 @@ begin
     Result := Platform + ' > ' + Config;
     if not BuildType.IsEmpty and not BuildType.Equals(Config) then
       Result := Result + ' > ' + GetLongBuildType;
+    Result := Result + ' - ' + ProjectOutputFolder;
   end;
 end;
 
