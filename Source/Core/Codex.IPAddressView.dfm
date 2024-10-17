@@ -1,30 +1,35 @@
 object IPAddressView: TIPAddressView
   Left = 0
   Top = 0
-  Width = 192
-  Height = 22
+  Width = 336
+  Height = 39
+  Margins.Left = 5
+  Margins.Top = 5
+  Margins.Right = 5
+  Margins.Bottom = 5
   TabOrder = 0
+  PixelsPerInch = 168
   object ColonLabel: TLabel
     AlignWithMargins = True
-    Left = 133
+    Left = 233
     Top = 0
-    Width = 3
-    Height = 22
-    Margins.Left = 4
+    Width = 5
+    Height = 39
+    Margins.Left = 7
     Margins.Top = 0
     Margins.Right = 0
     Margins.Bottom = 0
     Align = alLeft
     Caption = ':'
-    ExplicitHeight = 15
+    ExplicitHeight = 30
   end
   object IPEditPanel: TPanel
     AlignWithMargins = True
-    Left = 4
+    Left = 7
     Top = 0
-    Width = 125
-    Height = 22
-    Margins.Left = 4
+    Width = 219
+    Height = 39
+    Margins.Left = 7
     Margins.Top = 0
     Margins.Right = 0
     Margins.Bottom = 0
@@ -32,38 +37,50 @@ object IPAddressView: TIPAddressView
     BevelOuter = bvNone
     TabOrder = 0
     object Byte2PeriodLabel: TLabel
-      Left = 87
+      Left = 103
       Top = 0
-      Width = 3
-      Height = 22
+      Width = 5
+      Height = 39
+      Margins.Left = 9
+      Margins.Top = 9
+      Margins.Right = 9
+      Margins.Bottom = 9
       Align = alLeft
       Caption = '.'
-      ExplicitHeight = 15
+      ExplicitLeft = 99
     end
     object Byte1PeriodLabel: TLabel
-      Left = 56
+      Left = 49
       Top = 0
-      Width = 3
-      Height = 22
+      Width = 5
+      Height = 39
+      Margins.Left = 9
+      Margins.Top = 9
+      Margins.Right = 9
+      Margins.Bottom = 9
       Align = alLeft
       Caption = '.'
-      ExplicitHeight = 15
+      ExplicitLeft = 45
     end
     object Byte3PeriodLabel: TLabel
-      Left = 118
+      Left = 157
       Top = 0
-      Width = 3
-      Height = 22
+      Width = 5
+      Height = 39
+      Margins.Left = 9
+      Margins.Top = 9
+      Margins.Right = 9
+      Margins.Bottom = 9
       Align = alLeft
       Caption = '.'
-      ExplicitHeight = 15
+      ExplicitLeft = 145
     end
     object IPByte2Edit: TEdit
       AlignWithMargins = True
-      Left = 28
+      Left = 54
       Top = 0
-      Width = 28
-      Height = 22
+      Width = 49
+      Height = 39
       Margins.Left = 0
       Margins.Top = 0
       Margins.Right = 0
@@ -73,7 +90,7 @@ object IPAddressView: TIPAddressView
       BorderStyle = bsNone
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -12
+      Font.Height = -21
       Font.Name = 'Segoe UI'
       Font.Style = []
       MaxLength = 3
@@ -82,13 +99,14 @@ object IPAddressView: TIPAddressView
       Text = '168'
       OnKeyPress = IPByteEditKeyPress
       OnKeyUp = IPByteEditKeyUp
+      ExplicitLeft = 49
     end
     object IPByte1Edit: TEdit
       AlignWithMargins = True
       Left = 0
       Top = 0
-      Width = 28
-      Height = 22
+      Width = 49
+      Height = 39
       Margins.Left = 0
       Margins.Top = 0
       Margins.Right = 0
@@ -98,7 +116,7 @@ object IPAddressView: TIPAddressView
       BorderStyle = bsNone
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -12
+      Font.Height = -21
       Font.Name = 'Segoe UI'
       Font.Style = []
       MaxLength = 3
@@ -111,10 +129,10 @@ object IPAddressView: TIPAddressView
     end
     object IPByte3Edit: TEdit
       AlignWithMargins = True
-      Left = 59
+      Left = 108
       Top = 0
-      Width = 28
-      Height = 22
+      Width = 49
+      Height = 39
       Margins.Left = 0
       Margins.Top = 0
       Margins.Right = 0
@@ -124,7 +142,7 @@ object IPAddressView: TIPAddressView
       BorderStyle = bsNone
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -12
+      Font.Height = -21
       Font.Name = 'Segoe UI'
       Font.Style = []
       MaxLength = 3
@@ -133,13 +151,14 @@ object IPAddressView: TIPAddressView
       Text = '1'
       OnKeyPress = IPByteEditKeyPress
       OnKeyUp = IPByteEditKeyUp
+      ExplicitLeft = 103
     end
     object IPByte4Edit: TEdit
       AlignWithMargins = True
-      Left = 90
+      Left = 162
       Top = 0
-      Width = 28
-      Height = 22
+      Width = 49
+      Height = 39
       Margins.Left = 0
       Margins.Top = 0
       Margins.Right = 0
@@ -149,7 +168,7 @@ object IPAddressView: TIPAddressView
       BorderStyle = bsNone
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
-      Font.Height = -12
+      Font.Height = -21
       Font.Name = 'Segoe UI'
       Font.Style = []
       MaxLength = 3
@@ -158,15 +177,16 @@ object IPAddressView: TIPAddressView
       Text = '229'
       OnKeyPress = IPByteEditKeyPress
       OnKeyUp = IPByteEditKeyUp
+      ExplicitLeft = 157
     end
   end
   object IPPortEdit: TEdit
     AlignWithMargins = True
-    Left = 140
+    Left = 245
     Top = 0
-    Width = 36
-    Height = 22
-    Margins.Left = 4
+    Width = 63
+    Height = 39
+    Margins.Left = 7
     Margins.Top = 0
     Margins.Right = 0
     Margins.Bottom = 0
@@ -174,7 +194,7 @@ object IPAddressView: TIPAddressView
     BorderStyle = bsNone
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
-    Font.Height = -12
+    Font.Height = -21
     Font.Name = 'Segoe UI'
     Font.Style = []
     MaxLength = 5
