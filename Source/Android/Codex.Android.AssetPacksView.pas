@@ -420,7 +420,7 @@ begin
     if LContinue and FAppProcess.IsKeyStoreValid then
     begin
       FProjectName := LConfig.Value[sSanitizedProjectName];
-      FDeployedPath := ExpandPath(TOTAHelper.GetActiveProjectPath,  TOTAHelper.ExpandConfiguration(LConfig.GetValue(sExeOutput), LConfig));
+      FDeployedPath := ExpandPath(TOTAHelper.GetActiveProjectPath, TOTAHelper.ExpandConfiguration(LConfig.GetValue(sExeOutput), LConfig));
       FDeployedPath := TPath.Combine(FDeployedPath, FProjectName);
       LAABFileName := TPath.Combine(FDeployedPath, 'bin\' + FProjectName + '.aab');
       if TFile.Exists(LAABFileName) then
