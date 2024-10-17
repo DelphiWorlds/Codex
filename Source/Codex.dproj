@@ -59,7 +59,7 @@
         <GenDll>true</GenDll>
         <DCC_Namespace>System;Xml;Data;Datasnap;Web;Soap;Vcl;Vcl.Imaging;Vcl.Touch;Vcl.Samples;Vcl.Shell;$(DCC_Namespace)</DCC_Namespace>
         <SanitizedProjectName>Codex</SanitizedProjectName>
-        <DCC_UnitSearchPath>.\Core;.\External\DelphiWorlds;.\Helpers;.\Mosco;$(Mosco)\Client;$(TOTAL);$(Kastri)\API;$(Kastri)\Core;$(Kastri)\Include;$(Kastri)\Tools\AST;$(Kastri)\Tools\Core;$(DelphiAST);$(DelphiAST)\SimpleParser;$(NEON);$(Babel);$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+        <DCC_UnitSearchPath>.\Core;.\External\DelphiWorlds;.\Helpers;.\Mosco;..\Deps\Mosco\Client;..\Deps\TOTAL;..\Deps\Kastri\API;..\Deps\Kastri\Core;..\Deps\Kastri\\Include;..\Deps\Kastri\Tools\AST;..\Deps\Kastri\Tools\Core;..\Deps\DelphiAST\Source;..\Deps\DelphiAST\Source\SimpleParser;..\Deps\delphi-neon\Source;..\Deps\Babel;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
         <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <VerInfo_MajorVer>0</VerInfo_MajorVer>
         <VerInfo_Release>1</VerInfo_Release>
@@ -305,7 +305,6 @@
                     <Source Name="MainSource">Codex.dpr</Source>
                 </Source>
                 <Excluded_Packages>
-                    <Excluded_Packages Name="$(BDSBIN)\dclemsedge290.bpl">Embarcadero RAD Server Edge Components</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\dcloffice2k290.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
                     <Excluded_Packages Name="$(BDSBIN)\dclofficexp290.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
                 </Excluded_Packages>
@@ -315,7 +314,6 @@
                 <DeployFile LocalName="$(BDS)\Redist\iossimulator\libcgunwind.1.0.dylib" Class="DependencyModule"/>
                 <DeployFile LocalName="$(BDS)\Redist\osx32\libcgsqlite3.dylib" Class="DependencyModule"/>
                 <DeployFile LocalName="$(BDS)\Redist\osx32\libcgunwind.1.0.dylib" Class="DependencyModule"/>
-                <DeployFile LocalName="Bin\Codex.dll" Configuration="Debug" Class="ProjectOutput"/>
                 <DeployFile LocalName="Bin\Codex.dll" Configuration="Debug" Class="ProjectOutput"/>
                 <DeployClass Name="AdditionalDebugSymbols">
                     <Platform Name="iOSSimulator">
