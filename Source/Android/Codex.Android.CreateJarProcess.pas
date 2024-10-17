@@ -184,12 +184,20 @@ begin
 end;
 
 function TCreateJarProcess.CheckRequirements: Boolean;
+var
+  LEncoding: TEncoding;
 begin
   if GetJavaFiles then
   begin
     FWorkingPath := MakeWorkingPath;
     FJavaSourcesFileName := TPath.Combine(FWorkingPath, 'JavaSources.txt');
-    FJavaFiles.SaveToFile(FJavaSourcesFileName);
+    // For some reason, on some systems, having a BOM makes javac fail??
+    LEncoding := TUTF8Encoding.Create(False);
+    try
+      FJavaFiles.SaveToFile(FJavaSourcesFileName, LEncoding);
+    finally
+      LEncoding.Free;
+    end;
     Result := True;
   end
   else
