@@ -43,8 +43,8 @@ begin
   LFakeCodeFileName := TPathHelper.GetAppDocumentsFile('fakecode.txt');
   if TFile.Exists(LFakeCodeFileName) then
   begin
-    Babel.FakeCode := TFile.ReadAllText(LFakeCodeFileName);
-    TOSLog.d('Using fake code: ' + Babel.FakeCode);
+    Babel.DefaultCode := TFile.ReadAllText(LFakeCodeFileName);
+    TOSLog.d('Using fake code: ' + Babel.DefaultCode);
   end;
 end;
 
