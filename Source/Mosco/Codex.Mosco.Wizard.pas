@@ -60,7 +60,7 @@ type
     procedure DoDeployIOSAppResponse(const AResponse: IMoscoResponse);
     procedure DoGetAppExtensionFiles(const AFileNames: TArray<string>);
     procedure DoShowDeployedApp(const AProfile, AFileName: string);
-    procedure DumpIdentities;
+    // procedure DumpIdentities;
     procedure FetchCerts;
     // procedure FetchProfiles;
     // function FindIdentities(const ABundleId: string; const ABuildType: Integer; out AIdentities: TIdentities): Boolean;
@@ -228,7 +228,7 @@ procedure TMoscoWizard.DoGetAppExtensionFiles(const AFileNames: TArray<string>);
 var
   LProject: IOTAProject;
   LFileData, LDeployFolders: TArray<string>;
-  LAppExName, LZipFileName, LPlugInsPath, LProjectFileName: string;
+  LAppExName, LZipFileName, LPlugInsPath: string;
   I: Integer;
 begin
   try
@@ -701,6 +701,7 @@ end;
 //  FetchProfiles;
 //end;
 
+(*
 procedure TMoscoWizard.DumpIdentities;
 var
   LIdentity: TIdentity;
@@ -713,6 +714,7 @@ begin
   for LIdentity in FIdentities do
     Diagnostic(LIdentity.Description);
 end;
+*)
 
 procedure TMoscoWizard.FetchCerts;
 begin
