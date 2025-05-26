@@ -45,6 +45,15 @@ Can be found [here](Docs/Readme.md).
 
 ## Change history
 
+v2.4.1 (Oct 18th, 2024) Delphi 12.0, 12.1, 12.2 Patch 1 only. 
+
+* Rebuilt to be compatible with the versions listed
+* Minor fixes/tweaks
+
+**NOTE**
+
+Delphi 12.2 users will need to install Patch 1 to use this version
+  
 v2.4.0 (Sep 15th, 2024) Delphi 12.x only. 
 
 * Refactored rebuild of IPA for signing of extensions
