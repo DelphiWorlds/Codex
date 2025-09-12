@@ -17,8 +17,9 @@ type
 implementation
 
 uses
+  Winapi.UxTheme,
   BrandingAPI,
-  Vcl.Graphics;
+  Vcl.Graphics, Vcl.Themes;
 
 { TLabel }
 
@@ -38,7 +39,11 @@ end;
 
 function TLabel.IsLink: Boolean;
 begin
+  {$IF CompilerVersion > 36}
+  Result := Font.Color = ThemeProperties.MainWindow.LinkColor;
+  {$ELSE}
   Result := Font.Color = ThemeProperties.LinkColor;
+  {$ENDIF}
 end;
 
 end.

@@ -272,8 +272,13 @@ procedure TPackageDownloadView.DoShow;
 begin
   if ThemeProperties <> nil then
   begin
+    {$IF CompilerVersion > 36}
+    if not ColorIsBright(ThemeProperties.MainWindow.Color) then
+      FActivityIndicator.IndicatorColor := aicWhite;
+    {$ELSE}
     if not ColorIsBright(ThemeProperties.MainToolBarColor) then
       FActivityIndicator.IndicatorColor := aicWhite;
+    {$ENDIF}
   end;
   if Config.Android.PackageSearchTimeout < 30000 then
   begin

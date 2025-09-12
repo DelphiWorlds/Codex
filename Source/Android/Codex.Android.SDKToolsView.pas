@@ -94,8 +94,13 @@ procedure TSDKToolsView.DoShow;
 begin
   if ThemeProperties <> nil then
   begin
+    {$IF CompilerVersion > 36}
+    if not ColorIsBright(ThemeProperties.MainWindow.Color) then
+      FActivityIndicator.IndicatorColor := aicWhite;
+    {$ELSE}
     if not ColorIsBright(ThemeProperties.MainToolBarColor) then
       FActivityIndicator.IndicatorColor := aicWhite;
+    {$ENDIF}
   end;
   FProcess.SDKFolder := TSDKRegistry.Current.GetSDKPath;
   if not IsShown then

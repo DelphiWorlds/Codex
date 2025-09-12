@@ -21,7 +21,13 @@ uses
 procedure TSplitter.Paint;
 begin
   if ThemeProperties <> nil then
-    TIDEThemeDrawers.DrawSplitter(Self, ThemeProperties.MainWindowBorderColor, ThemeProperties.MainWindowBorderColor)
+  begin
+    {$IF CompilerVersion > 36}
+    TIDEThemeDrawers.DrawSplitter(Self, ThemeProperties.MainWindow.BorderColor, ThemeProperties.MainWindow.BorderColor);
+    {$ELSE}
+    TIDEThemeDrawers.DrawSplitter(Self, ThemeProperties.MainWindowBorderColor, ThemeProperties.MainWindowBorderColor);
+    {$ENDIF}
+  end
   else
     inherited;
 end;

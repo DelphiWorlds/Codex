@@ -74,12 +74,19 @@ const
 { TAboutView }
 
 constructor TAboutView.Create(AOwner: TComponent);
+var
+  LLinkColor: TColor;
 begin
   inherited;
   CodexLabel.Font.Color := StrToInt('$401FE0');
-  WebLabel.Font.Color := ThemeProperties.LinkColor;
-  SlackLabel.Font.Color := ThemeProperties.LinkColor;
-  IssuesLabel.Font.Color := ThemeProperties.LinkColor;
+  {$IF CompilerVersion > 36}
+  LLinkColor := ThemeProperties.MainWindow.LinkColor;
+  {$ELSE}
+  LLinkColor := ThemeProperties.LinkColor;
+  {$ENDIF}
+  WebLabel.Font.Color := LLinkColor;
+  SlackLabel.Font.Color := LLinkColor;
+  IssuesLabel.Font.Color := LLinkColor;
   VersionEdit.Text := TOTAWizard.GetWizardVersion;
   CopyrightLabel.Caption := CopyrightLabel.Caption + Format(' (%s)', [TPlatformOSDevice.GetCurrentLocaleInfo.LanguageCode]);
 end;

@@ -66,8 +66,13 @@ begin
   FActivityIndicator.Parent := Self;
   if ThemeProperties <> nil then
   begin
+    {$IF CompilerVersion > 36}
+    if not ColorIsBright(ThemeProperties.MainWindow.Color) then
+      FActivityIndicator.IndicatorColor := aicWhite;
+    {$ELSE}
     if not ColorIsBright(ThemeProperties.MainToolBarColor) then
       FActivityIndicator.IndicatorColor := aicWhite;
+    {$ENDIF}
   end;
 end;
 
