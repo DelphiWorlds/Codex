@@ -163,7 +163,7 @@ end;
 function TCodexWizard.GetWizardDescription: string;
 begin
   Result := 'Codex is a free tool that adds various features to the IDE'#13#10 +
-    '(c) 2024 Dave Nottage of Delphi Worlds'#13#10'http://www.delphiworlds.com';
+    '(c) 2025 Dave Nottage of Delphi Worlds'#13#10'http://www.delphiworlds.com';
 end;
 
 class function TCodexWizard.GetWizardName: string;
