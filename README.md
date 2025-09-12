@@ -45,6 +45,13 @@ Can be found [here](Docs/Readme.md).
 
 ## Change history
 
+v2.4.2 (Sep 12th, 2025) Delphi 13.0, 12.x 
+
+* Updated for Delphi 13
+* Fixed Java2OP process
+* Removed option for suppression of build events warning
+* Minor fixes/tweaks
+
 v2.4.1 (Oct 18th, 2024) Delphi 12.0, 12.1, 12.2 Patch 1 only. 
 
 * Rebuilt to be compatible with the versions listed
