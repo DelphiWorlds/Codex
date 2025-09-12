@@ -1,8 +1,8 @@
 // FILEFLAGS 0x2L = Beta (Pre-release) 0x0L = Normal
 
 1 VERSIONINFO
-FILEVERSION 2,4,1,0
-PRODUCTVERSION 2,4,1,0
+FILEVERSION 2,4,2,0
+PRODUCTVERSION 2,4,2,0
 FILEFLAGSMASK 0x3fL
 FILEFLAGS 0x0L
 FILEOS 0x4
@@ -14,11 +14,11 @@ FILETYPE 0x1
     {
       VALUE "CompanyName", "Delphi Worlds"
       VALUE "FileDescription", "Codex"
-      VALUE "FileVersion", "2.4.1"
+      VALUE "FileVersion", "2.4.2"
       VALUE "InternalName", "Codex"
       VALUE "OriginalFilename", "Codex"
       VALUE "ProductName", "Codex"
-      VALUE "ProductVersion", "2.4.1"
+      VALUE "ProductVersion", "2.4.2"
     }
   }
 
