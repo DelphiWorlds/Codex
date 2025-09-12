@@ -1,38 +1,55 @@
 object OptionsView: TOptionsView
   Left = 0
   Top = 0
+  Margins.Left = 6
+  Margins.Top = 6
+  Margins.Right = 6
+  Margins.Bottom = 6
   Caption = 'Codex Options'
-  ClientHeight = 604
-  ClientWidth = 802
+  ClientHeight = 1208
+  ClientWidth = 1624
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -11
+  Font.Height = -22
   Font.Name = 'Tahoma'
   Font.Style = []
   Position = poOwnerFormCenter
-  TextHeight = 13
+  PixelsPerInch = 192
+  TextHeight = 27
   object SectionSplitter: TSplitter
-    Left = 212
+    Left = 424
     Top = 0
-    Width = 4
-    Height = 570
-    ExplicitHeight = 553
+    Width = 8
+    Height = 1140
+    Margins.Left = 6
+    Margins.Top = 6
+    Margins.Right = 6
+    Margins.Bottom = 6
+    MinSize = 60
   end
   object CommandButtonsPanel: TPanel
     Left = 0
-    Top = 570
-    Width = 802
-    Height = 34
+    Top = 1140
+    Width = 1624
+    Height = 68
+    Margins.Left = 6
+    Margins.Top = 6
+    Margins.Right = 6
+    Margins.Bottom = 6
     Align = alBottom
     BevelOuter = bvNone
     TabOrder = 0
     object CancelButton: TButton
       AlignWithMargins = True
-      Left = 724
-      Top = 3
-      Width = 75
-      Height = 28
+      Left = 1468
+      Top = 6
+      Width = 150
+      Height = 56
+      Margins.Left = 6
+      Margins.Top = 6
+      Margins.Right = 6
+      Margins.Bottom = 6
       Align = alRight
       Cancel = True
       Caption = 'Cancel'
@@ -43,10 +60,14 @@ object OptionsView: TOptionsView
     end
     object OKButton: TButton
       AlignWithMargins = True
-      Left = 643
-      Top = 3
-      Width = 75
-      Height = 28
+      Left = 1306
+      Top = 6
+      Width = 150
+      Height = 56
+      Margins.Left = 6
+      Margins.Top = 6
+      Margins.Right = 6
+      Margins.Bottom = 6
       Align = alRight
       Caption = 'OK'
       Default = True
@@ -58,13 +79,17 @@ object OptionsView: TOptionsView
   end
   object SectionsTreeView: TTreeView
     AlignWithMargins = True
-    Left = 3
-    Top = 3
-    Width = 206
-    Height = 564
+    Left = 6
+    Top = 6
+    Width = 412
+    Height = 1128
+    Margins.Left = 6
+    Margins.Top = 6
+    Margins.Right = 6
+    Margins.Bottom = 6
     Align = alLeft
     HideSelection = False
-    Indent = 19
+    Indent = 38
     MultiSelectStyle = []
     ReadOnly = True
     RowSelect = True
@@ -75,10 +100,14 @@ object OptionsView: TOptionsView
   end
   object SectionPanel: TPanel
     AlignWithMargins = True
-    Left = 219
-    Top = 3
-    Width = 580
-    Height = 564
+    Left = 438
+    Top = 6
+    Width = 1180
+    Height = 1128
+    Margins.Left = 6
+    Margins.Top = 6
+    Margins.Right = 6
+    Margins.Bottom = 6
     Align = alClient
     BevelOuter = bvNone
     TabOrder = 2
