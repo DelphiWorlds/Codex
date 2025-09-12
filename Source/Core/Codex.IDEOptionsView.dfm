@@ -134,7 +134,8 @@ object IDEOptionsView: TIDEOptionsView
       Hint = 'Suppress the warning when a project has build events'
       Margins.Top = 6
       Align = alTop
-      Caption = 'Suppress project build events warning'
+      Caption = 'Suppress project build events warning (no longer in use)'
+      Enabled = False
       ParentShowHint = False
       ShowHint = True
       TabOrder = 6

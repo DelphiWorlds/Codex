@@ -193,6 +193,7 @@ end;
 procedure TCodexConfig.Load;
 begin
   DoLoad;
+  IDE.SuppressBuildEventsWarning := False;
 end;
 
 procedure TCodexConfig.Save;

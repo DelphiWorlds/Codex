@@ -63,7 +63,6 @@ type
     procedure HookBaseActionList2;
     procedure ModifyEditWindowViewSelector(const AForm: TComponent);
     procedure RunRunCommandExecuteHandler(Sender: TObject);
-    procedure TrustProjectBuildEvents(const AProject: IOTAProject);
     procedure UpdateProjectTargetLabel;
   protected
     procedure ActiveFormChanged; override;
@@ -213,13 +212,6 @@ begin
   if not AIsCodeInsight then
   begin
     FWasCompiled := True;
-    if Config.IDE.SuppressBuildEventsWarning then
-    try
-      TrustProjectBuildEvents(TOTAHelper.GetActiveProject);
-    except
-      on E: Exception do
-        TOTAHelper.AddTitleException(E, 'TrustProjectBuildEvents', 'Codex');
-    end;
     CheckKillProcess(AProject);
   end;
   inherited;
@@ -322,10 +314,7 @@ begin
       if LIsSysJarMissing then
       begin
         if DelphiWorlds <> nil then
-        begin
-          DelphiWorlds.SysJarsMismatch;
-          FMessageNotifier.AddProjectWarning('Called SysJarsMismatch');
-        end
+          DelphiWorlds.SysJarsMismatch
         else
           FMessageNotifier.AddProjectWarning(Babel.Tx(sJarFilesMissing));
       end;
@@ -446,22 +435,6 @@ begin
     TDialog.Confirm(Format(Babel.Tx(sConfirmContinueWithDistBuildType), [ActiveProjectProperties.GetLongBuildType]), False) then
   begin
     FRunRunCommandExecuteEvent(Sender);
-  end;
-end;
-
-procedure TIDETweaksWizard.TrustProjectBuildEvents(const AProject: IOTAProject);
-var
-  LProjectName: string;
-begin
-  if TOTAHelper.HasBuildEvents(AProject) then
-  begin
-    LProjectName := TOTAHelper.GetProjectActiveBuildConfigurationValue(AProject, sSanitizedProjectName);
-    if FBDSRegistry.OpenSubKey('\Compiling\TrustedBuildEvents', True) then
-    try
-      FBDSRegistry.WriteString(AProject.ProjectGUID.ToString, LProjectName);
-    finally
-      FBDSRegistry.CloseKey;
-    end;
   end;
 end;
 
