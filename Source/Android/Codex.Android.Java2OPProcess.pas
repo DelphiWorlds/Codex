@@ -67,6 +67,9 @@ const
 
   cPostProcessStartsWithUnitDeclaration = 'unit';
   cPostProcessEqualsTypeDeclaration = 'type';
+  cPostProcessStartsWithStupidComment = '// =';
+  cPostProcessEndsWithInterfaceStupidComment = 'interface;//';
+  cPostProcessEndsWithStupidDeprecatedComment = ';//Deprecated';
   cPostProcessEqualsImplementationDeclaration = 'implementation';
   cPostProcessContainsForwardDeclaration = 'interface;';
   cPostProcessContainsDeclaration = 'interface(';
@@ -121,17 +124,21 @@ end;
 
 function TJava2OPProcess.Run: Boolean;
 var
-  LCmd, LClasses, LJarFiles, LFolders, LJava2OPFilePath, LOutputFileName, LClassPath: string;
+  LCmd, LClasses, LJarFiles, LFolders, LJava2OPFilePath,
+  LOutputFileName,
+  LOutputFolder,
+  LClassPath: string;
 begin
   Result := False;
   LJava2OPFilePath := TPath.Combine(TPlatformOS.GetEnvironmentVariable(cEnvVarBDSBin), cJava2OPFilePath);
   if TFile.Exists(LJava2OPFilePath) then
   begin
+    LOutputFolder := string.Empty;
     LClasses := FIncludedClasses.CombineText(' ', True);
     LFolders := FJavaSourceFolders.CombineText(' ', True);
     LJarFiles := FJarFiles.CombineText(' ', True);
     LClassPath := FClassPath.CombineText(' ', True);
-    LCmd := TPath.GetFileName(LJava2OPFilePath);
+    LCmd := LJava2OPFilePath.QuotedString('"');
     if not LClasses.IsEmpty then
       LCmd := LCmd + ' ' + Format(cJava2OPClassesParam, [LClasses]);
     if not LFolders.IsEmpty then
@@ -142,14 +149,16 @@ begin
       LCmd := LCmd + ' ' + Format(cJava2OPClassPathParam, [LClassPath]);
     if not FOutputFilename.IsEmpty then
     begin
-      LOutputFileName := TPath.ChangeExtension(FOutputFilename, '');
+      LOutputFolder := TPath.GetDirectoryName(FOutputFilename);
+      LOutputFileName := TPath.ChangeExtension(TPath.GetFileName(FOutputFilename), '');
       LCmd := LCmd + ' ' + Format(cJava2OPUnitParam, [LOutputFileName.Substring(0, Length(LOutputFileName) - 1)]);
     end;
     // As a minumum, needs classes, or jars
     if (not LClasses.IsEmpty or not LJarFiles.IsEmpty) and not FOutputFilename.IsEmpty then
     begin
       FCurrentDir := GetCurrentDir;
-      ChDir(TPath.GetDirectoryName(LJava2OPFilePath));
+      if not LOutputFolder.IsEmpty then
+        ChDir(LOutputFolder);
       Process.CommandLine := LCmd;
       TOSLog.d('Command line: %s', [LCmd]);
       Result := InternalRun;
@@ -165,7 +174,10 @@ begin
     PerformPostProcessing;
   if not FCurrentDir.IsEmpty then
     ChDir(FCurrentDir);
-  DoOutput(Format(Babel.Tx(sCommandExitedWithCode), [Process.CommandLine, AExitCode]));
+  if AExitCode <> 0 then
+    DoOutput(Format(Babel.Tx(sCommandExitedWithCode), [Process.CommandLine, AExitCode]))
+  else
+    DoOutput(Babel.Tx(sCompletedSuccess));
   inherited;
 end;
 
@@ -203,7 +215,7 @@ var
 begin
   DoOutput(Babel.Tx(sPerformingPostProcessing));
   LBackupFileName := FOutputFilename + '.bak';
-  TFile.Copy(FOutputFilename, LBackupFileName);
+  TFile.Copy(FOutputFilename, LBackupFileName, True);
   LState := TPostProcessState.None;
   LReader := TStreamReader.Create(LBackupFileName);
   try
@@ -212,6 +224,10 @@ begin
       while (LState <> TPostProcessState.UnitEnd) and not LReader.EndOfStream do
       begin
         LLine := LReader.ReadLine;
+        if LLine.EndsWith(cPostProcessEndsWithInterfaceStupidComment) then
+          LLine := LLine.Substring(0, LLine.IndexOf(cPostProcessEndsWithInterfaceStupidComment))
+        else if LLine.EndsWith(cPostProcessEndsWithStupidDeprecatedComment) then
+          LLine := LLine.Substring(0, LLine.IndexOf(cPostProcessEndsWithStupidDeprecatedComment));
         case LState of
           TPostProcessState.None:
           begin
@@ -236,7 +252,12 @@ begin
           end;
           TPostProcessState.ForwardDeclarations:
           begin
-            if LLine.Contains(cPostProcessContainsClassDeclaration) then
+            if LLine.StartsWith(cPostProcessStartsWithStupidComment) then
+            begin
+              // Skip the stupid comment, read the next blank line
+              LLine := LReader.ReadLine;
+            end
+            else if LLine.Contains(cPostProcessContainsClassDeclaration) then
               LState := CheckClassDeclaration(LLine, LWriter)
             else if not LLine.Contains(cPostProcessContainsForwardDeclaration) or not IsInternalClass(LLine) then
               LWriter.WriteLine(LLine);
@@ -277,7 +298,7 @@ begin
   finally
     LReader.Free;
   end;
-  TFile.Delete(LBackupFileName);
+  // TFile.Delete(LBackupFileName);
 end;
 
 end.
