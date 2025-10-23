@@ -12,7 +12,13 @@ Codex:
 
 The latest release version can be downloaded [here](https://www.delphiworlds.com/codex/latest), and older installers are [here](https://www.delphiworlds.com/codex/older).
 
-**NOTE: Codex 2.3.1 is a special build for Delphi 12.1, which has a [workaround for merging AndroidManifest.xml](https://github.com/DelphiWorlds/Kastri/blob/master/Delphi12.1.AndroidManifestIssue.md)**, and can be [downloaded from here](https://www.delphiworlds.com/files/download.php?file=/codex/CodexSetup_2.3.1.exe).
+**NOTE**: 
+
+**Codex 2.4.3 is a special build for Delphi 13.0** which corrects an issue with the `Add Android Package` function **ONLY**, so it is necessary to install this version *only if you use this function*. Please [download from here](https://www.delphiworlds.com/files/download.php?file=/codex/CodexSetup_2.4.3.exe).
+
+**Codex 2.3.1 is a special build for Delphi 12.1, which has a [workaround for merging AndroidManifest.xml](https://github.com/DelphiWorlds/Kastri/blob/master/Delphi12.1.AndroidManifestIssue.md)**, and can be [downloaded from here](https://www.delphiworlds.com/files/download.php?file=/codex/CodexSetup_2.3.1.exe).
+
+The 64-bit IDE is **yet to be supported in releases**, as I am yet to use it, and since there is yet to be support for cross-platform, which Codex is heavily oriented towards. Having said that, a 64-bit version of Codex could be compiled from the source.
 
 ## Installation
 
@@ -22,7 +28,7 @@ Installation is straightforward - run the installer and follow the prompts
 
 ### Supported Delphi versions
 
-Codex should compile in at least Delphi 12 and Delphi 11.x, however it may compile in earlier versions.
+Codex should compile in at least Delphi 13 and Delphi 12.x, however it may compile in earlier versions.
 
 ### Building
 
@@ -44,6 +50,12 @@ Build from the Codex project (`Codex.dproj`), for the Windows 32-bit target.
 Can be found [here](Docs/Readme.md).
 
 ## Change history
+
+v2.4.3 (Oct 23rd, 2025) Delphi 13.0
+
+* Corrects an issue with the `Add Android Package` function
+
+Please install **ONLY** if you use this function (see notes above)
 
 v2.4.2 (Sep 12th, 2025) Delphi 13.0, 12.x 
 
